@@ -2,3 +2,7 @@
 
 <%= link_to "Add Land", lands_path %>
 
+<br/>
+
+<%= button_to "🚪 Logout", logout_path, method: :delete, data: { turbo_confirm: "Are you sure you want to logout?" }, class: "btn btn-danger" %>
+
