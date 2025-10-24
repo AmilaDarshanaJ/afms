@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   resource :session
   resources :passwords, param: :token
   resources :lands
+  resources :harvests
+
 
   # 👇 Add this line for logout
   delete "/logout", to: "sessions#destroy", as: :logout
