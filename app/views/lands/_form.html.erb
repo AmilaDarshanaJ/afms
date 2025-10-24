@@ -1,0 +1,77 @@
+<%= form_with(model: land) do |form| %>
+  <% if land.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(land.errors.count, "error") %> prohibited this land from being saved:</h2>
+
+      <ul>
+        <% land.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name, style: "display: block" %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :crop_type, style: "display: block" %>
+    <%= form.text_field :crop_type %>
+  </div>
+
+  <div>
+    <%= form.label :address, style: "display: block" %>
+    <%= form.text_field :address %>
+  </div>
+
+  <div>
+    <%= form.label :latitude, style: "display: block" %>
+    <%= form.text_field :latitude %>
+  </div>
+
+  <div>
+    <%= form.label :longitude, style: "display: block" %>
+    <%= form.text_field :longitude %>
+  </div>
+
+  <div>
+    <%= form.label :extent, style: "display: block" %>
+    <%= form.text_field :extent %>
+  </div>
+
+  <div>
+    <%= form.label :harvest_frequency, style: "display: block" %>
+    <%= form.text_field :harvest_frequency %>
+  </div>
+
+  <div>
+    <%= form.label :boundary_north, style: "display: block" %>
+    <%= form.text_field :boundary_north %>
+  </div>
+
+  <div>
+    <%= form.label :boundary_south, style: "display: block" %>
+    <%= form.text_field :boundary_south %>
+  </div>
+
+  <div>
+    <%= form.label :boundary_east, style: "display: block" %>
+    <%= form.text_field :boundary_east %>
+  </div>
+
+  <div>
+    <%= form.label :boundary_west, style: "display: block" %>
+    <%= form.text_field :boundary_west %>
+  </div>
+
+  <div>
+    <%= form.label :owner_manager_name, style: "display: block" %>
+    <%= form.text_field :owner_manager_name %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

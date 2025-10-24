@@ -10,7 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_23_103958) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_24_040017) do
+  create_table "lands", force: :cascade do |t|
+    t.string "name"
+    t.string "crop_type"
+    t.string "address"
+    t.decimal "latitude"
+    t.decimal "longitude"
+    t.decimal "extent"
+    t.string "harvest_frequency"
+    t.string "boundary_north"
+    t.string "boundary_south"
+    t.string "boundary_east"
+    t.string "boundary_west"
+    t.string "owner_manager_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "ip_address"

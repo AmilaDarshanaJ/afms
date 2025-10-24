@@ -1,0 +1,29 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  crop_type: MyString
+  address: MyString
+  latitude: 9.99
+  longitude: 9.99
+  extent: 9.99
+  harvest_frequency: MyString
+  boundary_north: MyString
+  boundary_south: MyString
+  boundary_east: MyString
+  boundary_west: MyString
+  owner_manager_name: MyString
+
+two:
+  name: MyString
+  crop_type: MyString
+  address: MyString
+  latitude: 9.99
+  longitude: 9.99
+  extent: 9.99
+  harvest_frequency: MyString
+  boundary_north: MyString
+  boundary_south: MyString
+  boundary_east: MyString
+  boundary_west: MyString
+  owner_manager_name: MyString
