@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @harvest %>
+
+<div>
+  <%= link_to "Edit this harvest", edit_harvest_path(@harvest) %> |
+  <%= link_to "Back to harvests", harvests_path %>
+
+  <%= button_to "Destroy this harvest", @harvest, method: :delete %>
+</div>

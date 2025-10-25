@@ -1,0 +1,11 @@
+<% content_for :title, "New harvest" %>
+
+<h1>New harvest</h1>
+
+<%= render "form", harvest: @harvest %>
+
+<br>
+
+<div>
+  <%= link_to "Back to harvests", harvests_path %>
+</div>

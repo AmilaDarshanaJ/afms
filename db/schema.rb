@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_24_040017) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_25_035825) do
+  create_table "harvests", force: :cascade do |t|
+    t.integer "land_id", null: false
+    t.date "planned_date"
+    t.date "actual_date"
+    t.decimal "amount"
+    t.string "unit"
+    t.string "crop_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["land_id"], name: "index_harvests_on_land_id"
+  end
+
   create_table "lands", force: :cascade do |t|
     t.string "name"
     t.string "crop_type"
@@ -45,5 +57,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_24_040017) do
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end
 
+  add_foreign_key "harvests", "lands"
   add_foreign_key "sessions", "users"
 end

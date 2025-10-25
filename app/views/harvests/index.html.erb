@@ -1,0 +1,16 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Harvests" %>
+
+<h1>Harvests</h1>
+
+<div id="harvests">
+  <% @harvests.each do |harvest| %>
+    <%= render harvest %>
+    <p>
+      <%= link_to "Show this harvest", harvest %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New harvest", new_harvest_path %>
