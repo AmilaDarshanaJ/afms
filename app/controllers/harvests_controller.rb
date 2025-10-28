@@ -13,6 +13,7 @@ class HarvestsController < ApplicationController
   # GET /harvests/new
   def new
     @harvest = Harvest.new
+    @lands = Land.all
   end
 
   # GET /harvests/1/edit
