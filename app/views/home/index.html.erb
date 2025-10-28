@@ -1,9 +1,11 @@
-<h1>Agri Farm Managemet System</h1>
+<div class = "main-container">
+  <h1>Agri Farm Managemet System </h1>
 
-<%= link_to "Add Land", lands_path %> <br><br>
+<%= link_to "Add Land", lands_path %> <br><br><br>
 <%= link_to "Add Harvest", harvests_path %>
 
-<br><br>
+<br><br><br>
 
 <%= button_to "🚪 Logout", logout_path, method: :delete, data: { turbo_confirm: "Are you sure you want to logout?" }, class: "btn btn-danger" %>
 
+</div>

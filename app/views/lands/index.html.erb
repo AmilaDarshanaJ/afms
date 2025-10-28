@@ -4,13 +4,19 @@
 
 <h1>Lands</h1>
 
-<div id="lands">
+<table class="table">
+  <tr>
+    <th>Land Name</th>
+    <th>Crop Type</th>
+    <th>Extent</th>
+  </tr>
   <% @lands.each do |land| %>
-    <%= render land %>
-    <p>
-      <%= link_to "Show this land", land %>
-    </p>
+    <tr>
+      <td><%= land.name %></td>
+      <td><%= land.crop_type %></td>
+      <td><%= land.extent %></td>
+    </tr>
   <% end %>
-</div>
+</table>
 
 <%= link_to "New land", new_land_path %>
