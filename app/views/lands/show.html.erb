@@ -3,8 +3,11 @@
 <%= render @land %>
 
 <div>
+  <br><br>
   <%= link_to "Edit this land", edit_land_path(@land) %> |
   <%= link_to "Back to lands", lands_path %>
 
-  <%= button_to "Destroy this land", @land, method: :delete %>
+  <%= link_to "Destroy this land", @land, method: :delete %>
+  <br><br><br>
+  <%= link_to "Add Harvest", harvests_path, method: :post %>
 </div>
