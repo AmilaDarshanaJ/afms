@@ -28,3 +28,19 @@ tr:hover {
     transition: 0.2s;
 }
 
+
+.btn-green {
+    background-color: #28a745; /* green color */
+    color: white;              /* white text */
+    padding: 10px 20px;        /* button padding */
+    border: none;              /* remove border */
+    border-radius: 5px;        /* rounded corners */
+    cursor: pointer;           /* pointer on hover */
+    font-size: 16px;           /* text size */
+    transition: background 0.3s; /* smooth hover */
+}
+
+.btn-green:hover {
+    background-color: #218838; /* darker green on hover */
+}
+
