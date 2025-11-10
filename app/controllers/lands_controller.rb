@@ -49,13 +49,16 @@ class LandsController < ApplicationController
 
   # DELETE /lands/1 or /lands/1.json
   def destroy
-    @land.destroy!
+    @land = Land.find(params[:id])
 
-    respond_to do |format|
-      format.html { redirect_to lands_path, notice: "Land was successfully destroyed.", status: :see_other }
-      format.json { head :no_content }
+    if @land.harvests.exists?  # 👈 check if there are related harvests
+      redirect_to land_path(@land), alert: "⚠️ Land deletion failed. Remove related harvests first."
+    else
+      @land.destroy
+      redirect_to lands_path, notice: "✅ Land deleted successfully."
     end
   end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.
