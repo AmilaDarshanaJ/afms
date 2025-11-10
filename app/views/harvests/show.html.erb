@@ -4,7 +4,11 @@
 
 <div>
   <br><br>
-  <%= link_to "Edit this harvest", edit_harvest_path(@harvest) %> |
-  <%= link_to "Destroy this harvest", @harvest, method: :delete %>
+  <%= link_to "Edit this harvest", edit_harvest_path(@harvest) %>
+
+  <%= link_to "Destroy this harvest", harvest_path(@harvest),
+              data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+
+
   <%= link_to "Back to harvests", harvests_path %>
 </div>
