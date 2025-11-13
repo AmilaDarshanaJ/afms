@@ -12,8 +12,8 @@
   <% end %>
 
   <div>
-    <%= form.label :land, style: "display: block" %>
-    <%= form.text_field :land %>
+    <%= form.label :land_id, "Select Land", style: "display: block" %>
+    <%= form.collection_select :land_id, @lands, :id, :name, prompt: "Choose a land" %>
   </div>
 
   <div>

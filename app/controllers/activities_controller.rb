@@ -13,15 +13,19 @@ class ActivitiesController < ApplicationController
   # GET /activities/new
   def new
     @activity = Activity.new
+    @lands = Land.all
   end
 
   # GET /activities/1/edit
   def edit
+    @activity = Activity.find(params[:id])
+    @lands = Land.all
   end
 
   # POST /activities or /activities.json
   def create
     @activity = Activity.new(activity_params)
+    @lands = Land.all
 
     respond_to do |format|
       if @activity.save
