@@ -32,8 +32,8 @@
   </div>
 
   <div>
-    <%= form.label :status, style: "display: block" %>
-    <%= form.text_field :status %>
+    <%= form.label :status, "Status" %>
+    <%= form.select :status, ['Pending', 'In Progress', 'Completed', 'On Hold', 'Canceled'] %>
   </div>
 
   <div>
