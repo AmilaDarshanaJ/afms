@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :activities
   get "home/index"
   resource :session
   resources :passwords, param: :token
