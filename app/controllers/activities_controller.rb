@@ -3,7 +3,7 @@ class ActivitiesController < ApplicationController
 
   # GET /activities or /activities.json
   def index
-    @activities = Activity.all
+    @activities = Activity.includes(:land).all
   end
 
   # GET /activities/1 or /activities/1.json
@@ -14,18 +14,18 @@ class ActivitiesController < ApplicationController
   def new
     @activity = Activity.new
     @lands = Land.all
+
   end
 
   # GET /activities/1/edit
   def edit
-    @activity = Activity.find(params[:id])
     @lands = Land.all
   end
 
   # POST /activities or /activities.json
   def create
     @activity = Activity.new(activity_params)
-    @lands = Land.all
+
 
     respond_to do |format|
       if @activity.save
@@ -64,11 +64,11 @@ class ActivitiesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_activity
-      @activity = Activity.find(params.expect(:id))
+      @activity = Activity.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
-    def activity_params
-      params.expect(activity: [ :land, :start_date, :end_date, :summary, :status ])
-    end
+  def activity_params
+    params.require(:activity).permit(:land_id, :start_date, :end_date, :summary, :status)
+  end
 end
