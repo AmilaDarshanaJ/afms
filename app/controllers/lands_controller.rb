@@ -70,4 +70,5 @@ class LandsController < ApplicationController
     def land_params
       params.expect(land: [ :name, :crop_type, :address, :latitude, :longitude, :extent, :harvest_frequency, :boundary_north, :boundary_south, :boundary_east, :boundary_west, :owner_manager_name ])
     end
+
 end

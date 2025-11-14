@@ -1,0 +1,60 @@
+<h1 style="text-align:center; color:#2b5d34;">Harvest Report</h1>
+
+<div style="width: 60%; margin: auto;">
+  <%= form_with url: report_harvests_path, method: :get, local: true do |f| %>
+
+    <div>
+      <label>Select Land</label><br>
+      <%= f.select :land_id, options_from_collection_for_select(@lands, :id, :name, params[:land_id]), include_blank: "All Lands" %>
+    </div>
+
+    <div>
+      <label>Start Date</label><br>
+      <%= f.date_field :start_date, value: params[:start_date] %>
+    </div>
+
+    <div>
+      <label>End Date</label><br>
+      <%= f.date_field :end_date, value: params[:end_date] %>
+    </div>
+
+    <br>
+    <%= f.submit "Filter Report" %>
+  <% end %>
+</div>
+
+<br><br>
+
+<h2 style="text-align:center;">Report Summary</h2>
+
+<div style="width: 60%; margin: auto;">
+  <table border="1" width="100%" cellpadding="8">
+    <tr>
+      <th>Land</th>
+      <th>Crop</th>
+      <th>Actual Date</th>
+      <th>Amount</th>
+      <th>Unit</th>
+    </tr>
+
+    <% @harvests.each do |h| %>
+      <tr>
+        <td><%= h.land.name %></td>
+        <td><%= h.crop_type %></td>
+        <td><%= h.actual_date %></td>
+        <td><%= h.amount %></td>
+        <td><%= h.unit %></td>
+      </tr>
+    <% end %>
+  </table>
+</div>
+
+<br>
+
+<div style="text-align:center;">
+  <h3>Total Amount: <%= @total_amount %></h3>
+</div>
+
+<div style="text-align:center;">
+  <%= link_to "Back to Harvests", harvests_path, class: "button" %>
+</div>

@@ -1,26 +1,21 @@
 class HarvestsController < ApplicationController
   before_action :set_harvest, only: %i[ show edit update destroy ]
 
-  # GET /harvests or /harvests.json
   def index
     @harvests = Harvest.all
   end
 
-  # GET /harvests/1 or /harvests/1.json
   def show
   end
 
-  # GET /harvests/new
   def new
     @harvest = Harvest.new
     @lands = Land.all
   end
 
-  # GET /harvests/1/edit
   def edit
   end
 
-  # POST /harvests or /harvests.json
   def create
     @harvest = Harvest.new(harvest_params)
 
@@ -35,7 +30,6 @@ class HarvestsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /harvests/1 or /harvests/1.json
   def update
     respond_to do |format|
       if @harvest.update(harvest_params)
@@ -48,7 +42,6 @@ class HarvestsController < ApplicationController
     end
   end
 
-  # DELETE /harvests/1 or /harvests/1.json
   def destroy
     @harvest.destroy!
 
@@ -58,14 +51,33 @@ class HarvestsController < ApplicationController
     end
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_harvest
-      @harvest = Harvest.find(params.expect(:id))
+  # ✅ Harvest Report Action (must be public)
+  def report
+    @lands = Land.all
+    @harvests = Harvest.all
+
+    if params[:land_id].present?
+      @harvests = @harvests.where(land_id: params[:land_id])
     end
 
-    # Only allow a list of trusted parameters through.
-    def harvest_params
-      params.expect(harvest: [ :land_id, :planned_date, :actual_date, :amount, :unit, :crop_type ])
+    if params[:start_date].present?
+      @harvests = @harvests.where("actual_date >= ?", params[:start_date])
     end
+
+    if params[:end_date].present?
+      @harvests = @harvests.where("actual_date <= ?", params[:end_date])
+    end
+
+    @total_amount = @harvests.sum(:amount)
+  end
+
+  private
+
+  def set_harvest
+    @harvest = Harvest.find(params[:id])
+  end
+
+  def harvest_params
+    params.expect(harvest: [ :land_id, :planned_date, :actual_date, :amount, :unit, :crop_type ])
+  end
 end
