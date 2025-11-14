@@ -33,7 +33,9 @@
 
   <div>
     <%= form.label :status, style: "display: block" %>
-    <%= form.text_field :status %>
+    <%= form.select :status,
+                    ['Pending', 'In Progress', 'Completed', 'Cancelled'],
+                    { prompt: 'Select a status' } %>
   </div>
 
   <div>
