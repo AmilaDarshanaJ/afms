@@ -1,14 +1,47 @@
-<div class = "main-container">
-  <h1>Agri Farm Managemet System </h1>
+<div class="home-container">
 
-<%= link_to "Add Land", lands_path %> <br><br><br>
-<%= link_to "Add Harvest", harvests_path %> <br><br><br>
-  <%= link_to "Add Activity Land", activities_path %>
-  <%= link_to "Harvest Report", report_harvests_path %>
+  <!-- Top Bar -->
+  <div class="topbar">
+    <h2 class="brand">Agri<span>Farm</span></h2>
 
 
-<br><br><br>
+    <div class="topbar-right">
+      <input type="text" placeholder="Search..." class="search-box">
+      <span class="user">👤 User</span>
+    </div>
+  </div>
 
-<%= button_to "🚪 Logout", logout_path, method: :delete, data: { turbo_confirm: "Are you sure you want to logout?" }, class: "btn btn-danger" %>
+  <!-- Page Title -->
+  <h1 class="home-title">Welcome to Agri Farm Management System</h1>
+
+  <!-- Dashboard Cards -->
+  <div class="card-grid">
+
+    <%= link_to lands_path, class: "dash-card" do %>
+      <h3>🌱 Manage Lands</h3>
+      <p>View & update land details</p>
+    <% end %>
+
+    <%= link_to harvests_path, class: "dash-card" do %>
+      <h3>🌾 Harvests</h3>
+      <p>Add and manage harvest records</p>
+    <% end %>
+
+    <%= link_to activities_path, class: "dash-card" do %>
+      <h3>🛠 Activities</h3>
+      <p>Track land activity operations</p>
+    <% end %>
+
+    <%= link_to report_harvests_path, class: "dash-card" do %>
+      <h3>📊 Harvest Reports</h3>
+      <p>Generate custom harvest reports</p>
+    <% end %>
+
+  </div>
+
+  <!-- Logout Button -->
+  <div class="logout-wrapper">
+    <%= button_to "🚪 Logout", logout_path, method: :delete, class: "logout-btn" %>
+  </div>
 
 </div>

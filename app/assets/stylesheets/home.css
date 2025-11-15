@@ -1,0 +1,197 @@
+/* Base Layout */
+.home-container {
+    font-family: "Inter", Arial, sans-serif;
+    padding: 20px 40px;
+    background: #f5f7fa;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+/* Top Navigation Bar */
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e3e6ea;
+    margin-bottom: 30px;
+}
+
+.brand {
+    font-family: "Poppins", sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: #1a5d32;
+    position: relative;
+    display: inline-block;
+}
+
+.brand span {
+    color: #4caf50;
+}
+
+.brand::after {
+    content: "🌿";
+    position: absolute;
+    right: -32px;
+    top: -4px;
+    font-size: 24px;
+}
+
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Search input */
+.search-box {
+    padding: 10px 14px;
+    border: 1px solid #cdd3d8;
+    border-radius: 8px;
+    width: 260px;
+    font-size: 15px;
+    transition: 0.2s ease;
+}
+
+.search-box:focus {
+    border-color: #2b8a3e;
+    outline: none;
+}
+
+/* User icon / tag */
+.user {
+    background: #e1e4e8;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+/* Title */
+.home-title {
+    font-size: 32px;
+    text-align: center;
+    color: #2b5d34;
+    margin-bottom: 40px;
+}
+
+/* Dashboard Card Grid */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 25px;
+    width: 100%;
+    max-width: 1300px;
+    margin: auto;
+}
+
+/* Card Style */
+.dash-card {
+    background: white;
+    padding: 25px;
+    border-radius: 14px;
+    text-decoration: none;
+    color: #333;
+    border: 1px solid #e4e7eb;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    transition: 0.25s ease;
+}
+
+.dash-card h3 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: #2b5d34;
+}
+
+.dash-card p {
+    font-size: 14px;
+    color: #6b7280;
+}
+
+/* Hover */
+/* Hover (Improved for visibility) */
+.dash-card:hover {
+    transform: translateY(-6px);
+    border-color: #1f7a35;        /* slightly darker green */
+    background: #f3fdf5;          /* light green highlight */
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+}
+
+.dash-card:hover h3 {
+    color: #1f7a35;               /* stronger green title */
+}
+
+.dash-card:hover p {
+    color: #4b5563;               /* darker grey text */
+}
+
+
+/* Logout */
+.logout-wrapper {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.logout-btn {
+    background: #d9534f;
+    padding: 12px 25px;
+    color: white;
+    border-radius: 8px;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.logout-btn:hover {
+    background: #b33b38;
+    transform: scale(1.05);
+}
+
+/* --------------------------- */
+/* RESPONSIVE DESIGN BREAKPOINTS */
+/* --------------------------- */
+
+/* Tablet */
+@media (max-width: 900px) {
+    .topbar {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .search-box {
+        width: 100%;
+    }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .home-container {
+        padding: 20px;
+    }
+
+    .home-title {
+        font-size: 26px;
+    }
+
+    .card-grid {
+        grid-template-columns: 1fr;
+        padding: 0;
+    }
+
+    .dash-card {
+        padding: 20px;
+    }
+
+    .topbar-right {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .user {
+        width: 100%;
+        text-align: center;
+    }
+}
