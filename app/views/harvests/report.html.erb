@@ -1,34 +1,34 @@
-<h1 style="text-align:center; color:#2b5d34;">Harvest Report</h1>
+<h1 class="report-title">Harvest Report</h1>
 
-<div style="width: 60%; margin: auto;">
+<div class="filter-container">
   <%= form_with url: report_harvests_path, method: :get, local: true do |f| %>
 
-    <div>
+    <div class="form-group">
       <label>Select Land</label><br>
       <%= f.select :land_id, options_from_collection_for_select(@lands, :id, :name, params[:land_id]), include_blank: "All Lands" %>
     </div>
 
-    <div>
+    <div class="form-group">
       <label>Start Date</label><br>
       <%= f.date_field :start_date, value: params[:start_date] %>
     </div>
 
-    <div>
+    <div class="form-group">
       <label>End Date</label><br>
       <%= f.date_field :end_date, value: params[:end_date] %>
     </div>
 
     <br>
-    <%= f.submit "Filter Report" %>
+    <%= f.submit "Filter Report", class: "btn-primary" %>
   <% end %>
 </div>
 
 <br><br>
 
-<h2 style="text-align:center;">Report Summary</h2>
+<h2 class="summary-title">Report Summary</h2>
 
-<div style="width: 60%; margin: auto;">
-  <table border="1" width="100%" cellpadding="8">
+<div class="table-container">
+  <table class="report-table" border="1" width="100%" cellpadding="8">
     <tr>
       <th>Land</th>
       <th>Crop</th>
@@ -51,24 +51,21 @@
 
 <br>
 
-<div style="text-align:center;">
+<div class="total-container">
   <h3>Total Amount: <%= @total_amount %></h3>
 </div>
 
-<div style="text-align:center;">
-  <%= link_to "Back to Harvests", harvests_path, class: "button" %>
+<div class="back-container">
+  <%= link_to "Back to Harvests", harvests_path, class: "btn-secondary" %>
 </div>
 
+<br>
 
-<!--PDF Button-->
-
-<%= link_to "Download Report as PDF", report_pdf_harvests_path(
-  format: :pdf,
-  land_id: params[:land_id],
-  start_date: params[:start_date],
-  end_date: params[:end_date]
-) %>
-
-
-
-
+<div class="pdf-btn-container">
+  <%= link_to "Download Report as PDF", report_pdf_harvests_path(
+    format: :pdf,
+    land_id: params[:land_id],
+    start_date: params[:start_date],
+    end_date: params[:end_date]
+  ), class: "btn-primary" %>
+</div>
