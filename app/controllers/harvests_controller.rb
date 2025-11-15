@@ -1,5 +1,6 @@
 class HarvestsController < ApplicationController
   before_action :set_harvest, only: %i[ show edit update destroy ]
+  skip_before_action :set_harvest, only: %i[ report report_pdf ]
 
   def index
     @harvests = Harvest.all
@@ -70,6 +71,30 @@ class HarvestsController < ApplicationController
 
     @total_amount = @harvests.sum(:amount)
   end
+
+  #Generate Report PDF
+  def report_pdf
+    @lands = Land.all
+    @harvests = Harvest.all
+
+    # Apply filters
+    @harvests = @harvests.where(land_id: params[:land_id]) if params[:land_id].present?
+    @harvests = @harvests.where("actual_date >= ?", params[:start_date]) if params[:start_date].present?
+    @harvests = @harvests.where("actual_date <= ?", params[:end_date]) if params[:end_date].present?
+
+    @total_amount = @harvests.sum(:amount)
+
+    respond_to do |format|
+      format.html  # For debugging
+      format.pdf do
+        render pdf: "harvest_report",
+               template: "harvests/report_pdf",
+               layout: "pdf"
+      end
+    end
+  end
+
+
 
   private
 

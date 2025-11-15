@@ -61,3 +61,10 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+gem "prawn", "~> 2.5"
+
+gem 'wkhtmltopdf-binary'
+
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'

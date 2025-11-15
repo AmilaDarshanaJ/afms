@@ -58,3 +58,17 @@
 <div style="text-align:center;">
   <%= link_to "Back to Harvests", harvests_path, class: "button" %>
 </div>
+
+
+<!--PDF Button-->
+
+<%= link_to "Download Report as PDF", report_pdf_harvests_path(
+  format: :pdf,
+  land_id: params[:land_id],
+  start_date: params[:start_date],
+  end_date: params[:end_date]
+) %>
+
+
+
+

@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :harvests do
     collection do
       get :report
+      get :report_pdf
     end
   end
 

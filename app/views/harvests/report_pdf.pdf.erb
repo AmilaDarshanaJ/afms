@@ -1,0 +1,23 @@
+<h1>Harvest PDF Report</h1>
+
+<table border="1" width="100%" cellpadding="5">
+  <tr>
+    <th>Land</th>
+    <th>Crop</th>
+    <th>Date</th>
+    <th>Amount</th>
+    <th>Unit</th>
+  </tr>
+
+  <% @harvests.each do |h| %>
+    <tr>
+      <td><%= h.land&.name %></td>
+      <td><%= h.crop_type %></td>
+      <td><%= h.actual_date %></td>
+      <td><%= h.amount %></td>
+      <td><%= h.unit %></td>
+    </tr>
+  <% end %>
+</table>
+
+<h3>Total Amount: <%= @total_amount %></h3>
