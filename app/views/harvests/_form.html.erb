@@ -1,47 +1,60 @@
-<%= form_with(model: harvest) do |form| %>
-  <% if harvest.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(harvest.errors.count, "error") %> prohibited this harvest from being saved:</h2>
+<div class="harvest-wrapper">
+  <div class="harvest-card">
 
-      <ul>
-        <% harvest.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+    <h2 class="harvest-title">🌾 Harvest Entry</h2>
 
-  <div>
-    <%= form.label :land_id, "Select Land", style: "display: block" %>
-    <%= form.collection_select :land_id, @lands, :id, :name, prompt: "Choose a land" %>
+    <%= form_with(model: harvest) do |form| %>
+
+      <% if harvest.errors.any? %>
+        <div class="error-box">
+          <h3><%= pluralize(harvest.errors.count, "error") %> found:</h3>
+          <ul>
+            <% harvest.errors.each do |error| %>
+              <li><%= error.full_message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="input-row">
+        <div class="input-group">
+          <%= form.label :land_id %>
+          <%= form.collection_select :land_id, @lands, :id, :name, prompt: "Choose land" %>
+        </div>
+
+        <div class="input-group">
+          <%= form.label :crop_type %>
+          <%= form.text_field :crop_type %>
+        </div>
+      </div>
+
+      <div class="input-row">
+        <div class="input-group">
+          <%= form.label :planned_date %>
+          <%= form.date_field :planned_date %>
+        </div>
+
+        <div class="input-group">
+          <%= form.label :actual_date %>
+          <%= form.date_field :actual_date %>
+        </div>
+      </div>
+
+      <div class="input-row">
+        <div class="input-group">
+          <%= form.label :amount %>
+          <%= form.text_field :amount %>
+        </div>
+
+        <div class="input-group">
+          <%= form.label :unit %>
+          <%= form.text_field :unit %>
+        </div>
+      </div>
+
+      <button class="submit-btn">Save Harvest</button>
+
+    <% end %>
+
   </div>
-
-  <div>
-    <%= form.label :planned_date, style: "display: block" %>
-    <%= form.date_field :planned_date %>
-  </div>
-
-  <div>
-    <%= form.label :actual_date, style: "display: block" %>
-    <%= form.date_field :actual_date %>
-  </div>
-
-  <div>
-    <%= form.label :amount, style: "display: block" %>
-    <%= form.text_field :amount %>
-  </div>
-
-  <div>
-    <%= form.label :unit, style: "display: block" %>
-    <%= form.text_field :unit %>
-  </div>
-
-  <div>
-    <%= form.label :crop_type, style: "display: block" %>
-    <%= form.text_field :crop_type %>
-  </div>
-
-  <div>
-    <%= form.submit %>
-  </div>
-<% end %>
+</div>

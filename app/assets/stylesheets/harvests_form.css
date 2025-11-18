@@ -1,0 +1,159 @@
+/* --- Page Background --- */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Inter", sans-serif;
+    background: linear-gradient(135deg, #e8f5e9 0%, #f0fff4 100%);
+}
+
+/* --- Center Wrapper --- */
+.harvest-wrapper {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+/* --- Modern Glass Card --- */
+.harvest-card {
+    width: 100%;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(12px);
+    border-radius: 24px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.12);
+    animation: fadeIn 0.5s ease;
+}
+
+/* Title */
+.harvest-title {
+    font-size: 32px;
+    text-align: center;
+    color: #256c36;
+    margin-bottom: 30px;
+    font-weight: 800;
+}
+
+/* Two-column rows on PC */
+.input-row {
+    display: flex;
+    gap: 25px;
+    margin-bottom: 25px;
+}
+
+/* Input Group */
+.input-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group label {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #1a1a1a;
+}
+
+.input-group input,
+.input-group select {
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid #cfd8dc;
+    background: #fefefe;
+    transition: 0.25s;
+    font-size: 16px;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+    border-color: #4caf50;
+    box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.25);
+    outline: none;
+}
+
+/* Button */
+.submit-btn {
+    width: 100%;
+    padding: 16px;
+    font-size: 18px;
+    font-weight: 700;
+    border: none;
+    border-radius: 14px;
+    color: white;
+    background: linear-gradient(135deg, #43a047, #2e7d32);
+    cursor: pointer;
+    transition: 0.25s ease;
+    margin-top: 10px;
+}
+
+.submit-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(46, 125, 50, 0.4);
+}
+
+.submit-btn:active {
+    transform: translateY(0);
+}
+
+/* Error Box */
+.error-box {
+    background: #ffebee;
+    padding: 15px;
+    border-radius: 10px;
+    border-left: 6px solid #d32f2f;
+    margin-bottom: 25px;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Mobile Responsive --- */
+@media (max-width: 850px) {
+    .input-row {
+        flex-direction: column;
+    }
+
+    .harvest-card {
+        padding: 25px;
+    }
+
+    .harvest-title {
+        font-size: 26px;
+    }
+}
+
+/* Back Button Wrapper */
+.back-btn-wrapper {
+    margin-top: 25px;
+    text-align: center;
+}
+
+/* Stylish Back Button */
+.back-btn {
+    display: inline-block;
+    padding: 12px 20px;
+    background: #e8f5e9;
+    color: #2e7d32;
+    font-weight: 600;
+    border: 2px solid #2e7d32;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: 0.25s ease;
+    font-size: 16px;
+}
+
+.back-btn:hover {
+    background: #2e7d32;
+    color: white;
+    box-shadow: 0 4px 15px rgba(46, 125, 50, 0.35);
+    transform: translateY(-2px);
+}
+
+.back-btn:active {
+    transform: translateY(0);
+}
+
+
