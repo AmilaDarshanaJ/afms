@@ -1,44 +1,59 @@
-<%= form_with(model: activity) do |form| %>
-  <% if activity.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(activity.errors.count, "error") %> prohibited this activity from being saved:</h2>
+<div class="activity-screen">
+  <div class="activity-card">
 
-      <ul>
-        <% activity.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+    <!-- Title -->
+    <div class="activity-title">
+      <h2>Activity Entry</h2>
     </div>
-  <% end %>
 
-  <div>
-    <%= form.label :land_id, "Select Land", style: "display: block" %>
-    <%= form.collection_select :land_id, @lands, :id, :name, prompt: "Choose a land" %>
-  </div>
+    <%= form_with(model: activity, html: { class: "activity-form" }) do |form| %>
 
-  <div>
-    <%= form.label :start_date, style: "display: block" %>
-    <%= form.date_field :start_date %>
-  </div>
+      <% if activity.errors.any? %>
+        <div class="error-messages">
+          <h2><%= pluralize(activity.errors.count, "error") %> prohibited this activity from being saved:</h2>
+          <ul>
+            <% activity.errors.each do |error| %>
+              <li><%= error.full_message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
 
-  <div>
-    <%= form.label :end_date, style: "display: block" %>
-    <%= form.date_field :end_date %>
-  </div>
+      <div class="form-row">
+        <div class="form-group">
+          <%= form.label :land_id, "Select Land" %>
+          <%= form.collection_select :land_id, @lands, :id, :name, prompt: "Choose a land" %>
+        </div>
 
-  <div>
-    <%= form.label :summary, style: "display: block" %>
-    <%= form.textarea :summary %>
-  </div>
+        <div class="form-group">
+          <%= form.label :status %>
+          <%= form.select :status,
+                          ['Pending', 'In Progress', 'Completed', 'Cancelled', 'Hold'],
+                          { prompt: 'Select a status' } %>
+        </div>
+      </div>
 
-  <div>
-    <%= form.label :status, style: "display: block" %>
-    <%= form.select :status,
-                    ['Pending', 'In Progress', 'Completed', 'Cancelled', 'Hold'],
-                    { prompt: 'Select a status' } %>
-  </div>
+      <div class="form-row">
+        <div class="form-group">
+          <%= form.label :start_date %>
+          <%= form.date_field :start_date %>
+        </div>
 
-  <div>
-    <%= form.submit %>
+        <div class="form-group">
+          <%= form.label :end_date %>
+          <%= form.date_field :end_date %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :summary %>
+        <%= form.text_area :summary, rows: 4 %>
+      </div>
+
+      <div class="form-submit">
+        <%= form.submit "Save Activity" %>
+      </div>
+
+    <% end %>
   </div>
-<% end %>
+</div>

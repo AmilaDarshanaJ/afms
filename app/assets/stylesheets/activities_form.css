@@ -1,0 +1,113 @@
+/* Background */
+.activity-screen {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #eef8ed;
+    padding: 2rem;
+}
+
+/* Card */
+.activity-card {
+    background: white;
+    padding: 3rem;
+    width: 700px;
+    border-radius: 24px;
+    box-shadow: 0px 10px 30px rgba(0,0,0,0.1);
+}
+
+/* Title */
+.activity-title {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.activity-title h2 {
+    font-size: 2rem;
+    color: #2e7d32;
+    font-weight: 700;
+}
+
+/* Row Layout */
+.form-row {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.4rem;
+}
+
+/* Inputs */
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 0.9rem 1rem;
+    border: 1px solid #dcdcdc;
+    border-radius: 12px;
+    font-size: 1rem;
+    transition: 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #4caf50;
+    box-shadow: 0 0 8px rgba(76,175,80,0.25);
+    outline: none;
+}
+
+/* Error Box */
+.error-messages {
+    background: #ffe5e5;
+    border-left: 4px solid #ff4d4f;
+    padding: 1rem 1.2rem;
+    margin-bottom: 1.5rem;
+    border-radius: 10px;
+    color: #d32f2f;
+}
+
+/* Submit Button */
+.form-submit {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.form-submit input[type="submit"],
+.form-submit button {
+    background: #4caf50;
+    color: white;
+    padding: 1rem 2.5rem;
+    border: none;
+    border-radius: 14px;
+    font-size: 1.15rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.form-submit input[type="submit"]:hover {
+    background: #449d48;
+    transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .activity-card {
+        padding: 2rem;
+    }
+
+    .form-row {
+        flex-direction: column;
+    }
+}
