@@ -1,17 +1,42 @@
-<p style="color: green"><%= notice %></p>
+<div class="page-container">
 
-<% content_for :title, "Harvests" %>
+  <h1 class="page-title">Harvests</h1>
 
-<h1>Harvests</h1>
+  <p class="notice"><%= notice %></p>
 
-<div id="harvests">
-  <% @harvests.each do |harvest| %>
-    <%= render harvest %>
-    <p>
-      <%= link_to "Show this harvest", harvest %>
-    </p>
-  <% end %>
+  <div class="table-wrapper">
+    <table class="styled-table">
+      <thead>
+      <tr>
+        <th>LAND</th>
+        <th>CROP</th>
+        <th>PLANNED</th>
+        <th>ACTUAL</th>
+        <th>AMOUNT</th>
+        <th></th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <% @harvests.each do |harvest| %>
+        <tr>
+          <td data-label="Land"><%= harvest.land&.name %></td>
+          <td data-label="Crop"><%= harvest.crop_type %></td>
+          <td data-label="Planned"><%= harvest.planned_date %></td>
+          <td data-label="Actual"><%= harvest.actual_date %></td>
+          <td data-label="Amount"><%= harvest.amount %> <%= harvest.unit %></td>
+          <td data-label="">
+            <%= link_to "Details..", harvest, class: "details-btn" %>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="buttons">
+    <%= link_to "New harvest", new_harvest_path, class: "action-btn" %>
+    <%= link_to "Back", home_index_url, class: "action-btn" %>
+  </div>
+
 </div>
-
-<%= link_to "New harvest", new_harvest_path %><br>
-<%= link_to "Back", home_index_url%>

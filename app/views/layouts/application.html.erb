@@ -22,7 +22,6 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
   <% if notice %>
     <div style="color: green; font-weight: bold;"><%= notice %></div>
   <% end %>
@@ -30,6 +29,28 @@
   <% if alert %>
     <div style="color: red; font-weight: bold;"><%= alert %></div>
   <% end %>
+
+  <body>
+  <nav class="navbar">
+    <div class="nav-container">
+
+      <div class="nav-logo">
+        <h2 class="brand">Agri<span>Farm</span></h2>
+      </div>
+
+      <div class="nav-toggle" id="mobile-menu">
+        <span></span><span></span><span></span>
+      </div>
+
+      <ul class="nav-menu">
+        <li><%= link_to "Home", root_path, class: "nav-link" %></li>
+        <li><%= link_to "About", "#" %></li>
+        <li><%= link_to "Contact", "#" %></li>
+
+      </ul>
+
+    </div>
+  </nav>
 
   <%= yield %>
   </body>
