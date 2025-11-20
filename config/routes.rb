@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+
+  resources :sessions, only: [:new, :create, :destroy]
+
   resources :activities
   get "home/index"
   resource :session

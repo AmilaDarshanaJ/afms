@@ -47,11 +47,35 @@
         <li><%= link_to "About", "#" %></li>
         <li><%= link_to "Contact", "#" %></li>
 
+        <% if user_signed_in? %>
+          <!-- Show logged-in username + logout -->
+          <li class="nav-user">
+            <%= image_tag(current_user.avatar_url || "default-avatar.png",
+                          class: "user-avatar") %>
+            <%= current_user.name %>
+          </li>
+
+          <li>
+            <%= link_to "Logout",
+                        session_path(Current.session),
+                        method: :delete,
+                        class: "nav-link" %>
+          </li>
+
+        <% else %>
+          <!-- Show login button -->
+          <li>
+            <%= link_to "Login",
+                        new_session_path,
+                        class: "nav-link" %>
+          </li>
+        <% end %>
+
+
       </ul>
 
     </div>
   </nav>
-
   <%= yield %>
   </body>
 </html>
