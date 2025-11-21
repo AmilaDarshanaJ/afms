@@ -1,10 +1,26 @@
-<p style="color: green"><%= notice %></p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <title>Activity UI</title>
+</head>
+<body>
+<div class="container">
+  <p class="notice"><%= notice %></p>
 
-<%= render @activity %>
 
-<div>
-  <%= link_to "Edit this activity", edit_activity_path(@activity) %> |
-  <%= link_to "Back to activities", activities_path %>
+  <div class="tile">
+    <%= render @activity %>
+  </div>
 
-  <%= button_to "Destroy this activity", @activity, method: :delete %>
+
+  <div class="actions">
+    <%= link_to "Edit Activity", edit_activity_path(@activity), class: "btn btn-primary" %>
+    <%= button_to "Delete", @activity, method: :delete, class: "btn btn-danger" %>
+    <%= link_to "Back", activities_path, class: "btn btn-secondary" %>
+  </div>
 </div>
+</body>
+</html>
