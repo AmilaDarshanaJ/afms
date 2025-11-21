@@ -47,6 +47,25 @@
         <li><%= link_to "About", "#" %></li>
         <li><%= link_to "Contact", "#" %></li>
 
+        <li class="settings-menu-container">
+          <%= link_to "Settings", "#", id: "settings-btn", class: "nav-link" %>
+
+          <div id="settings-popup" class="google-style-popup">
+            <div class="popup-grid">
+              <a href="/profile" class="grid-item">
+                <div class="icon-circle">👤</div> <span>Account</span>
+              </a>
+
+              <%= link_to logout_path, method: :delete, class: "grid-item" do %>
+                <div class="icon-circle">🚪</div>
+                <span>Logout</span>
+              <% end %>
+
+            </div>
+          </div>
+        </li>
+
+
         <% if user_signed_in? %>
           <!-- Show logged-in username + logout -->
           <li class="nav-user">

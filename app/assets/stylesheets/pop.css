@@ -1,0 +1,61 @@
+/* Container for positioning */
+.settings-menu-container {
+    position: relative; /* Important: Anchors the popup to this li */
+    list-style: none;
+}
+
+/* The Popup Card */
+.google-style-popup {
+    display: none; /* Hidden by default */
+    position: absolute;
+    top: 45px; /* Spacing from the button */
+    right: 0; /* Aligns to the right edge of the button */
+    width: 320px;
+    background: #fff;
+    border-radius: 20px; /* Large rounded corners like Google */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); /* Soft drop shadow */
+    padding: 20px;
+    z-index: 1000;
+    border: 1px solid #e0e0e0;
+}
+
+/* To show the popup */
+.google-style-popup.active {
+    display: block;
+}
+
+/* The Grid Layout */
+.popup-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 Columns */
+    gap: 15px; /* Space between items */
+}
+
+/* Individual Items */
+.grid-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #333;
+    padding: 10px;
+    border-radius: 12px;
+    transition: background-color 0.2s;
+}
+
+.grid-item:hover {
+    background-color: #f0f4f9; /* Light grey hover effect */
+}
+
+/* Icon styling */
+.icon-circle {
+    font-size: 24px;
+    margin-bottom: 8px;
+    /* If using images, set width/height here instead */
+}
+
+.grid-item span {
+    font-size: 14px;
+    font-weight: 500;
+}

@@ -11,5 +11,22 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+    const settingsBtn = document.getElementById('settings-btn');
+    const popup = document.getElementById('settings-popup');
 
+    // Toggle popup on button click
+    settingsBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation(); // Prevent click from bubbling to document
+        popup.classList.toggle('active');
+    });
+
+    // Close popup when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!popup.contains(e.target) && e.target !== settingsBtn) {
+            popup.classList.remove('active');
+        }
+    });
+});
 
