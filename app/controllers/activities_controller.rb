@@ -3,7 +3,17 @@ class ActivitiesController < ApplicationController
 
   # GET /activities or /activities.json
   def index
-    @activities = Activity.includes(:land).all
+    @activities = Activity.includes(:land)
+
+    # Search logic
+    if params[:q].present?
+      keyword = "%#{params[:q].downcase}%"
+
+      @activities = @activities.joins(:land).where(
+        "LOWER(lands.name) LIKE ? OR LOWER(activities.summary) LIKE ? OR LOWER(activities.status) LIKE ?",
+        keyword, keyword, keyword
+      )
+    end
   end
 
   # GET /activities/1 or /activities/1.json

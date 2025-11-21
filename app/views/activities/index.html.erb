@@ -1,16 +1,57 @@
-<p style="color: green"><%= notice %></p>
+<p class="notice"><%= notice %></p>
 
 <% content_for :title, "Activities" %>
 
-<h1>Activities</h1>
+<h1 class="page-title">Activities</h1>
 
-<div id="activities">
-  <% @activities.each do |activity| %>
-    <%= render activity %>
-    <p>
-      <%= link_to "Show this activity", activity %>
-    </p>
-  <% end %>
+<!-- Search Bar -->
+<div class="search-bar">
+  <form method="get" action="/activities" class="search-form">
+    <input
+      type="text"
+      name="q"
+      placeholder="Search by land, summary, or status..."
+      class="search-input"
+      value="<%= params[:q] %>"
+    >
+    <button type="submit" class="search-btn">Search</button>
+  </form>
 </div>
 
-<%= link_to "New activity", new_activity_path %>
+<!-- Responsive Table -->
+<div class="table-container">
+  <table class="activities-table">
+    <thead>
+    <tr>
+      <th>Land</th>
+      <th>Start</th>
+      <th>End</th>
+      <th>Summary</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% @activities.each do |activity| %>
+      <tr>
+        <td><%= activity.land.name %></td>
+        <td><%= activity.start_date %></td>
+        <td><%= activity.end_date %></td>
+        <td><%= activity.summary %></td>
+        <td class="status <%= activity.status.downcase %>">
+          <%= activity.status %>
+        </td>
+        <td>
+          <%= link_to "View", activity, class: "table-btn" %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div class="footer-action">
+  <%= link_to "New Activity", new_activity_path, class: "new-activity-btn" %>
+  <%= link_to "← Back to home", home_index_path, class: "back-btn" %>
+</div>
