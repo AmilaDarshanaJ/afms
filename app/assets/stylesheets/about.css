@@ -1,0 +1,94 @@
+/* Remove top green space affecting the About page */
+.about-page-wrapper {
+    background: #ffffff !important;
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+}
+
+/* Main container centered */
+.about-container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* Header */
+.about-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.about-header h1 {
+    font-size: 2.2rem;
+    color: #14532d;
+}
+
+.about-header p {
+    font-size: 1.1rem;
+    color: #444;
+}
+
+/* Grid */
+.about-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+/* Cards */
+.about-card {
+    background: white;
+    padding: 25px;
+    border-radius: 14px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: transform 0.2s ease;
+}
+
+.about-card:hover {
+    transform: translateY(-5px);
+}
+
+.about-card .icon {
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+}
+
+.about-card h3 {
+    color: #14532d;
+    margin-bottom: 10px;
+}
+
+.about-card p {
+    color: #555;
+}
+
+/* Footer */
+.about-footer {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.back-home-btn {
+    background: #166534;
+    color: white;
+    padding: 12px 22px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.back-home-btn:hover {
+    background: #14532d;
+}
+
+/* Responsive fixes */
+@media (max-width: 600px) {
+    .about-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .about-card {
+        padding: 18px;
+    }
+}
