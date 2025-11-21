@@ -1,0 +1,172 @@
+/* --- Main Container --- */
+.form-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.form-header h2 {
+    color: #2e7d32; /* Agri Green */
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.form-header p {
+    color: #666;
+}
+
+/* --- Section Cards --- */
+.form-section-card {
+    background: white;
+    border-radius: 16px;
+    padding: 30px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05); /* Subtle shadow */
+    border: 1px solid #eee;
+}
+
+/* --- Section Headers with Number Circles --- */
+.section-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 15px;
+}
+
+.step-number {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-right: 15px;
+}
+
+.section-header h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+/* --- The Responsive Grid System --- */
+.input-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Default mobile: 1 column */
+    gap: 20px;
+}
+
+/* PC styles: overrides for larger screens */
+@media (min-width: 768px) {
+    .input-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 Columns default */
+    }
+
+    .input-grid.three-col {
+        grid-template-columns: repeat(3, 1fr); /* 3 Columns for lat/long/extent */
+    }
+
+    .input-group.full-width {
+        grid-column: 1 / -1; /* Spans all columns */
+    }
+}
+
+/* --- Input Styling --- */
+.input-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 8px;
+}
+
+.form-input {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    background-color: #fafafa;
+}
+
+.form-input:focus {
+    border-color: #4CAF50;
+    background-color: white;
+    box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.1);
+    outline: none;
+}
+
+/* --- Error Banner --- */
+.error-banner {
+    background-color: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #991b1b;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    gap: 15px;
+}
+
+.error-banner ul {
+    margin: 5px 0 0 20px;
+    padding: 0;
+}
+
+/* --- Buttons --- */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 20px;
+    align-items: center;
+}
+
+.btn-submit {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 32px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    width: 100%; /* Full width on mobile */
+}
+
+.btn-submit:hover {
+    background-color: #388E3C;
+}
+
+.btn-cancel {
+    color: #666;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 10px;
+}
+
+.btn-cancel:hover {
+    color: #333;
+}
+
+/* Mobile tweak for buttons */
+@media (min-width: 768px) {
+    .btn-submit {
+        width: auto; /* Regular width on PC */
+    }
+}
