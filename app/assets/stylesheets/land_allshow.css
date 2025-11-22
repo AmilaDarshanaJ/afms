@@ -1,0 +1,205 @@
+/* =========================================
+   1. Layout & Container
+   ========================================= */
+.fullscreen-container {
+    width: 95%;            /* Uses almost full width of screen */
+    max-width: 1600px;     /* Prevents stretching too wide on huge monitors */
+    margin: 0 auto;        /* Centers the container */
+    padding: 30px 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* =========================================
+   2. Header Section
+   ========================================= */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    flex-wrap: wrap; /* Allows buttons to drop down on tiny phones */
+    gap: 15px;
+}
+
+.header-title h1 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 26px;
+    font-weight: 700;
+    display: inline-block;
+}
+
+.count-badge {
+    background: #f0f0f0;
+    color: #666;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+/* =========================================
+   3. Buttons & Badges
+   ========================================= */
+.btn-primary {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background 0.2s;
+    white-space: nowrap; /* Prevents text breaking on mobile */
+}
+
+.btn-primary:hover {
+    background-color: #388E3C;
+}
+
+.btn-text {
+    color: #666;
+    text-decoration: none;
+    margin-right: 20px;
+    font-weight: 500;
+}
+
+.btn-sm {
+    padding: 6px 14px;
+    font-size: 13px;
+    border-radius: 4px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-outline {
+    border: 1px solid #4CAF50;
+    color: #4CAF50;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.btn-outline:hover {
+    background-color: #4CAF50;
+    color: white;
+}
+
+/* Crop Badge */
+.badge-crop {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: capitalize;
+}
+
+/* Alert Box */
+.alert-success {
+    background-color: #d1fae5;
+    color: #065f46;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #a7f3d0;
+}
+
+/* =========================================
+   4. The Responsive Table (Magic Part)
+   ========================================= */
+
+/* The wrapper allows scrolling on mobile only */
+.table-scroll-wrapper {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    border: 1px solid #eee;
+    overflow: hidden; /* Hides sharp corners */
+
+    /* ENABLES HORIZONTAL SCROLL ON MOBILE */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.modern-table {
+    width: 100%;
+    border-collapse: collapse;
+    /* Forces the table to be at least 800px wide.
+       On PC: It fills the screen.
+       On Mobile: It stays 800px and scrolls sideways. */
+    min-width: 800px;
+}
+
+.modern-table thead {
+    background-color: #f9fafb; /* Light grey header */
+    border-bottom: 2px solid #eee;
+}
+
+.modern-table th {
+    text-align: left;
+    padding: 18px 20px;
+    font-weight: 700;
+    color: #444;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.modern-table td {
+    padding: 16px 20px;
+    border-bottom: 1px solid #f0f0f0;
+    color: #333;
+    vertical-align: middle;
+    font-size: 15px;
+}
+
+.modern-table tr:last-child td {
+    border-bottom: none;
+}
+
+.modern-table tr:hover {
+    background-color: #fcfcfc;
+}
+
+.fw-bold {
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.text-muted {
+    color: #888;
+    font-size: 13px;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+    font-style: italic;
+}
+
+/* =========================================
+   5. Mobile Specific Adjustments
+   ========================================= */
+@media (max-width: 600px) {
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .header-actions {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    /* Reduce padding slightly on mobile to save space */
+    .fullscreen-container {
+        width: 100%;
+        padding: 15px;
+    }
+}

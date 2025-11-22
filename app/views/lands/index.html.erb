@@ -1,24 +1,66 @@
-<p style="color: green"><%= notice %></p>
+<div class="fullscreen-container">
 
-<% content_for :title, "Lands" %>
+  <div class="page-header">
+    <div class="header-title">
+      <h1>🚜 My Lands</h1>
+      <span class="count-badge"><%= @lands.count %> Records</span>
+    </div>
+    <div class="header-actions">
+      <%= link_to "← Dashboard", home_index_path, class: "btn-text" %>
+      <%= link_to new_land_path, class: "btn-primary" do %>
+        <span>+</span> New Land
+      <% end %>
+    </div>
+  </div>
 
-<h1>Lands</h1>
-
-<table class="table">
-  <tr>
-    <th>Land Name</th>
-    <th>Crop Type</th>
-    <th>Extent</th>
-  </tr>
-  <% @lands.each do |land| %>
-    <tr>
-      <td><%= land.name %></td>
-      <td><%= land.crop_type %></td>
-      <td><%= land.extent %></td>
-      <td><%= link_to "Details..", land %> </td>
-    </tr>
+  <% if notice %>
+    <div class="alert-success"><%= notice %></div>
   <% end %>
-</table>
 
-<%= link_to "New land", new_land_path %><br>
-<%= link_to "Back", home_index_path %>
+  <div class="table-responsive">
+    <table class="modern-table">
+      <thead>
+      <tr>
+        <th width="30%">Land Name</th>
+        <th width="20%">Crop Type</th>
+        <th width="20%">Extent (Acres)</th>
+        <th width="15%">Location</th>
+        <th width="15%" class="text-right">Actions</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <% @lands.each do |land| %>
+        <tr>
+          <td data-label="Land Name">
+            <div class="fw-bold"><%= land.name %></div>
+          </td>
+
+          <td data-label="Crop Type">
+            <span class="badge-crop"><%= land.crop_type %></span>
+          </td>
+
+          <td data-label="Extent">
+            <%= land.extent %>
+          </td>
+
+          <td data-label="Location">
+            <%= land.address.present? ? land.address : "N/A" %>
+          </td>
+
+          <td class="text-right" data-label="Actions">
+            <%= link_to "View", land, class: "btn-sm btn-outline" %>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <% if @lands.empty? %>
+    <div class="empty-state">
+      <p>No lands found.</p>
+    </div>
+  <% end %>
+
+</div>

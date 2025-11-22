@@ -10,9 +10,7 @@
     </div>
 
     <div class="header-action">
-      <%= link_to harvests_path, class: "btn-primary-large" do %>
-        <span>+</span> Add Harvest Record
-      <% end %>
+      <%= link_to "Back to List", lands_path, class: "btn-secondary" %>
     </div>
   </div>
 
@@ -32,19 +30,15 @@
           <span class="value"><%= @land.extent %> <small>Acres</small></span>
         </div>
         <div class="info-row">
-          <span class="label">Harvest Frequency</span>
-          <span class="value"><%= @land.harvest_frequency %> <small>Days</small></span>
-        </div>
-        <div class="info-row">
           <span class="label">Owner/Manager</span>
-          <span class="value"><%= @land.owner_manager_name %></span>
+          <span class="value"><%= @land.respond_to?(:owner_manager_name) ? @land.owner_manager_name : "N/A" %></span>
         </div>
       </div>
     </div>
 
     <div class="info-card">
       <div class="card-header">
-        <h3>🌍 Location & Coordinates</h3>
+        <h3>🌍 Location</h3>
       </div>
       <div class="card-body">
         <div class="geo-box">
@@ -56,9 +50,6 @@
             <span class="label">Longitude</span>
             <span class="mono-value"><%= @land.longitude %></span>
           </div>
-        </div>
-        <div class="map-placeholder">
-          <span>🗺️ Map View</span>
         </div>
       </div>
     </div>
@@ -92,18 +83,13 @@
   </div>
 
   <div class="action-footer">
-    <div class="left-actions">
-      <%= link_to "← Back to Lands", lands_path, class: "btn-text" %>
-    </div>
-    <div class="right-actions">
-      <%= link_to "Edit Details", edit_land_path(@land), class: "btn-secondary" %>
+    <%= link_to "Edit Details", edit_land_path(@land), class: "btn-primary" %>
 
-      <%= link_to land_path(@land),
-                  data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this land? This cannot be undone." },
-                  class: "btn-danger" do %>
-        🗑️ Delete Land
-      <% end %>
-    </div>
+    <%= link_to land_path(@land),
+                data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
+                class: "btn-danger" do %>
+      🗑️ Delete Land
+    <% end %>
   </div>
 
 </div>
