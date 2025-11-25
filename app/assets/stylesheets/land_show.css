@@ -1,3 +1,11 @@
+:root {
+    --primary-green: #2e7d32;      /* Deep Green */
+    --bg-green-tint: #e8f5e9;      /* Lightest Green */
+    --border-color: #e2e8f0;       /* Light Gray for borders */
+    --text-dark: #2c3e50;          /* Dark Text */
+    --text-light: #64748b;         /* Muted Text */
+}
+
 /* --- Container & Header Layout --- */
 .land-profile-container {
     max-width: 1000px;
@@ -174,6 +182,55 @@
     border-top: 1px solid var(--border-color);
 }
 
+/* Primary Button (for Edit Details) */
+.btn-primary {
+    background-color: var(--primary-green);
+    color: white;
+    padding: 10px 24px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: background 0.2s, transform 0.2s;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-primary:hover {
+    background-color: #4CAF50; /* Highlight color */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(46, 125, 50, 0.4);
+}
+
+/* Secondary Button (Back to List) - NEUTRAL COLOR SCHEME */
+.header-action .btn-secondary {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+
+    background: #ffffff !important;
+    color: #3a3a3a !important;
+    font-weight: 700 !important;
+
+    padding: 12px 26px !important;
+    border: 2px solid #dcdcdc !important;
+    border-radius: 20px !important;
+
+    font-size: 16px !important;
+    text-decoration: none !important;
+
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06) !important;
+    transition: all 0.2s ease !important;
+}
+
+.header-action .btn-secondary:hover {
+    background: #f8f8f8 !important;
+    border-color: #cfcfcf !important;
+    transform: translateY(-1px) !important;
+}
+
+
 /* Danger Button Specifics */
 .btn-danger {
     display: inline-flex;
@@ -195,38 +252,6 @@
     transform: translateY(-2px);
 }
 
-/* Secondary Button (Back) */
-.btn-secondary {
-    /* Fresh Mint Look */
-    background-color: #e8f5e9;  /* Very light green */
-    color: #2e7d32;             /* Your primary deep green */
-
-    /* Shape & Size */
-    padding: 10px 24px;
-    border-radius: 30px;        /* Pill shape */
-    font-weight: 700;
-    text-decoration: none;
-    font-size: 0.95rem;
-
-    /* Border & Layout */
-    border: 1px solid rgba(46, 125, 50, 0.3); /* Subtle green border */
-    display: inline-flex;
-    align-items: center;
-    gap: 8px; /* Space if you add an arrow icon later */
-
-    /* Smooth Animation */
-    transition: all 0.2s ease;
-}
-
-/* Hover Effect */
-.btn-secondary:hover {
-    background-color: #2e7d32;  /* Turns solid green */
-    color: #ffffff;             /* Text turns white */
-    border-color: #2e7d32;
-    transform: translateX(-4px); /* Slides slightly left to indicate 'back' */
-    box-shadow: 0 4px 10px rgba(46, 125, 50, 0.2);
-}
-
 /* --- Mobile Specific Adjustments --- */
 @media screen and (max-width: 768px) {
     .profile-header {
@@ -236,12 +261,15 @@
 
     .header-action {
         width: 100%;
+        margin-top: 10px; /* Space between title and button on mobile */
     }
 
     .btn-secondary {
-        display: block;
-        text-align: center;
+        /* On mobile, this button needs to be displayed block/full width */
+        display: flex;
+        justify-content: center;
         width: 100%;
+        text-align: center;
     }
 
     .boundary-grid {
@@ -258,3 +286,4 @@
         justify-content: center;
     }
 }
+

@@ -10,8 +10,9 @@
     </div>
 
     <div class="header-action">
-      <%= link_to "Back to List", lands_path, class: "btn-secondary" %>
+      <%= link_to "&larr; Back to List".html_safe, lands_path, class: "btn-secondary" %>
     </div>
+
   </div>
 
   <% if notice %>
