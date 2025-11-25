@@ -58,11 +58,32 @@
     background-color: #388E3C;
 }
 
+/* Old text link style (kept for completeness, but not used for Dashboard) */
 .btn-text {
     color: #666;
     text-decoration: none;
     margin-right: 20px;
     font-weight: 500;
+}
+
+/* NEW: Secondary Outline Button (for Dashboard) */
+.btn-secondary-outline {
+    background-color: transparent;
+    border: 1px solid #ddd;
+    color: #444;
+    padding: 10px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.2s;
+    white-space: nowrap;
+    margin-right: 15px; /* Spacing before the primary button */
+}
+
+.btn-secondary-outline:hover {
+    background-color: #f0f0f0;
+    border-color: #ccc;
+    color: #2c3e50;
 }
 
 .btn-sm {
@@ -193,7 +214,7 @@
     .header-actions {
         width: 100%;
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-end; /* Pushes buttons to the right */
         align-items: center;
     }
 
@@ -201,5 +222,17 @@
     .fullscreen-container {
         width: 100%;
         padding: 15px;
+    }
+
+    /* Small padding/margin adjustments for mobile buttons */
+    .btn-secondary-outline {
+        padding: 8px 18px;
+        font-size: 14px;
+        margin-right: 10px;
+    }
+
+    .btn-primary {
+        padding: 8px 18px;
+        font-size: 14px;
     }
 }

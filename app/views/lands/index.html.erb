@@ -6,7 +6,7 @@
       <span class="count-badge"><%= @lands.count %> Records</span>
     </div>
     <div class="header-actions">
-      <%= link_to "← Dashboard", home_index_path, class: "btn-text" %>
+      <%= link_to "← Dashboard", home_index_path, class: "btn-secondary-outline" %>
       <%= link_to new_land_path, class: "btn-primary" do %>
         <span>+</span> New Land
       <% end %>
@@ -17,7 +17,7 @@
     <div class="alert-success"><%= notice %></div>
   <% end %>
 
-  <div class="table-responsive">
+  <div class="table-scroll-wrapper">
     <table class="modern-table">
       <thead>
       <tr>
