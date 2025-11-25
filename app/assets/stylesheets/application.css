@@ -8,3 +8,19 @@
     padding-top: 20px;              /* small spacing */
 }
 
+/* Removes default browser spacing */
+body, html {
+    margin: 0;
+    padding: 0;
+}
+
+/* Ensures your container doesn't push content down */
+.fullscreen-container {
+    padding-top: 0;
+    margin-top: 0;
+    min-height: 100vh; /* Ensures background covers full height */
+
+    /* Important: If you have 'display: flex' here with 'justify-content: center',
+       remove it or change it to 'flex-start' */
+    display: block;
+}
