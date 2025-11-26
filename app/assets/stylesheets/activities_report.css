@@ -179,3 +179,74 @@ body {
     .land-info { flex-direction: row-reverse; }
 }
 
+/* --- PRINT BUTTON STYLE --- */
+.pdf-btn {
+    background-color: var(--agri-dark);
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.pdf-btn:hover {
+    background-color: #04392a;
+}
+
+/* --- PDF GENERATION STYLES --- */
+@media print {
+    /* 1. Hide distractions */
+    .filters-bar,
+    .pdf-btn,
+    nav,            /* Hides standard <nav> elements */
+    .navbar,        /* Hides common navbar classes */
+    header,         /* Hides standard headers if used */
+    footer {        /* Hides footer */
+        display: none !important;
+    }
+
+    /* 2. Reset Layout for Paper */
+    body {
+        background-color: white;
+        margin: 0;
+        padding: 0;
+    }
+
+    .agri-container {
+        margin: 0;
+        padding: 0;
+        max-width: 100%;
+        width: 100%;
+        box-shadow: none; /* Remove card shadow for print */
+    }
+
+    .data-card {
+        box-shadow: none;
+        border: none;
+    }
+
+    /* 3. Improve Table Readability */
+    .agri-table th {
+        background-color: #eee !important; /* Force grey background for headers */
+        color: black !important;
+        border-bottom: 2px solid #000;
+    }
+
+    .agri-table td {
+        border-bottom: 1px solid #ddd;
+    }
+
+    /* Ensure text doesn't get cut off */
+    .page-title {
+        margin-bottom: 20px;
+        color: black;
+    }
+
+    /* Force background colors (browsers often strip them to save ink) */
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+}
