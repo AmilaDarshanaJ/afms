@@ -1,35 +1,87 @@
 class ActivitiesController < ApplicationController
-  # 1. FIX: Enable respond_to for CSV export
+  # 1. Enable respond_to for CSV export
   include ActionController::MimeResponds
-
   before_action :set_activity, only: %i[ show edit update destroy ]
 
   # GET /activities/report
+  # FIX: Updated this method to include all filtering and pagination logic
   def report
-    @activities = Activity.includes(:land).order(start_date: :desc)
-    @activities_by_status = @activities.group_by(&:status)
-  end
+    # 1. BASE SCOPE (Used for Metrics Cards)
+    # This list includes EVERYTHING matching the Date/Search, IGNORING the Status filter.
+    base_scope = Activity.includes(:land).order(start_date: :desc)
 
-  # GET /activities or /activities.json
-  def index
-    # Start with all activities, ordered by date
-    @activities = Activity.includes(:land).order(start_date: :desc)
-
-    # Search logic
+    # Apply Search
     if params[:q].present?
       keyword = "%#{params[:q].downcase}%"
-
-      @activities = @activities.joins(:land).where(
+      base_scope = base_scope.joins(:land).where(
         "LOWER(lands.name) LIKE ? OR LOWER(activities.summary) LIKE ? OR LOWER(activities.status) LIKE ?",
         keyword, keyword, keyword
       )
     end
 
-    # 2. FIX: Handle the CSV Export
+    # Apply Date Range
+    base_scope = base_scope.where('start_date >= ?', params[:date_start]) if params[:date_start].present?
+    base_scope = base_scope.where('start_date <= ?', params[:date_end]) if params[:date_end].present?
+
+    # Assign to variable for the View
+    @metrics_activities = base_scope
+
+    # 2. TABLE SCOPE (Used for the Data Table)
+    # Start with the base list, then filter down by Status
+    table_scope = base_scope
+
+    if params[:status].present? && params[:status] != 'all'
+      # ROBUST FILTER: Checks for "in_progress" AND "In Progress" to ensure matches
+      status_term = params[:status].to_s.downcase
+      table_scope = table_scope.where(
+        "LOWER(status) = ? OR LOWER(status) = ?",
+        status_term,
+        status_term.gsub('_', ' ') # Checks "in progress" vs "in_progress"
+      )
+    end
+
+    # Paginate the table data
+    @activities = table_scope.page(params[:page]).per(10)
+
     respond_to do |format|
-      format.html # Renders index.html.erb
-      format.json # Renders index.json.jbuilder
-      format.csv { send_data @activities.to_csv, filename: "activities-report-#{Date.today}.csv" }
+      format.html
+      format.csv { send_data table_scope.to_csv, filename: "activities-report-#{Date.today}.csv" }
+    end
+  end
+
+  # GET /activities or /activities.json
+  def index
+    # 1. Base Scope
+    scope = Activity.includes(:land).order(start_date: :desc)
+
+    # 2. Filter by Search (Keyword)
+    if params[:q].present?
+      keyword = "%#{params[:q].downcase}%"
+      scope = scope.joins(:land).where(
+        "LOWER(lands.name) LIKE ? OR LOWER(activities.summary) LIKE ? OR LOWER(activities.status) LIKE ?",
+        keyword, keyword, keyword
+      )
+    end
+
+    # 3. Filter by Status
+    if params[:status].present? && params[:status] != 'all'
+      scope = scope.where(status: params[:status])
+    end
+
+    # 4. Filter by Date Range
+    scope = scope.where('start_date >= ?', params[:date_start]) if params[:date_start].present?
+    scope = scope.where('start_date <= ?', params[:date_end]) if params[:date_end].present?
+
+    # 5. DATA FOR METRICS (All matching records, NOT paginated)
+    @metrics_activities = scope
+
+    # 6. DATA FOR TABLE (Paginated - 10 per page)
+    @activities = scope.page(params[:page]).per(10)
+
+    respond_to do |format|
+      format.html
+      # Fix: Pass current params to CSV so filters apply to the download too
+      format.csv { send_data scope.to_csv, filename: "activities-report-#{Date.today}.csv" }
     end
   end
 

@@ -151,16 +151,157 @@ body {
 }
 
 /* --- FILTERS BAR --- */
+/* --- FILTERS BAR (Modern Grid Layout) --- */
 .filters-bar {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
     background: var(--white);
-    padding: 10px;
-    border-radius: var(--radius);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    padding: 24px; /* More breathing room */
+    border-radius: 16px; /* Modern rounded corners */
+    box-shadow: 0 4px 20px rgba(0,0,0,0.03); /* Soft, premium shadow */
+    margin-bottom: 24px;
+    border: 1px solid #f3f4f6;
+}
+
+/* The Grid Container */
+/* Update the Grid to have 5 columns */
+.filters-form {
+    display: grid;
+    /* Search(2fr) | Date(1fr) | Date(1fr) | Status(1fr) | Reset(auto) */
+    grid-template-columns: 2fr 1fr 1fr 1fr auto;
+    gap: 16px;
+    width: 100%;
+    align-items: end;
+}
+
+/* --- RESET BUTTON STYLE --- */
+.btn-reset {
+    display: flex;
     align-items: center;
-    margin-bottom: 20px;
+    justify-content: center;
+    height: 44px; /* Matches input height exactly */
+    padding: 0 16px;
+    border-radius: 10px;
+    background-color: white;
+    border: 1px solid #e5e7eb;
+    color: #6b7280;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.btn-reset:hover {
+    background-color: #fee2e2; /* Light Red Hover */
+    border-color: #fca5a5;
+    color: #dc2626;
+}
+
+/* --- RESPONSIVE ADJUSTMENTS --- */
+
+/* Tablet: Switch to 3 columns, Reset button takes full width at bottom or fits in */
+@media (max-width: 1024px) {
+    .filters-form {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+    .search-group {
+        grid-column: span 3;
+    }
+    /* Make reset button span full width on tablet or sit in the last slot */
+    .reset-group {
+        grid-column: span 3; /* Full width row at the bottom */
+    }
+    .btn-reset {
+        width: 100%;
+    }
+}
+
+/* Mobile: Stack everything */
+@media (max-width: 640px) {
+    .filters-form {
+        display: flex;
+        flex-direction: column;
+    }
+    .reset-group {
+        width: 100%;
+    }
+}
+
+/* Input Groups (Label + Input) */
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.filter-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-light);
+    font-weight: 700;
+    margin-left: 2px;
+}
+
+/* Inputs Styling */
+.search-input, .filter-select, .date-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px; /* Matching the card radius */
+    font-size: 14px;
+    outline: none;
+    transition: all 0.2s ease;
+    color: var(--text-main);
+    background-color: #f9fafb; /* Slight grey bg for inputs */
+    height: 44px; /* Standard touch-friendly height */
+    box-sizing: border-box;
+    -webkit-appearance: none; /* Removes default styling on iOS */
+}
+
+.search-input:focus, .filter-select:focus, .date-input:focus {
+    border-color: var(--agri-green);
+    background-color: white;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+}
+
+/* Add custom arrow for Select dropdown */
+.filter-select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    padding-right: 32px;
+}
+
+/* --- RESPONSIVE GRID --- */
+
+/* Tablet (Portrait) */
+@media (max-width: 1024px) {
+    .filters-form {
+        /* 2 columns: Search takes full top row, others split bottom */
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+    .search-group {
+        grid-column: span 3; /* Full width on top */
+    }
+}
+
+/* Mobile (Phones) */
+@media (max-width: 640px) {
+    .filters-bar {
+        padding: 16px;
+    }
+
+    .filters-form {
+        display: flex; /* Switch to Flex Stack on mobile */
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .search-group, .filter-group {
+        width: 100%;
+    }
 }
 
 .search-input, .filter-select, .date-input {
@@ -309,4 +450,75 @@ body {
     .page-title { color: black; font-size: 28px; }
 
     * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+}
+
+/* --- PAGINATION STYLES --- */
+.pagination-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    border-top: 1px solid #f3f4f6;
+    background-color: white;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.page-info {
+    font-size: 13px;
+    color: var(--text-light);
+}
+
+.page-links nav {
+    display: flex;
+    gap: 4px;
+}
+
+/* Kaminari Buttons */
+.page-links a, .page-links span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 32px;
+    padding: 0 6px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    color: var(--text-main);
+    border: 1px solid transparent;
+}
+
+/* Hover State */
+.page-links a:hover {
+    background-color: var(--agri-bg);
+    color: var(--agri-dark);
+    border-color: #dbeafe;
+}
+
+/* Active/Current Page */
+.page-links .current {
+    background-color: var(--agri-dark);
+    color: white;
+    border-color: var(--agri-dark);
+}
+
+/* Disabled */
+.page-links .gap, .page-links .disabled {
+    color: #9ca3af;
+    pointer-events: none;
+}
+
+/* Print Hide */
+@media print {
+    .pagination-wrapper { display: none !important; }
+}
+
+/* --- Active Card Highlight --- */
+.metric-card.active-card {
+    border: 2px solid var(--agri-green);
+    background-color: #ecfdf5; /* Light green background */
+    transform: translateY(-2px); /* Lift it up slightly */
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
 }

@@ -70,3 +70,4 @@ gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
 
 gem 'csv'
+gem 'kaminari'

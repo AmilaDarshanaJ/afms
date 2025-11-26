@@ -1,21 +1,7 @@
-<%= javascript_import_module_tag "activities_filter" %>
-
 <style>
-    /* Local override for Top Bar spacing */
-    .top-bar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-    }
-
-    /* Make the count number look nice */
-    .count-badge {
-        font-size: 16px;
-        color: #6b7280;
-        font-weight: normal;
-        margin-left: 8px;
-    }
+    /* Local Styles */
+    .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+    .count-badge { font-size: 16px; color: #6b7280; font-weight: normal; margin-left: 8px; }
 </style>
 
 <div class="agri-container">
@@ -23,11 +9,11 @@
   <div class="top-bar">
     <div class="page-title">
       🌾 Activities Report
-      <span id="activityCountDisplay" class="count-badge">(<%= @activities.count %>)</span>
+      <span class="count-badge">(<%= @metrics_activities.count %>)</span>
     </div>
 
     <div class="actions-group">
-      <%= link_to activities_path(format: :csv), class: "btn-download btn-csv" do %>
+      <%= link_to report_activities_path(request.parameters.merge(format: :csv)), class: "btn-download btn-csv" do %>
         📊 Export CSV
       <% end %>
 
@@ -39,88 +25,126 @@
 
   <div class="metrics-grid">
 
-    <div class="metric-card" onclick="filterByCard('all')">
+    <div class="metric-card <%= 'active-card' if params[:status].blank? || params[:status] == 'all' %>" onclick="filterByCard('all')">
       <div class="metric-icon" style="background: #e0f2fe; color: #0284c7;">📋</div>
       <div>
         <div class="metric-label">Total Activities</div>
-        <div class="metric-value"><%= @activities.count %></div>
+        <div class="metric-value"><%= @metrics_activities.count %></div>
       </div>
     </div>
 
-    <div class="metric-card" onclick="filterByCard('in_progress')">
+    <div class="metric-card <%= 'active-card' if params[:status] == 'in_progress' %>" onclick="filterByCard('in_progress')">
       <div class="metric-icon" style="background: #dbeafe; color: #2563eb;">⏳</div>
       <div>
         <div class="metric-label">In Progress</div>
         <div class="metric-value">
-          <%= @activities.count { |a| a.status.to_s.downcase.include?('progress') } %>
+          <%= @metrics_activities.count { |a| a.status.to_s.downcase.include?('progress') } %>
         </div>
       </div>
     </div>
 
-    <div class="metric-card" onclick="filterByCard('pending')">
+    <div class="metric-card <%= 'active-card' if params[:status] == 'pending' %>" onclick="filterByCard('pending')">
       <div class="metric-icon" style="background: #fef3c7; color: #d97706;">⚠️</div>
       <div>
         <div class="metric-label">Pending Action</div>
         <div class="metric-value">
-          <%= @activities.count { |a| a.status.to_s.downcase.include?('pending') } %>
+          <%= @metrics_activities.count { |a| a.status.to_s.downcase.include?('pending') } %>
         </div>
       </div>
     </div>
 
-    <div class="metric-card" onclick="filterByCard('completed')">
+    <div class="metric-card <%= 'active-card' if params[:status] == 'completed' %>" onclick="filterByCard('completed')">
       <div class="metric-icon" style="background: #d1fae5; color: #059669;">✅</div>
       <div>
         <div class="metric-label">Completed</div>
         <div class="metric-value">
-          <%= @activities.count { |a| a.status.to_s.downcase.include?('completed') } %>
+          <%= @metrics_activities.count { |a| a.status.to_s.downcase.include?('completed') } %>
         </div>
       </div>
     </div>
 
-    <div class="metric-card" onclick="filterByCard('hold')">
+    <div class="metric-card <%= 'active-card' if params[:status] == 'hold' %>" onclick="filterByCard('hold')">
       <div class="metric-icon" style="background: #fee2e2; color: #dc2626;">⏸️</div>
       <div>
         <div class="metric-label">On Hold</div>
         <div class="metric-value">
-          <%= @activities.count { |a| a.status.to_s.downcase.include?('hold') } %>
+          <%= @metrics_activities.count { |a| a.status.to_s.downcase.include?('hold') } %>
         </div>
       </div>
     </div>
 
-    <div class="metric-card" onclick="filterByCard('cancelled')">
+    <div class="metric-card <%= 'active-card' if params[:status] == 'cancelled' %>" onclick="filterByCard('cancelled')">
       <div class="metric-icon" style="background: #f3f4f6; color: #4b5563;">🚫</div>
       <div>
         <div class="metric-label">Cancelled</div>
         <div class="metric-value">
-          <%= @activities.count { |a| a.status.to_s.downcase.include?('cancel') } %>
+          <%= @metrics_activities.count { |a| a.status.to_s.downcase.include?('cancel') } %>
         </div>
       </div>
     </div>
 
   </div>
 
-  <div class="filters-bar" style="margin-bottom: 20px;">
-    <input type="text" id="searchInput" class="search-input" placeholder="🔍 Search Land, Summary...">
+  <div class="filters-bar">
+    <%= form_with url: report_activities_path, method: :get, local: true,
+                  data: { turbo: false }, class: "filters-form" do |f| %>
 
-    <div style="display: flex; gap: 8px; align-items: center; flex-grow: 1;">
-      <span class="date-label">From:</span>
-      <input type="date" id="dateStart" class="date-input">
-      <span class="date-label">To:</span>
-      <input type="date" id="dateEnd" class="date-input">
-    </div>
+      <div class="filter-group search-group">
+        <label class="filter-label">Search Records</label>
+        <%= f.text_field :q,
+                         value: params[:q],
+                         class: "search-input",
+                         placeholder: "🔍 e.g. Green Farm...",
+                         onchange: "this.form.requestSubmit()"
+        %>
+      </div>
 
-    <select id="statusFilter" class="filter-select">
-      <option value="all">All Statuses</option>
-      <option value="pending">Pending</option>
-      <option value="in_progress">In Progress</option>
-      <option value="completed">Completed</option>
-      <option value="hold">Hold</option>
-      <option value="cancelled">Cancelled</option>
-    </select>
+      <div class="filter-group">
+        <label class="filter-label">From Date</label>
+        <%= f.date_field :date_start,
+                         value: params[:date_start],
+                         class: "date-input",
+                         onchange: "this.form.requestSubmit()"
+        %>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label">To Date</label>
+        <%= f.date_field :date_end,
+                         value: params[:date_end],
+                         class: "date-input",
+                         onchange: "this.form.requestSubmit()"
+        %>
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label">Status</label>
+        <%= f.select :status,
+                     options_for_select([
+                                          ['All Statuses', 'all'],
+                                          ['Pending', 'pending'],
+                                          ['In Progress', 'in_progress'],
+                                          ['Completed', 'completed'],
+                                          ['On Hold', 'hold'],
+                                          ['Cancelled', 'cancelled']
+                                        ], params[:status]),
+                     {},
+                     { class: "filter-select", onchange: "this.form.requestSubmit()" }
+        %>
+      </div>
+
+      <div class="filter-group reset-group">
+        <label class="filter-label">&nbsp;</label>
+        <%= link_to report_activities_path, class: "btn-reset", title: "Clear all filters" do %>
+          ↺ Reset
+        <% end %>
+      </div>
+
+    <% end %>
   </div>
 
   <div class="data-card">
-    <table class="agri-table" id="activitiesTable">
+    <table class="agri-table">
       <thead>
       <tr>
         <th>Land / Farmer</th>
@@ -131,46 +155,43 @@
       </thead>
       <tbody>
       <% @activities.each do |activity| %>
-        <%
-          safe_status = activity.status.to_s.parameterize.underscore
-          date_str = activity.start_date.present? ? activity.start_date.strftime("%Y-%m-%d") : ""
-        %>
-
-        <tr class="activity-row"
-            data-status="<%= safe_status %>"
-            data-date="<%= date_str %>">
-
+        <% safe_status = activity.status.to_s.parameterize.underscore %>
+        <tr>
           <td data-label="Land">
             <div class="land-info">
               <img src="https://ui-avatars.com/api/?name=<%= activity.land&.name %>&background=10b981&color=fff&size=128" class="avatar" alt="icon">
-              <div>
-                <div style="color: var(--text-main);"><%= activity.land&.name || "Unassigned" %></div>
-              </div>
+              <div><div style="color: var(--text-main);"><%= activity.land&.name || "Unassigned" %></div></div>
             </div>
           </td>
-
-          <td data-label="Start Date">
-            📅 <%= activity.start_date.present? ? activity.start_date.strftime("%d %b, %Y") : "N/A" %>
-          </td>
-
-          <td data-label="Summary">
-            <%= activity.summary %>
-          </td>
-
-          <td data-label="Status">
-              <span class="badge status-<%= safe_status %>">
-                <%= activity.status.to_s.humanize %>
-              </span>
-          </td>
-
+          <td data-label="Start Date">📅 <%= activity.start_date.present? ? activity.start_date.strftime("%d %b, %Y") : "N/A" %></td>
+          <td data-label="Summary"><%= activity.summary %></td>
+          <td data-label="Status"><span class="badge status-<%= safe_status %>"><%= activity.status.to_s.humanize %></span></td>
         </tr>
       <% end %>
       </tbody>
     </table>
 
-    <div id="noResults" style="display: none; padding: 40px; text-align: center; color: #6b7280;">
-      🍂 No activities found matching your filters.
-    </div>
+    <% if @activities.present? %>
+      <div class="pagination-wrapper">
+        <div class="page-info">
+          Showing <strong><%= @activities.offset_value + 1 %></strong> - <strong><%= @activities.offset_value + @activities.length %></strong> of <strong><%= @metrics_activities.count %></strong>
+        </div>
+        <div class="page-links">
+          <%= paginate @activities, params: request.query_parameters %>
+        </div>
+      </div>
+    <% else %>
+      <div id="noResults" style="padding: 40px; text-align: center; color: #6b7280;">🍂 No activities found matching your filters.</div>
+    <% end %>
   </div>
-
 </div>
+
+<script>
+    window.filterByCard = function(statusType) {
+        const statusSelect = document.querySelector('select[name="status"]');
+        if(statusSelect) {
+            statusSelect.value = statusType;
+            statusSelect.form.requestSubmit();
+        }
+    }
+</script>
