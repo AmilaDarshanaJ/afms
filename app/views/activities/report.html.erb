@@ -26,9 +26,15 @@
       <span id="activityCountDisplay" class="count-badge">(<%= @activities.count %>)</span>
     </div>
 
-    <button onclick="window.print()" class="btn-download">
-      🖨️ Save as PDF
-    </button>
+    <div class="actions-group">
+      <%= link_to activities_path(format: :csv), class: "btn-download btn-csv" do %>
+        📊 Export CSV
+      <% end %>
+
+      <button onclick="window.print()" class="btn-download btn-pdf">
+        🖨️ Save as PDF
+      </button>
+    </div>
   </div>
 
   <div class="metrics-grid">
