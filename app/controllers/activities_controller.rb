@@ -1,6 +1,11 @@
 class ActivitiesController < ApplicationController
   before_action :set_activity, only: %i[ show edit update destroy ]
 
+  def report
+    @activities = Activity.includes(:land).all
+    @activities_by_status = @activities.group_by(&:status)
+  end
+  
   # GET /activities or /activities.json
   def index
     @activities = Activity.includes(:land)

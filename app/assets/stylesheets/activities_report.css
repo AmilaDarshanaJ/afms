@@ -1,0 +1,181 @@
+:root {
+    --agri-green: #10b981;
+    --agri-dark: #064e3b;
+    --agri-bg: #f0fdf4;
+    --text-main: #1f2937;
+    --text-light: #6b7280;
+    --white: #ffffff;
+    --radius: 12px;
+}
+
+body {
+    background-color: var(--agri-bg);
+    font-family: 'Inter', -apple-system, sans-serif;
+}
+
+.agri-container {
+    max-width: 1200px;
+
+    /* CHANGE THIS LINE */
+    /* Old: margin: 40px auto; */
+    margin: 0 auto 240px auto; /* 0px Top, Auto Sides, 40px Bottom */
+
+    padding: 20px; /* Optional: Add some padding if it touches the navbar too closely */
+}
+
+/* --- HEADER & FILTERS --- */
+.header-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    gap: 16px;
+}
+
+.page-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--agri-dark);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.filters-bar {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    background: var(--white);
+    padding: 10px;
+    border-radius: var(--radius);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    align-items: center;
+}
+
+.search-input, .filter-select, .date-input {
+    padding: 10px 16px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.2s;
+    color: var(--text-main);
+}
+
+.search-input:focus, .filter-select:focus, .date-input:focus {
+    border-color: var(--agri-green);
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.search-input { min-width: 200px; flex-grow: 1; }
+.date-label { font-size: 12px; font-weight: 600; color: var(--text-light); margin-right: 4px;}
+
+/* --- TABLE CARD --- */
+.data-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.agri-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.agri-table th {
+    background-color: #f9fafb;
+    padding: 16px 24px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--text-light);
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.agri-table td {
+    padding: 16px 24px;
+    border-bottom: 1px solid #f3f4f6;
+    color: var(--text-main);
+    vertical-align: middle;
+}
+
+.agri-table tr:hover {
+    background-color: #fcfdfc;
+}
+
+/* --- COMPONENT STYLES --- */
+.land-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 500;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Status Badges */
+.badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+/* Status Colors */
+.status-pending { background: #fef3c7; color: #d97706; }      /* Yellow */
+.status-in_progress { background: #dbeafe; color: #2563eb; }  /* Blue */
+.status-completed { background: #d1fae5; color: #059669; }    /* Green */
+.status-hold { background: #fee2e2; color: #dc2626; }         /* Red */
+.status-cancelled { background: #f3f4f6; color: #4b5563; }    /* Grey */
+
+/* --- MOBILE RESPONSIVENESS --- */
+@media (max-width: 900px) {
+    .filters-bar { width: 100%; flex-direction: column; align-items: stretch; }
+    .search-input, .date-input, .filter-select { width: 100%; box-sizing: border-box; }
+
+    .agri-table thead { display: none; }
+
+    .agri-table, .agri-table tbody, .agri-table tr, .agri-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .agri-table tr {
+        margin-bottom: 15px;
+        border-bottom: 2px solid #f3f4f6;
+        padding-bottom: 10px;
+    }
+
+    .agri-table td {
+        padding: 10px 20px;
+        border: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-align: right;
+    }
+
+    .agri-table td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: var(--text-light);
+        font-size: 12px;
+        text-transform: uppercase;
+        text-align: left;
+    }
+
+    .land-info { flex-direction: row-reverse; }
+}
+

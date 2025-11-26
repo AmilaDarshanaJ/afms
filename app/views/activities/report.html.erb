@@ -1,0 +1,86 @@
+<%= javascript_import_module_tag "activities_filter" %>
+
+<div class="agri-container">
+
+  <div class="header-section">
+    <div class="page-title">
+      🌾 Activities Report <span id="activityCountDisplay" style="font-size: 14px; color: #9ca3af; font-weight: normal;">(<%= @activities.count %>)</span>
+    </div>
+
+    <div class="filters-bar">
+      <input type="text" id="searchInput" class="search-input" placeholder="🔍 Search Land, Summary...">
+
+      <div style="display: flex; gap: 8px; align-items: center; flex-grow: 1;">
+        <span class="date-label">From:</span>
+        <input type="date" id="dateStart" class="date-input">
+        <span class="date-label">To:</span>
+        <input type="date" id="dateEnd" class="date-input">
+      </div>
+
+      <select id="statusFilter" class="filter-select">
+        <option value="all">All Statuses</option>
+        <option value="pending">Pending</option>
+        <option value="in_progress">In Progress</option>
+        <option value="completed">Completed</option>
+        <option value="hold">Hold</option>
+        <option value="cancelled">Cancelled</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="data-card">
+    <table class="agri-table" id="activitiesTable">
+      <thead>
+      <tr>
+        <th>Land / Farmer</th>
+        <th>Start Date</th>
+        <th>Summary / Task</th>
+        <th>Status</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @activities.each do |activity| %>
+        <%
+          # Safe Status Normalization
+          safe_status = activity.status.to_s.parameterize.underscore
+          date_str = activity.start_date.present? ? activity.start_date.strftime("%Y-%m-%d") : ""
+        %>
+
+        <tr class="activity-row"
+            data-status="<%= safe_status %>"
+            data-date="<%= date_str %>">
+
+          <td data-label="Land">
+            <div class="land-info">
+              <img src="https://ui-avatars.com/api/?name=<%= activity.land&.name %>&background=10b981&color=fff&size=128" class="avatar" alt="icon">
+              <div>
+                <div style="color: var(--text-main);"><%= activity.land&.name || "Unassigned" %></div>
+              </div>
+            </div>
+          </td>
+
+          <td data-label="Start Date">
+            📅 <%= activity.start_date.present? ? activity.start_date.strftime("%d %b, %Y") : "N/A" %>
+          </td>
+
+          <td data-label="Summary">
+            <%= activity.summary %>
+          </td>
+
+          <td data-label="Status">
+              <span class="badge status-<%= safe_status %>">
+                <%= activity.status.to_s.humanize %>
+              </span>
+          </td>
+
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+
+    <div id="noResults" style="display: none; padding: 40px; text-align: center; color: #6b7280;">
+      🍂 No activities found matching your filters.
+    </div>
+  </div>
+
+</div>

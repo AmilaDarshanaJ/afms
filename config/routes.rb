@@ -5,7 +5,12 @@ Rails.application.routes.draw do
 
   resources :sessions, only: [:new, :create, :destroy]
 
-  resources :activities
+  resources :activities do
+    collection do
+      get :report
+    end
+  end
+
   get "home/index"
   resource :session
   resources :passwords, param: :token
