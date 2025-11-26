@@ -56,3 +56,17 @@ document.addEventListener('turbo:load', function() {
     if(dateStartInput) dateStartInput.addEventListener('change', filterTable);
     if(dateEndInput) dateEndInput.addEventListener('change', filterTable);
 });
+
+
+window.filterByCard = function(statusType) {
+    const statusSelect = document.getElementById('statusFilter');
+
+    if(statusSelect) {
+        // 1. Set the dropdown value
+        statusSelect.value = statusType;
+
+        // 2. Trigger the change event manually so the table updates
+        const event = new Event('change');
+        statusSelect.dispatchEvent(event);
+    }
+}

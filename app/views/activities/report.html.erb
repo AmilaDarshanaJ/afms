@@ -1,37 +1,116 @@
 <%= javascript_import_module_tag "activities_filter" %>
 
+<style>
+    /* Local override for Top Bar spacing */
+    .top-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    /* Make the count number look nice */
+    .count-badge {
+        font-size: 16px;
+        color: #6b7280;
+        font-weight: normal;
+        margin-left: 8px;
+    }
+</style>
+
 <div class="agri-container">
 
-  <div class="header-section">
-
-
+  <div class="top-bar">
     <div class="page-title">
-      🌾 Activities Report <span id="activityCountDisplay" style="font-size: 14px; color: #9ca3af; font-weight: normal;">(<%= @activities.count %>)</span>
+      🌾 Activities Report
+      <span id="activityCountDisplay" class="count-badge">(<%= @activities.count %>)</span>
     </div>
 
-    <button onclick="window.print()" class="pdf-btn">
+    <button onclick="window.print()" class="btn-download">
       🖨️ Save as PDF
     </button>
+  </div>
 
-    <div class="filters-bar">
-      <input type="text" id="searchInput" class="search-input" placeholder="🔍 Search Land, Summary...">
+  <div class="metrics-grid">
 
-      <div style="display: flex; gap: 8px; align-items: center; flex-grow: 1;">
-        <span class="date-label">From:</span>
-        <input type="date" id="dateStart" class="date-input">
-        <span class="date-label">To:</span>
-        <input type="date" id="dateEnd" class="date-input">
+    <div class="metric-card" onclick="filterByCard('all')">
+      <div class="metric-icon" style="background: #e0f2fe; color: #0284c7;">📋</div>
+      <div>
+        <div class="metric-label">Total Activities</div>
+        <div class="metric-value"><%= @activities.count %></div>
       </div>
-
-      <select id="statusFilter" class="filter-select">
-        <option value="all">All Statuses</option>
-        <option value="pending">Pending</option>
-        <option value="in_progress">In Progress</option>
-        <option value="completed">Completed</option>
-        <option value="hold">Hold</option>
-        <option value="cancelled">Cancelled</option>
-      </select>
     </div>
+
+    <div class="metric-card" onclick="filterByCard('in_progress')">
+      <div class="metric-icon" style="background: #dbeafe; color: #2563eb;">⏳</div>
+      <div>
+        <div class="metric-label">In Progress</div>
+        <div class="metric-value">
+          <%= @activities.count { |a| a.status.to_s.downcase.include?('progress') } %>
+        </div>
+      </div>
+    </div>
+
+    <div class="metric-card" onclick="filterByCard('pending')">
+      <div class="metric-icon" style="background: #fef3c7; color: #d97706;">⚠️</div>
+      <div>
+        <div class="metric-label">Pending Action</div>
+        <div class="metric-value">
+          <%= @activities.count { |a| a.status.to_s.downcase.include?('pending') } %>
+        </div>
+      </div>
+    </div>
+
+    <div class="metric-card" onclick="filterByCard('completed')">
+      <div class="metric-icon" style="background: #d1fae5; color: #059669;">✅</div>
+      <div>
+        <div class="metric-label">Completed</div>
+        <div class="metric-value">
+          <%= @activities.count { |a| a.status.to_s.downcase.include?('completed') } %>
+        </div>
+      </div>
+    </div>
+
+    <div class="metric-card" onclick="filterByCard('hold')">
+      <div class="metric-icon" style="background: #fee2e2; color: #dc2626;">⏸️</div>
+      <div>
+        <div class="metric-label">On Hold</div>
+        <div class="metric-value">
+          <%= @activities.count { |a| a.status.to_s.downcase.include?('hold') } %>
+        </div>
+      </div>
+    </div>
+
+    <div class="metric-card" onclick="filterByCard('cancelled')">
+      <div class="metric-icon" style="background: #f3f4f6; color: #4b5563;">🚫</div>
+      <div>
+        <div class="metric-label">Cancelled</div>
+        <div class="metric-value">
+          <%= @activities.count { |a| a.status.to_s.downcase.include?('cancel') } %>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="filters-bar" style="margin-bottom: 20px;">
+    <input type="text" id="searchInput" class="search-input" placeholder="🔍 Search Land, Summary...">
+
+    <div style="display: flex; gap: 8px; align-items: center; flex-grow: 1;">
+      <span class="date-label">From:</span>
+      <input type="date" id="dateStart" class="date-input">
+      <span class="date-label">To:</span>
+      <input type="date" id="dateEnd" class="date-input">
+    </div>
+
+    <select id="statusFilter" class="filter-select">
+      <option value="all">All Statuses</option>
+      <option value="pending">Pending</option>
+      <option value="in_progress">In Progress</option>
+      <option value="completed">Completed</option>
+      <option value="hold">Hold</option>
+      <option value="cancelled">Cancelled</option>
+    </select>
   </div>
 
   <div class="data-card">
@@ -47,7 +126,6 @@
       <tbody>
       <% @activities.each do |activity| %>
         <%
-          # Safe Status Normalization
           safe_status = activity.status.to_s.parameterize.underscore
           date_str = activity.start_date.present? ? activity.start_date.strftime("%Y-%m-%d") : ""
         %>
