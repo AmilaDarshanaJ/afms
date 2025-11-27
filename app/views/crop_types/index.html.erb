@@ -1,0 +1,50 @@
+<div class="agri-container">
+
+  <% if notice %>
+    <div class="flash-notice"><%= notice %></div>
+  <% end %>
+
+  <div class="top-bar">
+    <div class="page-title">
+      🌱 Crop Catalog
+      <span class="count-badge">(<%= @crop_types.count %>)</span>
+    </div>
+
+    <%= link_to new_crop_type_path, class: "btn-download btn-pdf" do %>
+      + Add New Crop
+    <% end %>
+  </div>
+
+  <div class="crop-grid">
+
+    <%= link_to new_crop_type_path, class: "crop-card add-card" do %>
+      <div class="add-icon">+</div>
+      <div class="add-text">Add New Crop</div>
+    <% end %>
+
+    <% @crop_types.each do |crop| %>
+      <div class="crop-card">
+        <img src="https://ui-avatars.com/api/?name=<%= crop.name %>&background=10b981&color=fff&size=128" class="crop-icon" alt="icon">
+
+        <div class="crop-details">
+          <h3 class="crop-name"><%= crop.name %></h3>
+          <p class="crop-desc"><%= crop.description.presence || "No description provided." %></p>
+        </div>
+
+        <div class="card-actions">
+          <%= link_to edit_crop_type_path(crop), class: "action-btn edit-btn" do %>
+            ✏️ Edit
+          <% end %>
+
+          <%= button_to crop_type_path(crop), method: :delete,
+                        form: { style: "display:inline-block;" },
+                        class: "action-btn delete-btn",
+                        data: { turbo_confirm: "Are you sure you want to delete #{crop.name}?" } do %>
+            🗑️ Delete
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
+  </div>
+</div>

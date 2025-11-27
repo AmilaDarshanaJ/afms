@@ -1,0 +1,33 @@
+<div class="agri-container" style="max-width: 600px;">
+
+  <div class="top-bar">
+    <div class="page-title">✏️ Edit Crop</div>
+    <%= link_to "← Back", crop_types_path, class: "back-link" %>
+  </div>
+
+  <div class="data-card" style="padding: 30px;">
+    <%= form_with(model: @crop_type, local: true) do |form| %>
+
+      <% if @crop_type.errors.any? %>
+        <div style="color: red; margin-bottom: 20px;">
+          <%= pluralize(@crop_type.errors.count, "error") %> prohibited this crop from being saved:
+        </div>
+      <% end %>
+
+      <div class="form-group" style="margin-bottom: 20px;">
+        <label class="filter-label">Crop Name</label>
+        <%= form.text_field :name, class: "search-input", placeholder: "e.g. Tomato" %>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 24px;">
+        <label class="filter-label">Description</label>
+        <%= form.text_area :description, class: "search-input", rows: 4 %>
+      </div>
+
+      <div class="form-actions">
+        <%= form.submit "Update Crop", class: "btn-download btn-pdf", style: "width: 100%; justify-content: center;" %>
+      </div>
+
+    <% end %>
+  </div>
+</div>
