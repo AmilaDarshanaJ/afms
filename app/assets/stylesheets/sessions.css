@@ -1,0 +1,161 @@
+/* VARIABLES - Easy to change colors */
+:root {
+    --login-primary: #2563eb;       /* Modern Blue */
+    --login-primary-hover: #1d4ed8;
+    --login-bg: #f3f4f6;            /* Light Gray Background */
+    --login-card-bg: #ffffff;
+    --login-text-dark: #1f2937;
+    --login-text-gray: #6b7280;
+    --login-border: #d1d5db;
+    --login-radius: 8px;
+    --login-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* LAYOUT - Centers the card on the screen */
+.login-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: var(--login-bg);
+    padding: 1rem;
+    font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* CARD DESIGN */
+.login-card {
+    background: var(--login-card-bg);
+    width: 100%;
+    max-width: 400px;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: var(--login-shadow);
+}
+
+/* TYPOGRAPHY */
+.login-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.login-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--login-text-dark);
+    margin-bottom: 0.5rem;
+}
+
+.login-subtitle {
+    font-size: 0.875rem;
+    color: var(--login-text-gray);
+}
+
+/* FORM INPUTS */
+.input-group {
+    margin-bottom: 1.25rem;
+}
+
+.input-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--login-text-dark);
+    margin-bottom: 0.5rem;
+}
+
+.input-field {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    border: 1px solid var(--login-border);
+    border-radius: var(--login-radius);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box; /* Ensures padding doesn't break width */
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: var(--login-primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+/* BUTTONS */
+.btn-submit {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: var(--login-primary);
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: var(--login-radius);
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.2s;
+}
+
+.btn-submit:hover {
+    background-color: var(--login-primary-hover);
+}
+
+/* LINKS & FOOTER */
+.login-footer {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+.link-forgot {
+    color: var(--login-primary);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.link-forgot:hover {
+    text-decoration: underline;
+}
+
+/* ALERTS / FLASH MESSAGES */
+.login-alert {
+    padding: 0.75rem;
+    border-radius: var(--login-radius);
+    margin-bottom: 1.5rem;
+    font-size: 0.875rem;
+    border-left: 4px solid transparent;
+}
+
+.login-alert-error {
+    background-color: #fee2e2;
+    color: #991b1b;
+    border-left-color: #ef4444;
+}
+
+.login-alert-success {
+    background-color: #d1fae5;
+    color: #065f46;
+    border-left-color: #10b981;
+}
+
+/* MOBILE OPTIMIZATION */
+@media (max-width: 480px) {
+    .login-card {
+        padding: 1.5rem;
+        box-shadow: none; /* Flatter design for small screens */
+        background: transparent; /* Seamless blend on mobile */
+    }
+
+    .login-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 1rem;
+
+        /* BACKGROUND IMAGE SETTINGS */
+        background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), /* Dark overlay */
+        url('path_to_your_image.jpg'); /* Replace with your image path */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed; /* Keeps image still when scrolling */
+    }
+}
