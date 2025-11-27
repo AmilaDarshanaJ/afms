@@ -12,9 +12,13 @@ class HarvestsController < ApplicationController
   def new
     @harvest = Harvest.new
     @lands = Land.all
+    # Load all crops to populate the dropdown
+    @crop_types = CropType.all
   end
 
   def edit
+    @lands = Land.all
+    @crop_types = CropType.all
   end
 
   def create

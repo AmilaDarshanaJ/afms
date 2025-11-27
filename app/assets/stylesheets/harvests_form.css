@@ -156,4 +156,24 @@ body {
     transform: translateY(0);
 }
 
+/* Helper for side-by-side inputs */
+.row-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
 
+/* Styling for Read-Only inputs */
+.readonly-input {
+    background-color: #f3f4f6 !important;
+    color: #6b7280 !important;
+    cursor: not-allowed;
+    border-color: #e5e7eb !important;
+}
+
+/* Mobile: Stack the rows */
+@media (max-width: 600px) {
+    .row-group {
+        grid-template-columns: 1fr;
+    }
+}
