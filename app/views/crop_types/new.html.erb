@@ -1,15 +1,19 @@
-<div class="agri-container" style="max-width: 600px;"> <div class="form-header">
-  <h1 class="page-title">🌱 Add New Crop</h1>
-  <%= link_to "← Back", crop_types_path, class: "back-link" %>
-</div>
+<div class="agri-container" style="max-width: 600px;">
 
-  <div class="data-card form-card">
+  <div class="page-header">
+    <h1 class="page-title">🌱 Add New Crop</h1>
+    <%= link_to crop_types_path, class: "back-link" do %>
+      ← Back to Catalog
+    <% end %>
+  </div>
+
+  <div class="form-card">
     <%= form_with(model: @crop_type, local: true) do |form| %>
 
       <% if @crop_type.errors.any? %>
         <div class="error-banner">
-          <%= pluralize(@crop_type.errors.count, "error") %> prevented saving:
-          <ul>
+          <strong>⚠️ <%= pluralize(@crop_type.errors.count, "error") %> prevented saving:</strong>
+          <ul style="margin: 8px 0 0 20px; padding: 0;">
             <% @crop_type.errors.each do |error| %>
               <li><%= error.full_message %></li>
             <% end %>
@@ -19,16 +23,18 @@
 
       <div class="form-group">
         <%= form.label :name, "Crop Name", class: "filter-label" %>
-        <%= form.text_field :name, class: "search-input", placeholder: "e.g. Paddy, Coconut, Chili..." %>
+        <%= form.text_field :name, class: "modern-input", placeholder: "e.g. Paddy, Coconut, Chili..." %>
       </div>
 
-      <div class="form-group" style="margin-top: 16px;">
+      <div class="form-group">
         <%= form.label :description, "Description (Optional)", class: "filter-label" %>
-        <%= form.text_area :description, class: "search-input", rows: 4, placeholder: "e.g. Requires high water levels..." %>
+        <%= form.text_area :description, class: "modern-input", rows: 5, placeholder: "Brief details about this crop variety..." %>
       </div>
 
       <div class="form-actions">
-        <%= form.submit "Save Crop", class: "btn-download btn-pdf", style: "width: 100%; justify-content: center;" %>
+        <%= form.button class: "btn-submit" do %>
+          Save Crop Variety ➝
+        <% end %>
       </div>
 
     <% end %>

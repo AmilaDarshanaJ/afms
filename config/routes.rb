@@ -16,6 +16,8 @@ Rails.application.routes.draw do
   resources :passwords, param: :token
   resources :lands
 
+  resources :crop_types
+
   resources :harvests do
     collection do
       get :report

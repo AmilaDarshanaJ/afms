@@ -35,7 +35,12 @@
 
         <div class="input-group">
           <%= form.label :crop_type, "Primary Crop" %>
-          <%= form.text_field :crop_type, class: "form-input", placeholder: "e.g. Rice, Tea" %>
+
+          <%= form.select :crop_type,
+                          options_from_collection_for_select(CropType.all.order(:name), :name, :name, form.object.crop_type),
+                          { prompt: "Select a Crop..." },
+                          { class: "form-input" }
+          %>
         </div>
 
         <div class="input-group">
