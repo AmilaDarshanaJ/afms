@@ -27,6 +27,15 @@
       </div>
 
       <div class="form-group">
+        <%= form.label :unit, "Standard Unit", class: "filter-label" %>
+        <%= form.select :unit,
+                        ['Kg', 'Metric Tons', 'Packs', 'Bunches', 'Liters', 'Nuts'],
+                        { prompt: "Select Unit..." },
+                        { class: "modern-input" }
+        %>
+      </div>
+
+      <div class="form-group">
         <%= form.label :description, "Description (Optional)", class: "filter-label" %>
         <%= form.text_area :description, class: "modern-input", rows: 5, placeholder: "Brief details about this crop variety..." %>
       </div>

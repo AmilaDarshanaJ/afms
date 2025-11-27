@@ -49,6 +49,6 @@ class CropTypesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def crop_type_params
-    params.require(:crop_type).permit(:name, :description)
+    params.require(:crop_type).permit(:name, :description, :unit)
   end
 end
