@@ -1,12 +1,20 @@
-.nav-user {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.user-popup {
+    position: absolute;
+    top: 55px;
+    right: 0;
+    width: 230px;
+    background: white;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    display: none;
+    z-index: 1000;
 }
 
-.user-avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    object-fit: cover;
+.user-popup.show {
+    display: block;
+}
+
+.user-menu-container {
+    position: relative;
 }

@@ -44,53 +44,62 @@
 
       <ul class="nav-menu">
         <li><%= link_to "Home", root_path, class: "nav-link" %></li>
-        <li><%= link_to "About", about_path %></li>
-        <li><%= link_to "Contact", "#" %></li>
-
-        <li class="settings-menu-container">
-          <%= link_to "Settings", "#", id: "settings-btn", class: "nav-link" %>
-
-          <div id="settings-popup" class="google-style-popup">
-            <div class="popup-grid">
-              <a href="/profile" class="grid-item">
-                <div class="icon-circle">👤</div> <span>Account</span>
-              </a>
-
-              <%= link_to logout_path, method: :delete, class: "grid-item" do %>
-                <div class="icon-circle">🚪</div>
-                <span>Logout</span>
-              <% end %>
-
-            </div>
-          </div>
-        </li>
-
+        <li><%= link_to "About", about_path, class: "nav-link" %></li>
+        <li><%= link_to "Contact", "#", class: "nav-link" %></li>
 
         <% if user_signed_in? %>
-          <!-- Show logged-in username + logout -->
-          <li class="nav-user">
-            <%= image_tag(current_user.avatar_url || "default-avatar.png",
-                          class: "user-avatar") %>
-            <%= current_user.name %>
+          <li class="user-menu-container"
+              data-controller="user-menu"
+              data-user-menu-target="container">
+
+            <!-- USER BUTTON -->
+            <div id="user-menu-btn"
+                 class="round-icon-btn user-gradient-style"
+                 data-action="click->user-menu#toggle">
+              <%= current_user.name.to_s.first.upcase %>
+            </div>
+
+            <!-- POPUP MENU -->
+            <div id="user-menu-popup"
+                 class="user-popup"
+                 data-user-menu-target="popup">
+
+              <div class="user-header">
+                <p class="user-name"><%= current_user.name %></p>
+                <span class="user-email"><%= current_user.email_address rescue "" %></span>
+              </div>
+
+              <hr class="popup-divider">
+
+              <div class="popup-options">
+                <a href="#" class="menu-item">
+                  <span class="menu-icon">⚙️</span>
+                  <span>Settings</span>
+                </a>
+
+                <%= link_to session_path(Current.session),
+                            data: { turbo_method: :delete },
+                            class: "menu-item logout-item" do %>
+                  <span class="menu-icon">🚪</span>
+                  <span>Log Out</span>
+                <% end %>
+              </div>
+
+            </div>
           </li>
 
-          <li>
-            <%= link_to "Logout",
-                        session_path(Current.session),
-                        method: :delete,
-                        class: "nav-link" %>
-          </li>
 
-        <% else %>
-          <!-- Show login button -->
+
+      <% else %>
           <li>
-            <%= link_to "Login",
-                        new_session_path,
-                        class: "nav-link" %>
+            <%= link_to new_session_path, class: "round-icon-btn guest-style", title: "Login" do %>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            <% end %>
           </li>
         <% end %>
-
-
       </ul>
 
     </div>
