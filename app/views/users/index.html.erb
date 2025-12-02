@@ -15,9 +15,9 @@
     </tr>
     </thead>
     <tbody>
-    <% @users.each do |user| %>
+    <% @users.each_with_index do |user, index| %>
       <tr>
-        <td data-label="ID">#<%= user.id %></td>
+        <td data-label="ID">#<%= index + 1 %></td>
         <td data-label="Email" style="font-weight: 500;"><%= user.email_address %></td>
 
         <td data-label="Role">

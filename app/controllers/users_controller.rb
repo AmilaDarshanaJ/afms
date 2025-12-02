@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:edit, :update, :destroy]
 
   def index
-    @users = User.all.order(created_at: :desc) # Added order for better list view
+    @users = User.all.order(created_at: :asc) # Added order for better list view
   end
 
   def new
