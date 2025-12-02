@@ -1,0 +1,196 @@
+/* --- VARIABLES & RESET --- */
+:root {
+    --primary-green: #2ecc71;
+    --dark-green: #27ae60;
+    --header-bg: #1e8449;
+    --bg-light: #f4f7f6;
+    --text-dark: #2c3e50;
+    --danger: #e74c3c;
+    --white: #ffffff;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+body {
+    background-color: var(--bg-light);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    color: var(--text-dark);
+}
+
+/* --- MAIN CONTAINER --- */
+.container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.header-flex h1 {
+    color: var(--header-bg);
+    font-size: 1.8rem;
+    margin: 0;
+}
+
+/* --- BUTTONS --- */
+.btn-primary {
+    background-color: var(--header-bg);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.2s;
+    border: none;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: var(--dark-green);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(39, 174, 96, 0.3);
+}
+
+.btn-sm-edit {
+    background-color: #f39c12;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    margin-right: 5px;
+}
+
+.btn-sm-delete {
+    background-color: #e74c3c;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+
+/* --- DATA TABLE (DESKTOP) --- */
+.responsive-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+.responsive-table thead {
+    background-color: var(--header-bg);
+    color: white;
+}
+
+.responsive-table th, .responsive-table td {
+    padding: 15px 20px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.responsive-table tbody tr:hover {
+    background-color: #f9fff9;
+}
+
+/* --- BADGES --- */
+.badge {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.badge.admin {
+    background-color: #ffe6e6;
+    color: #c0392b;
+    border: 1px solid #fab1a0;
+}
+
+.badge.farmer {
+    background-color: #e8f8f5;
+    color: #16a085;
+    border: 1px solid #a3e4d7;
+}
+
+/* --- FORM STYLING --- */
+.form-card {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.styled-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-top: 5px;
+    box-sizing: border-box; /* Fixes padding width issues */
+}
+
+/* --- MOBILE RESPONSIVE MAGIC --- */
+@media (max-width: 768px) {
+    /* Force table to not be a table anymore */
+    .responsive-table, .responsive-table tbody, .responsive-table tr, .responsive-table td {
+        display: block;
+        width: 100%;
+    }
+
+    /* Hide headers */
+    .responsive-table thead {
+        display: none;
+    }
+
+    /* Make rows look like cards */
+    .responsive-table tr {
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 12px;
+        background: white;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        padding: 10px;
+    }
+
+    /* Style cells */
+    .responsive-table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #f0f0f0;
+        padding: 10px 5px;
+        text-align: right;
+    }
+
+    .responsive-table td:last-child {
+        border-bottom: none;
+        justify-content: center;
+        padding-top: 15px;
+        gap: 10px;
+    }
+
+    /* Add Labels using CSS ::before */
+    .responsive-table td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        color: #7f8c8d;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        text-align: left;
+    }
+}

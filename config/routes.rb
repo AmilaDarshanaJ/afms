@@ -17,7 +17,7 @@ Rails.application.routes.draw do
 
   # --- Admin Management (NEW) ---
   # This enables users_path, new_user_path, etc.
-  resources :users, only: [:index, :new, :create, :destroy]
+  resources :users, only: [:index, :new, :create, :edit, :update, :destroy]
 
   # --- Farm Resources ---
   resources :lands

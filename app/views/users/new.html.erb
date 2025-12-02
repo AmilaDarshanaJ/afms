@@ -1,0 +1,43 @@
+<div class="form-container">
+  <h1>Add New User</h1>
+
+  <%= form_with(model: @user, local: true, class: "styled-form") do |form| %>
+
+    <% if @user.errors.any? %>
+      <div class="error-box">
+        <h4><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h4>
+        <ul>
+          <% @user.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= form.label :email_address %>
+      <%= form.email_field :email_address, placeholder: "farmer@example.com", required: true %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :role, "Select Role" %>
+      <%= form.select :role, User.roles.keys.map { |r| [r.capitalize, r] }, {}, class: "role-select" %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :password %>
+      <%= form.password_field :password, placeholder: "Min 6 characters", required: true %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :password_confirmation %>
+      <%= form.password_field :password_confirmation, placeholder: "Retype password", required: true %>
+    </div>
+
+    <div class="form-actions">
+      <%= link_to "Cancel", users_path, class: "btn-secondary" %>
+      <%= form.submit "Create User", class: "btn-primary" %>
+    </div>
+
+  <% end %>
+</div>

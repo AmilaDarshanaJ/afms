@@ -1,38 +1,41 @@
 <div class="container">
   <div class="header-flex">
     <h1>👥 User Management</h1>
-    <%= link_to "Add New User", new_user_path, class: "btn-primary" %>
+    <%= link_to "+ Add New User", new_user_path, class: "btn-primary" %>
   </div>
 
-  <table class="data-table">
+  <table class="responsive-table">
     <thead>
     <tr>
       <th>ID</th>
-      <th>Email Address</th>
+      <th>Email</th>
       <th>Role</th>
-      <th>Joined Date</th>
+      <th>Joined</th>
       <th>Actions</th>
     </tr>
     </thead>
     <tbody>
     <% @users.each do |user| %>
       <tr>
-        <td><%= user.id %></td>
-        <td><%= user.email_address %></td>
+        <td data-label="ID">#<%= user.id %></td>
+        <td data-label="Email" style="font-weight: 500;"><%= user.email_address %></td>
 
-        <td>
-            <span class="badge <%= user.admin? ? 'badge-red' : 'badge-green' %>">
+        <td data-label="Role">
+            <span class="badge <%= user.admin? ? 'admin' : 'farmer' %>">
               <%= user.role.capitalize %>
             </span>
         </td>
 
-        <td><%= user.created_at.strftime("%b %d, %Y") %></td>
+        <td data-label="Joined"><%= user.created_at.strftime("%b %d, %Y") %></td>
 
-        <td>
+        <td data-label="Actions">
           <% if user != Current.user %>
-            <%= button_to "Delete", user_path(user), method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "btn-danger-sm" %>
+            <div style="display: flex; gap: 5px; justify-content: flex-end;">
+              <%= link_to "Edit", edit_user_path(user), class: "btn-sm-edit" %>
+              <%= button_to "Delete", user_path(user), method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "btn-sm-delete" %>
+            </div>
           <% else %>
-            <span class="text-muted">(You)</span>
+            <span style="color: #95a5a6; font-size: 0.9rem;">(You)</span>
           <% end %>
         </td>
       </tr>
@@ -41,5 +44,5 @@
   </table>
 
   <br>
-  <%= link_to "← Back to Dashboard", root_path, class: "back-link" %>
+  <%= link_to "← Back to Dashboard", root_path, style: "color: var(--header-bg); text-decoration: none; font-weight: bold;" %>
 </div>

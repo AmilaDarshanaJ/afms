@@ -1,0 +1,39 @@
+<div class="container">
+  <div class="form-card">
+    <h2 style="margin-top:0; color: var(--header-bg);">
+      <%= action_name == 'new' ? "Create User" : "Update User" %>
+    </h2>
+
+    <%= form_with(model: @user, local: true) do |form| %>
+
+      <div style="margin-bottom: 15px;">
+        <%= form.label :email_address, style: "font-weight: bold; display: block;" %>
+        <%= form.email_field :email_address, class: "styled-input", placeholder: "user@agrifarm.com" %>
+      </div>
+
+      <div style="margin-bottom: 15px;">
+        <%= form.label :role, style: "font-weight: bold; display: block;" %>
+        <%= form.select :role, User.roles.keys.map { |r| [r.capitalize, r] }, {}, class: "styled-input" %>
+      </div>
+
+      <div style="margin-bottom: 15px;">
+        <%= form.label :password, "Password", style: "font-weight: bold; display: block;" %>
+        <%= form.password_field :password, class: "styled-input", placeholder: "******" %>
+        <% if action_name == 'edit' %>
+          <small style="color: #7f8c8d;">Leave blank to keep current password</small>
+        <% end %>
+      </div>
+
+      <div style="margin-bottom: 25px;">
+        <%= form.label :password_confirmation, style: "font-weight: bold; display: block;" %>
+        <%= form.password_field :password_confirmation, class: "styled-input", placeholder: "******" %>
+      </div>
+
+      <div style="display: flex; gap: 10px;">
+        <%= form.submit "Save User", class: "btn-primary", style: "width: 100%;" %>
+        <%= link_to "Cancel", users_path, style: "padding: 10px; color: #7f8c8d; text-decoration: none;" %>
+      </div>
+
+    <% end %>
+  </div>
+</div>
