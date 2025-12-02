@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_27_043428) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_02_095704) do
   create_table "activities", force: :cascade do |t|
     t.string "land"
     t.date "start_date"
@@ -74,6 +74,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_11_27_043428) do
     t.string "password_digest", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "role", default: 0
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end
 

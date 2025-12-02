@@ -1,0 +1,45 @@
+<div class="container">
+  <div class="header-flex">
+    <h1>👥 User Management</h1>
+    <%= link_to "Add New User", new_user_path, class: "btn-primary" %>
+  </div>
+
+  <table class="data-table">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Email Address</th>
+      <th>Role</th>
+      <th>Joined Date</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.id %></td>
+        <td><%= user.email_address %></td>
+
+        <td>
+            <span class="badge <%= user.admin? ? 'badge-red' : 'badge-green' %>">
+              <%= user.role.capitalize %>
+            </span>
+        </td>
+
+        <td><%= user.created_at.strftime("%b %d, %Y") %></td>
+
+        <td>
+          <% if user != Current.user %>
+            <%= button_to "Delete", user_path(user), method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "btn-danger-sm" %>
+          <% else %>
+            <span class="text-muted">(You)</span>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+
+  <br>
+  <%= link_to "← Back to Dashboard", root_path, class: "back-link" %>
+</div>

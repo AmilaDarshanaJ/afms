@@ -195,3 +195,14 @@
         text-align: center;
     }
 }
+
+/* Style for the Admin Card only */
+.admin-card {
+    border: 2px solid #e74c3c; /* Red border to signify caution/admin */
+    background-color: #fff5f5; /* Light red tint */
+}
+
+.admin-card:hover {
+    background-color: #ffe6e6;
+    transform: translateY(-5px);
+}

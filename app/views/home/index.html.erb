@@ -1,9 +1,7 @@
 <div class="home-container">
 
-  <!-- Page Title -->
   <h1 class="home-title">Welcome to Agri Farm Management System</h1>
 
-  <!-- Dashboard Cards -->
   <div class="card-grid">
 
     <%= link_to lands_path, class: "dash-card" do %>
@@ -36,10 +34,15 @@
       <p>Manage crop varieties and details</p>
     <% end %>
 
+    <% if Current.user&.admin? %>
+      <%= link_to users_path, class: "dash-card admin-card" do %>
+        <h3>🔐 Manage Users</h3>
+        <p>Add & remove system users</p>
+      <% end %>
+    <% end %>
 
   </div>
 
-  <!-- Logout Button -->
   <div class="logout-wrapper">
     <%= button_to "🚪 Logout", logout_path, method: :delete, class: "logout-btn" %>
   </div>
