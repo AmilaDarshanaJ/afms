@@ -49,59 +49,44 @@
         <li><%= link_to "About", about_path, class: "nav-link" %></li>
         <li><%= link_to "Contact", "#", class: "nav-link" %></li>
 
-        <% if user_signed_in? %>
-          <li class="user-menu-container"
-              data-controller="user-menu"
-              data-user-menu-target="container">
+        <li class="nav-item-dropdown" style="position: relative;">
 
-            <!-- USER BUTTON -->
-            <div id="user-menu-btn"
-                 class="round-icon-btn user-gradient-style"
-                 data-action="click->user-menu#toggle">
-              <%= current_user.name.to_s.first.upcase %>
+          <a href="#" class="nav-link settings-trigger" onclick="toggleSettings(event)">
+            <span>⚙️ Setting</span>
+          </a>
+
+          <div id="settings-dropdown" class="dropdown-menu">
+
+            <div class="dropdown-header">
+              <div class="user-avatar-circle">
+                <%= Current.user&.email_address&.first&.upcase || "U" %>
+              </div>
+              <div class="user-details">
+                <span class="u-name"><%= Current.user&.email_address&.split('@')&.first&.capitalize %></span>
+                <span class="u-role"><%= Current.user&.role&.capitalize %></span>
+              </div>
             </div>
 
-            <!-- POPUP MENU -->
-            <div id="user-menu-popup"
-                 class="user-popup"
-                 data-user-menu-target="popup">
+            <div class="dropdown-divider"></div>
 
-              <div class="user-header">
-                <p class="user-name"><%= current_user.name %></p>
-                <span class="user-email"><%= current_user.email_address rescue "" %></span>
-              </div>
-
-              <hr class="popup-divider">
-
-              <div class="popup-options">
-                <a href="#" class="menu-item">
-                  <span class="menu-icon">⚙️</span>
-                  <span>Settings</span>
-                </a>
-
-                <%= link_to session_path(Current.session),
-                            data: { turbo_method: :delete },
-                            class: "menu-item logout-item" do %>
-                  <span class="menu-icon">🚪</span>
-                  <span>Log Out</span>
-                <% end %>
-              </div>
-
-            </div>
-          </li>
-
-
-
-      <% else %>
-          <li>
-            <%= link_to new_session_path, class: "round-icon-btn guest-style", title: "Login" do %>
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                <circle cx="12" cy="7" r="4"></circle>
-              </svg>
+            <%= link_to profile_path, class: "dropdown-item" do %>
+              <span class="icon">👤</span> My Profile
             <% end %>
-          </li>
-        <% end %>
+
+            <% if Current.user&.admin? %>
+              <%= link_to users_path, class: "dropdown-item" do %>
+                <span class="icon">🛡</span> Admin Panel
+              <% end %>
+            <% end %>
+
+            <div class="dropdown-divider"></div>
+
+            <%= button_to logout_path, method: :delete, class: "dropdown-item text-red" do %>
+              <span class="icon">🚪</span> Logout
+            <% end %>
+
+          </div>
+        </li>
       </ul>
 
     </div>
@@ -109,3 +94,25 @@
   <%= yield %>
   </body>
 </html>
+
+
+<script>
+    function toggleSettings(event) {
+        event.preventDefault(); // Stop the link from jumping to top of page
+        const menu = document.getElementById("settings-dropdown");
+        menu.classList.toggle("show");
+    }
+
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function(event) {
+        if (!event.target.closest('.nav-item-dropdown')) {
+            const dropdowns = document.getElementsByClassName("dropdown-menu");
+            for (let i = 0; i < dropdowns.length; i++) {
+                let openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    }
+</script>

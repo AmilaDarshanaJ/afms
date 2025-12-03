@@ -1,0 +1,136 @@
+/* --- DROPDOWN CONTAINER --- */
+.nav-item-dropdown {
+    position: relative; /* Anchor for the absolute menu */
+}
+
+/* --- THE POPUP MENU (Hidden by default) --- */
+.dropdown-menu {
+    display: none; /* Hidden initially */
+    position: absolute;
+    top: 100%;       /* Push it below the button */
+    right: 0;        /* Align to right edge */
+    width: 260px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px -10px rgba(0,0,0,0.15); /* Deep Shadow */
+    border: 1px solid #e2e8f0;
+    padding: 10px;
+    z-index: 1000;   /* Ensure it sits on top of everything */
+    margin-top: 10px;
+    animation: slideUpFade 0.2s ease-out;
+}
+
+/* Animation for smooth opening */
+@keyframes slideUpFade {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Show class (Added by JS) */
+.dropdown-menu.show {
+    display: block;
+}
+
+/* --- DROPDOWN HEADER (User Info) --- */
+.dropdown-header {
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-avatar-circle {
+    width: 40px;
+    height: 40px;
+    background: #d1fae5; /* Light Green */
+    color: #059669;      /* Dark Green */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.u-name {
+    font-weight: 700;
+    color: #1e293b;
+    font-size: 0.95rem;
+}
+
+.u-role {
+    font-size: 0.8rem;
+    color: #64748b;
+    background: #f1f5f9;
+    padding: 2px 8px;
+    border-radius: 10px;
+    display: inline-block;
+    margin-top: 2px;
+}
+
+/* --- DIVIDER LINE --- */
+.dropdown-divider {
+    height: 1px;
+    background: #f1f5f9;
+    margin: 8px 0;
+}
+
+/* --- LINKS ITEMS --- */
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 15px;
+    color: #334155;
+    text-decoration: none;
+    font-size: 0.95rem;
+    border-radius: 8px;
+    transition: background 0.2s;
+    background: transparent;
+    border: black ;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+}
+
+.dropdown-item:hover {
+    background-color: #f8fafc;
+    color: #0f172a;
+}
+
+.dropdown-item .icon {
+    font-size: 1.1rem;
+}
+
+/* Red Logout */
+.dropdown-item.text-red {
+    color: #ef4444;
+}
+.dropdown-item.text-red:hover {
+    background-color: #fef2f2;
+}
+
+/* --- THE POPUP MENU --- */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+
+    /* CRITICAL FIX: */
+    right: 0;           /* Anchor to the right edge */
+    left: auto !important; /* Force browser to ignore Bootstrap's left alignment */
+
+    width: 260px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 10px 40px -10px rgba(0,0,0,0.15);
+    border: 1px solid #e2e8f0;
+    padding: 10px;
+    z-index: 1000;
+    margin-top: 10px;
+}

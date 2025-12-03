@@ -1,0 +1,215 @@
+/* --- LAYOUT VARIABLES --- */
+:root {
+    --primary: #10b981;
+    --bg-slate: #f8fafc;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    --hover-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    --radius: 20px;
+}
+
+.profile-page-wrapper {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    font-family: 'Inter', sans-serif;
+    color: var(--text-main);
+}
+
+/* --- THE BENTO GRID --- */
+.bento-container {
+    display: grid;
+    grid-template-columns: 350px 1fr; /* Left col fixed, Right col fluid */
+    grid-template-rows: auto auto;
+    gap: 24px;
+}
+
+/* --- COMMON TILE STYLES --- */
+.tile {
+    background: white;
+    border-radius: var(--radius);
+    padding: 30px;
+    border: 1px solid #e2e8f0;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.2s, box-shadow 0.2s;
+    overflow: hidden;
+    position: relative;
+}
+
+.tile:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--hover-shadow);
+    border-color: rgba(16, 185, 129, 0.3);
+}
+
+/* --- TILE 1: IDENTITY (Tall Left Tile) --- */
+.tile-identity {
+    grid-row: span 2; /* Takes up full height */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(180deg, #ffffff 0%, #f0fdf4 100%);
+}
+
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+    background: #d1fae5;
+    color: #059669;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 16px rgba(16, 185, 129, 0.15);
+}
+
+.profile-name {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin: 0 0 5px 0;
+    color: var(--text-main);
+}
+
+.profile-role-badge {
+    background: #0f172a;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 30px;
+}
+
+.profile-bio {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: auto; /* Pushes content below to bottom */
+}
+
+/* --- TILE 2: DETAILS (Wide Right Tile) --- */
+.tile-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.tile-header {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.tile-header::before {
+    content: "";
+    display: block;
+    width: 4px;
+    height: 20px;
+    background: var(--primary);
+    border-radius: 4px;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.info-item label {
+    display: block;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-bottom: 5px;
+}
+
+.info-item .value {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* --- TILE 3: ACTIONS & SECURITY --- */
+.tile-actions {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.btn-tile {
+    flex: 1;
+    padding: 15px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+}
+
+.btn-primary {
+    background: #0f172a;
+    color: white;
+}
+.btn-primary:hover {
+    background: #1e293b;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: white;
+    color: var(--text-main);
+    border: 1px solid #e2e8f0;
+}
+.btn-secondary:hover {
+    border-color: var(--text-muted);
+    transform: translateY(-2px);
+}
+
+.btn-danger {
+    background: #fef2f2;
+    color: #dc2626;
+}
+.btn-danger:hover {
+    background: #fee2e2;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 800px) {
+    .bento-container {
+        grid-template-columns: 1fr; /* Stack vertically on mobile */
+        grid-template-rows: auto;
+    }
+    .tile-identity {
+        grid-row: span 1;
+    }
+    .info-grid {
+        grid-template-columns: 1fr; /* 1 col for details on mobile */
+    }
+    .action-buttons {
+        flex-direction: column;
+    }
+}
+

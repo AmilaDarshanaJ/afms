@@ -1,0 +1,82 @@
+<div class="profile-page-wrapper">
+
+  <%= link_to root_path, style: "text-decoration: none; color: #64748b; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; margin-bottom: 30px;" do %>
+    <span>← Back to Dashboard</span>
+  <% end %>
+
+  <div class="bento-container">
+
+    <div class="tile tile-identity">
+      <div class="profile-avatar">
+        <%= @user.email_address.first.upcase %>
+      </div>
+
+      <h1 class="profile-name"><%= @user.email_address.split('@').first.capitalize %></h1>
+      <div class="profile-role-badge"><%= @user.role.upcase %></div>
+
+      <p class="profile-bio">
+        Authorized system user for the AgriFarm Management Platform.
+      </p>
+
+      <div style="margin-top: 30px; width: 100%; border-top: 1px dashed #cbd5e1; padding-top: 20px;">
+        <span style="font-size: 0.8rem; color: #64748b; text-transform: uppercase;">Member Since</span>
+        <div style="font-weight: 700; font-size: 1.1rem; color: #0f172a;">
+          <%= @user.created_at.strftime("%B %d, %Y") %>
+        </div>
+      </div>
+    </div>
+
+    <div class="tile tile-details">
+      <div class="tile-header">Contact Information</div>
+
+      <div class="info-grid">
+        <div class="info-item">
+          <label>Email Address</label>
+          <div class="value">
+            <span>📧</span> <%= @user.email_address %>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <label>System ID</label>
+          <div class="value">
+            <span>🆔</span> #<%= @user.id %>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <label>Account Status</label>
+          <div class="value" style="color: #10b981;">
+            <span>●</span> Active
+          </div>
+        </div>
+
+        <div class="info-item">
+          <label>Last Login</label>
+          <div class="value">
+            <span>🕒</span> Just Now
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tile tile-actions">
+      <div class="tile-header">Account Settings</div>
+
+      <div class="action-buttons">
+        <%= link_to "#", class: "btn-tile btn-primary" do %>
+          <span>✏️ Edit Profile</span>
+        <% end %>
+
+        <%= link_to "#", class: "btn-tile btn-secondary" do %>
+          <span>🔒 Change Password</span>
+        <% end %>
+
+        <%= button_to logout_path, method: :delete, class: "btn-tile btn-danger", style: "width: 100%; cursor: pointer;" do %>
+          <span>🚪 Logout</span>
+        <% end %>
+      </div>
+    </div>
+
+  </div>
+</div>
