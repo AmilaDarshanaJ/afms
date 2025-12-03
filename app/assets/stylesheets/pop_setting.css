@@ -93,7 +93,7 @@
     transition: background 0.2s;
     background: transparent;
     border: black ;
-    width: 100%;
+    width: 80%;
     text-align: left;
     cursor: pointer;
 }

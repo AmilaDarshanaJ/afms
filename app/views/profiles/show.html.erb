@@ -63,19 +63,30 @@
     <div class="tile tile-actions">
       <div class="tile-header">Account Settings</div>
 
-      <div class="action-buttons">
-        <%= link_to "#", class: "btn-tile btn-primary" do %>
-          <span>✏️ Edit Profile</span>
-        <% end %>
+      <% if Current.user.admin? %>
 
-        <%= link_to "#", class: "btn-tile btn-secondary" do %>
-          <span>🔒 Change Password</span>
-        <% end %>
+        <div class="action-buttons">
+          <%= link_to edit_user_path(@user), class: "btn-tile btn-primary" do %>
+            <span>✏️ Edit Profile</span>
+          <% end %>
 
+        </div>
+
+      <% else %>
+
+        <div style="text-align: center; padding: 20px; background: #f8fafc; border-radius: 12px; color: #64748b; font-size: 0.9rem;">
+          <p style="margin: 0;">🔒 Security Restricted</p>
+          <p style="margin: 5px 0 0; font-size: 0.8rem;">Contact an Admin to update your details or reset your password.</p>
+        </div>
+
+      <% end %>
+
+      <div style="margin-top: 15px;">
         <%= button_to logout_path, method: :delete, class: "btn-tile btn-danger", style: "width: 100%; cursor: pointer;" do %>
           <span>🚪 Logout</span>
         <% end %>
       </div>
+
     </div>
 
   </div>
