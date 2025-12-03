@@ -1,14 +1,42 @@
-<p style="color: green"><%= notice %></p>
+<div class="show-layout">
 
-<%= render @harvest %>
+  <div class="page-header">
 
-<div>
-  <br><br>
-  <%= link_to "Edit this harvest", edit_harvest_path(@harvest) %>
+    <div class="header-content">
+      <%= link_to harvests_path, class: "back-link" do %>
+        <span>← All Harvests</span>
+      <% end %>
 
-  <%= link_to "Destroy this harvest", harvest_path(@harvest),
-              data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+      <div class="page-title">
+        <h1>
+          Harvest #<%= @harvest.id %>
+          <span class="status-badge">Recorded</span>
+        </h1>
+      </div>
+    </div>
 
+    <div class="header-actions">
+      <%= link_to edit_harvest_path(@harvest), class: "btn-action btn-edit" do %>
+        <span>✏️ Edit</span>
+      <% end %>
 
-  <%= link_to "Back to harvests", harvests_path %>
+      <%= link_to harvest_path(@harvest),
+                  data: { turbo_method: :delete, turbo_confirm: "Delete this harvest permanently?" },
+                  class: "btn-action btn-delete" do %>
+        <span>🗑 Delete</span>
+      <% end %>
+    </div>
+
+  </div>
+
+  <% if notice %>
+    <div class="flash-notice">
+      ✅ &nbsp; <%= notice %>
+    </div>
+  <% end %>
+
+  <div class="data-paper">
+    <%= render @harvest %>
+  </div>
+
 </div>

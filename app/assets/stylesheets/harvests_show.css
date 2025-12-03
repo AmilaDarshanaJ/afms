@@ -1,0 +1,199 @@
+/* --- VARIABLES --- */
+:root {
+    --primary: #10b981;      /* Emerald */
+    --bg-body: #f8fafc;      /* Light Slate */
+    --surface: #ffffff;
+    --text-main: #0f172a;    /* Dark Black */
+    --text-muted: #64748b;   /* Grey */
+    --border: #e2e8f0;
+    --danger: #ef4444;
+}
+
+body {
+    background-color: var(--bg-body);
+}
+
+.show-layout {
+    width: 100%;
+    max-width: 1000px; /* Limits width on huge screens for readability */
+    margin: 0 auto;
+    padding: 40px 20px;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* --- 1. TOP HEADER (Navigation & Actions) --- */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Breadcrumbs & Title */
+.header-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.back-link {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: color 0.2s;
+}
+.back-link:hover { color: var(--primary); }
+
+.page-title h1 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-main);
+    letter-spacing: -0.5px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.status-badge {
+    font-size: 0.8rem;
+    background: #d1fae5;
+    color: #065f46;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Header Buttons */
+.header-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-action {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 0.95rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+}
+
+.btn-edit {
+    background: white;
+    color: var(--text-main);
+    border-color: var(--border);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+.btn-edit:hover { border-color: var(--text-muted); background: #f1f5f9; }
+
+.btn-delete {
+    background: #fee2e2;
+    color: var(--danger);
+    border-color: #fecaca;
+}
+.btn-delete:hover { background: var(--danger); color: white; border-color: var(--danger); }
+
+
+/* --- 2. NOTIFICATION --- */
+.flash-notice {
+    background: #ecfdf5;
+    border-left: 4px solid var(--primary);
+    color: #064e3b;
+    padding: 16px;
+    border-radius: 4px;
+    margin-bottom: 30px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+
+/* --- 3. DATA LIST CONTAINER (The Render Part) --- */
+.data-paper {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+/* MAGIC CSS: Targets the <p> tags from Rails scaffold
+   and turns them into rows
+*/
+.data-paper p {
+    margin: 0;
+    padding: 20px 30px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between; /* Pushes Label Left, Value Right */
+    align-items: center;
+    font-size: 1rem;
+}
+
+.data-paper p:last-child {
+    border-bottom: none;
+}
+
+.data-paper p:hover {
+    background-color: #f8fafc; /* Highlight row on hover */
+}
+
+/* The Label (<strong>) */
+.data-paper strong {
+    color: var(--text-muted);
+    font-weight: 500;
+    font-size: 0.95rem;
+    min-width: 150px; /* Ensures alignment */
+}
+
+/* The Value (The text after strong) */
+.data-paper p {
+    color: var(--text-main);
+    font-weight: 600;
+}
+
+/* --- MOBILE RESPONSIVE --- */
+@media (max-width: 600px) {
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .header-actions {
+        width: 100%;
+    }
+
+    .btn-action {
+        flex: 1;
+        justify-content: center;
+    }
+
+    /* Stack the rows on mobile */
+    .data-paper p {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 15px 20px;
+    }
+
+    .data-paper strong {
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+}

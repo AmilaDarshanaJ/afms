@@ -177,3 +177,49 @@
         display: none; /* optional */
     }
 }
+
+
+/* --- LOGO CONTAINER --- */
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Space between icon and text */
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.nav-logo:hover {
+    opacity: 0.9;
+}
+
+/* --- THE LEAF ICON BOX --- */
+.logo-icon {
+    width: 42px;
+    height: 42px;
+    background: #d1fae5;  /* Soft Green Background */
+    color: #059669;       /* Deep Green Icon */
+    border-radius: 12px;  /* Modern Soft Edges */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2); /* Subtle Green Glow */
+}
+
+/* --- TEXT TYPOGRAPHY --- */
+.brand {
+    font-family: 'Inter', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;      /* Extra Bold */
+    color: #1e293b;        /* Dark Slate (Professional Black) */
+    margin: 0;
+    letter-spacing: -0.03em; /* Tight modern spacing */
+    line-height: 1;
+}
+
+/* --- THE 'FARM' ACCENT --- */
+.brand span {
+    color: #10b981;        /* The Primary Emerald Green */
+    position: relative;
+}
+
