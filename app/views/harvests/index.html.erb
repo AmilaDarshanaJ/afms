@@ -1,6 +1,19 @@
 <div class="page-container">
 
-  <h1 class="page-title">Harvests</h1>
+  <div class="header-flex">
+    <h1 class="page-title">Harvests</h1>
+
+    <%= form_with url: harvests_path, method: :get, class: "search-form" do |form| %>
+      <div class="search-input-group">
+        <span class="search-icon">🔍</span>
+        <%= form.text_field :query,
+                            placeholder: "Search crop or land...",
+                            value: params[:query],
+                            class: "search-input" %>
+        <%= form.submit "Search", class: "search-btn" %>
+      </div>
+    <% end %>
+  </div>
 
   <p class="notice"><%= notice %></p>
 
@@ -13,20 +26,30 @@
         <th>PLANNED</th>
         <th>ACTUAL</th>
         <th>AMOUNT</th>
-        <th></th>
+        <th>ACTION</th>
       </tr>
       </thead>
 
       <tbody>
-      <% @harvests.each do |harvest| %>
+      <% if @harvests.any? %>
+        <% @harvests.each do |harvest| %>
+          <tr>
+            <td data-label="Land"><strong><%= harvest.land&.name %></strong></td>
+            <td data-label="Crop"><%= harvest.crop_type %></td>
+            <td data-label="Planned"><%= harvest.planned_date %></td>
+            <td data-label="Actual"><%= harvest.actual_date %></td>
+            <td data-label="Amount">
+              <span class="amount-badge"><%= harvest.amount %> <%= harvest.unit %></span>
+            </td>
+            <td data-label="">
+              <%= link_to "View", harvest, class: "details-btn" %>
+            </td>
+          </tr>
+        <% end %>
+      <% else %>
         <tr>
-          <td data-label="Land"><%= harvest.land&.name %></td>
-          <td data-label="Crop"><%= harvest.crop_type %></td>
-          <td data-label="Planned"><%= harvest.planned_date %></td>
-          <td data-label="Actual"><%= harvest.actual_date %></td>
-          <td data-label="Amount"><%= harvest.amount %> <%= harvest.unit %></td>
-          <td data-label="">
-            <%= link_to "Details..", harvest, class: "details-btn" %>
+          <td colspan="6" class="empty-state">
+            No harvests found matching "<%= params[:query] %>"
           </td>
         </tr>
       <% end %>
@@ -34,9 +57,17 @@
     </table>
   </div>
 
-  <div class="buttons">
-    <%= link_to "New harvest", new_harvest_path, class: "action-btn" %>
-    <%= link_to "Back", home_index_url, class: "action-btn" %>
+  <div class="footer-actions">
+
+    <div class="pagination-wrapper">
+      <%= paginate @harvests, params: { query: params[:query] } %>
+    </div>
+
+    <div class="buttons-group">
+      <%= link_to "New Harvest", new_harvest_path, class: "action-btn primary" %>
+      <%= link_to "Back", home_index_path, class: "action-btn secondary" %>
+    </div>
+
   </div>
 
 </div>

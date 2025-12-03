@@ -4,6 +4,17 @@ class HarvestsController < ApplicationController
 
   def index
     @harvests = Harvest.all
+
+    # Search Logic
+    if params[:query].present?
+      # Searches by Crop Type OR Land Name (Joining the tables)
+      search_term = "%#{params[:query]}%"
+      @harvests = @harvests.joins(:land)
+                           .where("harvests.crop_type LIKE ? OR lands.name LIKE ?", search_term, search_term)
+    end
+
+    @harvests = @harvests.order(created_at: :desc).page(params[:page]).per(10)
+
   end
 
   def show
