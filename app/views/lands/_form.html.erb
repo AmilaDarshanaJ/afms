@@ -11,7 +11,7 @@
       <div class="error-banner">
         <div class="error-icon">⚠️</div>
         <div class="error-content">
-          <h4>Please correct the following errors:</h4>
+          <h4>Action Required:</h4>
           <ul>
             <% land.errors.each do |error| %>
               <li><%= error.full_message %></li>
@@ -30,12 +30,11 @@
       <div class="input-grid">
         <div class="input-group full-width">
           <%= form.label :name, "Land Name / Nickname" %>
-          <%= form.text_field :name, class: "form-input", placeholder: "e.g. Paddy Field A" %>
+          <%= form.text_field :name, class: "form-input", placeholder: "e.g. North Paddy Field" %>
         </div>
 
         <div class="input-group">
           <%= form.label :crop_type, "Primary Crop" %>
-
           <%= form.select :crop_type,
                           options_from_collection_for_select(CropType.all.order(:name), :name, :name, form.object.crop_type),
                           { prompt: "Select a Crop..." },
@@ -45,7 +44,7 @@
 
         <div class="input-group">
           <%= form.label :address, "Address / Area" %>
-          <%= form.text_field :address, class: "form-input", placeholder: "Village or City" %>
+          <%= form.text_field :address, class: "form-input", placeholder: "Village, City" %>
         </div>
       </div>
     </div>
@@ -68,8 +67,8 @@
         </div>
 
         <div class="input-group">
-          <%= form.label :extent, "Extent (Acres/Perch)" %>
-          <%= form.text_field :extent, class: "form-input", placeholder: "e.g. 2.5 Acres" %>
+          <%= form.label :extent, "Extent (Acres)" %>
+          <%= form.text_field :extent, class: "form-input", placeholder: "e.g. 2.5" %>
         </div>
       </div>
     </div>
@@ -110,7 +109,13 @@
 
     <div class="form-actions">
       <%= link_to "Cancel", lands_path, class: "btn-cancel" %>
-      <%= form.submit "Save Land Details", class: "btn-submit" %>
+
+      <%= form.button class: "btn-submit" do %>
+        <span>Save Land Details</span>
+        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+        </svg>
+      <% end %>
     </div>
 
   <% end %>
