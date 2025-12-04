@@ -172,16 +172,26 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
 
-        // 1. DATA FROM RAILS (Passed securely via to_json)
+        // 1. DATA FROM RAILS
         const cropLabels = <%= raw @data_by_crop.keys.to_json %>;
         const cropData = <%= raw @data_by_crop.values.to_json %>;
 
         const landLabels = <%= raw @data_by_land.keys.to_json %>;
         const landData = <%= raw @data_by_land.values.to_json %>;
 
-        // 2. CHART CONFIGURATION
-        const bgColors = [
-            '#10b981', '#34d399', '#6ee7b7', '#059669', '#047857', '#a7f3d0'
+        // 2. NEW COLORFUL PALETTE
+        // This array contains nice distinct colors.
+        // Chart.js will cycle through them automatically.
+        const colorfulPalette = [
+            '#3b82f6', // Bright Blue
+            '#10b981', // Emerald Green
+            '#f59e0b', // Amber/Orange
+            '#ef4444', // Red
+            '#8b5cf6', // Violet
+            '#06b6d4', // Cyan
+            '#ec4899', // Pink
+            '#6366f1', // Indigo
+            '#f97316'  // Deep Orange
         ];
 
         // CROP CHART (Doughnut)
@@ -192,7 +202,7 @@
                     labels: cropLabels,
                     datasets: [{
                         data: cropData,
-                        backgroundColor: bgColors,
+                        backgroundColor: colorfulPalette, // Using the new palette
                         borderWidth: 0,
                         hoverOffset: 4
                     }]
@@ -216,7 +226,7 @@
                     datasets: [{
                         label: 'Total Quantity',
                         data: landData,
-                        backgroundColor: '#10b981',
+                        backgroundColor: colorfulPalette, // Bars will now have different colors
                         borderRadius: 4,
                         barThickness: 30
                     }]
