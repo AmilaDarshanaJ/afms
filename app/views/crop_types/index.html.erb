@@ -7,10 +7,18 @@
   <% end %>
 
   <div class="page-header">
+
     <div class="page-title">
-      🌿 Crop Catalog
-      <span class="count-badge"><%= @crop_types.count %> items</span>
+      <h1>🌿 Crop Catalog</h1>
+      <span class="count-badge"><%= @crop_types.count %> varieties</span>
     </div>
+
+    <div class="header-actions">
+      <%= link_to home_index_path, class: "btn-back" do %>
+        <span>← Back to Dashboard</span>
+      <% end %>
+    </div>
+
   </div>
 
   <div class="crop-grid">
@@ -24,7 +32,7 @@
       <div class="crop-card">
 
         <div class="icon-wrapper">
-          <img src="https://ui-avatars.com/api/?name=<%= crop.name %>&background=10b981&color=fff&size=128&bold=true" class="crop-icon" alt="<%= crop.name %>">
+          <img src="https://ui-avatars.com/api/?name=<%= crop.name %>&background=10b981&color=fff&size=128&bold=true&length=1" class="crop-icon" alt="<%= crop.name %>">
         </div>
 
         <div class="card-content">
@@ -35,13 +43,13 @@
           <% end %>
 
           <p class="crop-desc">
-            <%= crop.description.present? ? crop.description : "No description available." %>
+            <%= crop.description.present? ? crop.description.truncate(60) : "No description available." %>
           </p>
         </div>
 
         <div class="card-actions">
           <%= link_to edit_crop_type_path(crop), class: "action-btn btn-edit" do %>
-            ✏️ Edit
+            <span>✏️ Edit</span>
           <% end %>
 
           <%= button_to crop_type_path(crop),
@@ -49,7 +57,7 @@
                         class: "action-btn btn-delete",
                         form: { style: "flex: 1;" },
                         data: { turbo_confirm: "Are you sure you want to delete #{crop.name}?" } do %>
-            🗑️ Delete
+            <span>🗑️ Delete</span>
           <% end %>
         </div>
 
