@@ -1,3 +1,5 @@
+require 'csv' # 1. Required for CSV export
+
 class HarvestsController < ApplicationController
   before_action :set_harvest, only: %i[ show edit update destroy ]
   # Ensure we don't try to find a specific harvest ID for reports
@@ -76,37 +78,75 @@ class HarvestsController < ApplicationController
   # --- REPORTS SECTION ---
 
   def report
-    @lands = Land.all
-    @harvests = Harvest.all
+    # 1. Start with generic scope
+    scope = Harvest.all
 
+    # 2. Filter by Land
     if params[:land_id].present?
-      @harvests = @harvests.where(land_id: params[:land_id])
+      scope = scope.where(land_id: params[:land_id])
     end
 
+    # 3. Filter by Crop Type
+    if params[:crop_type].present?
+      scope = scope.where(crop_type: params[:crop_type])
+    end
+
+    # 4. Filter by Date
     if params[:start_date].present?
-      @harvests = @harvests.where("actual_date >= ?", params[:start_date])
+      scope = scope.where("actual_date >= ?", params[:start_date])
     end
 
     if params[:end_date].present?
-      @harvests = @harvests.where("actual_date <= ?", params[:end_date])
+      scope = scope.where("actual_date <= ?", params[:end_date])
     end
 
-    @total_amount = @harvests.sum(:amount)
+    # 5. Calculate Totals (Applies to all filtered results)
+    @total_amount = scope.sum(:amount)
+
+    # --- NEW: PREPARE DATA FOR GRAPHS ---
+    # These queries group the filtered data so Chart.js can read it.
+
+    # Data for Doughnut Chart (Harvests by Crop)
+    # Returns a Hash: { "Wheat" => 500, "Corn" => 300 }
+    @data_by_crop = scope.group(:crop_type).sum(:amount)
+
+    # Data for Bar Chart (Harvests by Land)
+    # Returns a Hash: { "Green Farm" => 1000, "Red Farm" => 200 }
+    @data_by_land = scope.joins(:land).group('lands.name').sum(:amount)
+    # ------------------------------------
+
+    # 6. Load Dropdown Data
+    @lands = Land.all
+    @crop_types = CropType.all
+
+    # 7. Handle Response Formats (HTML vs CSV)
+    respond_to do |format|
+      format.html do
+        # HTML needs pagination (15 per page)
+        @harvests = scope.order(actual_date: :desc).page(params[:page]).per(15)
+      end
+
+      format.csv do
+        # CSV needs ALL data (No pagination)
+        send_data generate_csv(scope), filename: "harvest_report_#{Date.today}.csv"
+      end
+    end
   end
 
   def report_pdf
-    @lands = Land.all
     @harvests = Harvest.all
 
-    # Apply filters
+    # Apply the same filters
     @harvests = @harvests.where(land_id: params[:land_id]) if params[:land_id].present?
+    @harvests = @harvests.where(crop_type: params[:crop_type]) if params[:crop_type].present?
     @harvests = @harvests.where("actual_date >= ?", params[:start_date]) if params[:start_date].present?
     @harvests = @harvests.where("actual_date <= ?", params[:end_date]) if params[:end_date].present?
 
     @total_amount = @harvests.sum(:amount)
+    @lands = Land.all
 
     respond_to do |format|
-      format.html # For debugging
+      format.html
       format.pdf do
         render pdf: "harvest_report",
                template: "harvests/report_pdf",
@@ -116,6 +156,25 @@ class HarvestsController < ApplicationController
   end
 
   private
+
+  # Method to generate CSV data
+  def generate_csv(records)
+    CSV.generate(headers: true) do |csv|
+      # Define Headers
+      csv << ["Date", "Land", "Crop Type", "Amount", "Unit"]
+
+      # Add Data Rows
+      records.each do |harvest|
+        csv << [
+          harvest.actual_date,
+          harvest.land&.name, # Safe navigation in case land is missing
+          harvest.crop_type,
+          harvest.amount,
+          harvest.unit
+        ]
+      end
+    end
+  end
 
   def set_harvest
     @harvest = Harvest.find(params[:id])
