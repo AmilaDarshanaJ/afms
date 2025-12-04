@@ -189,3 +189,25 @@ body {
     .row-group { grid-template-columns: 1fr; }
     .harvest-card { padding: 25px; }
 }
+
+/* --- VALIDATION ERROR STYLES --- */
+
+/* Turns the input border Red */
+.input-error {
+    border-color: #dc2626 !important;
+    background-color: #fef2f2 !important;
+}
+
+/* Red Glow on focus */
+.input-error:focus {
+    box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.15) !important;
+}
+
+/* Tiny text message under the input */
+.inline-err-msg {
+    color: #dc2626;
+    font-size: 0.85rem;
+    margin-top: 5px;
+    display: block;
+    font-weight: 500;
+}

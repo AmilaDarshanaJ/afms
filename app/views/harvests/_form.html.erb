@@ -8,11 +8,11 @@
       <p class="harvest-subtitle">Enter the details of your crop yield below.</p>
     </div>
 
-    <%= form_with(model: @harvest, local: true) do |form| %>
+    <%= form_with(model: @harvest, local: true, novalidate: false) do |form| %>
 
       <% if @harvest.errors.any? %>
         <div class="error-banner">
-          <strong>⚠️ Unable to save record:</strong>
+          <strong>⚠️ Action Required:</strong>
           <ul style="margin: 5px 0 0 20px; padding: 0;">
             <% @harvest.errors.full_messages.each do |msg| %>
               <li><%= msg %></li>
@@ -23,7 +23,16 @@
 
       <div class="form-group">
         <%= form.label :land_id, "Select Land Plot", class: "filter-label" %>
-        <%= form.collection_select :land_id, @lands || [], :id, :name, { prompt: "Choose..." }, { class: "modern-input" } %>
+        <%= form.collection_select :land_id, @lands || [], :id, :name,
+                                   { prompt: "Choose..." },
+                                   {
+                                     class: "modern-input #{'input-error' if @harvest.errors[:land_id].any?}",
+                                     required: true
+                                   }
+        %>
+        <% if @harvest.errors[:land_id].any? %>
+          <span class="inline-err-msg">Land <%= @harvest.errors[:land_id].first %></span>
+        <% end %>
       </div>
 
       <div class="form-group">
@@ -31,25 +40,46 @@
         <%= form.select :crop_type,
                         options_for_select((@crop_types || []).map { |c| [c.name, c.name, { 'data-unit': c.unit }] }, form.object.crop_type),
                         { prompt: "Select..." },
-                        { class: "modern-input", id: "crop_select", onchange: "updateUnit()" } %>
+                        {
+                          class: "modern-input #{'input-error' if @harvest.errors[:crop_type].any?}",
+                          id: "crop_select",
+                          onchange: "updateUnit()",
+                          required: true
+                        }
+        %>
       </div>
 
       <div class="row-group">
         <div class="form-group">
           <%= form.label :planned_date, class: "filter-label" %>
-          <%= form.date_field :planned_date, class: "modern-input" %>
+          <%= form.date_field :planned_date,
+                              class: "modern-input #{'input-error' if @harvest.errors[:planned_date].any?}",
+                              required: true %>
         </div>
+
         <div class="form-group">
           <%= form.label :actual_date, class: "filter-label" %>
-          <%= form.date_field :actual_date, class: "modern-input" %>
+          <%= form.date_field :actual_date,
+                              class: "modern-input #{'input-error' if @harvest.errors[:actual_date].any?}" %>
+          <% if @harvest.errors[:actual_date].any? %>
+            <span class="inline-err-msg"><%= @harvest.errors[:actual_date].first %></span>
+          <% end %>
         </div>
       </div>
 
       <div class="row-group">
         <div class="form-group">
           <%= form.label :amount, "Amount", class: "filter-label" %>
-          <%= form.number_field :amount, step: :any, class: "modern-input", placeholder: "0.00" %>
+          <%= form.number_field :amount, step: :any,
+                                class: "modern-input #{'input-error' if @harvest.errors[:amount].any?}",
+                                placeholder: "0.00",
+                                required: true,
+                                min: 0 %>
+          <% if @harvest.errors[:amount].any? %>
+            <span class="inline-err-msg">Amount <%= @harvest.errors[:amount].first %></span>
+          <% end %>
         </div>
+
         <div class="form-group">
           <%= form.label :unit, "Unit", class: "filter-label" %>
           <%= form.text_field :unit, class: "modern-input readonly-input", id: "unit_display", readonly: true %>

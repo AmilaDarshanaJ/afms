@@ -1,73 +1,80 @@
 class HarvestsController < ApplicationController
   before_action :set_harvest, only: %i[ show edit update destroy ]
+  # Ensure we don't try to find a specific harvest ID for reports
   skip_before_action :set_harvest, only: %i[ report report_pdf ]
 
+  # GET /harvests
   def index
+    # 1. Start with all harvests
     @harvests = Harvest.all
 
-    # Search Logic
+    # 2. Search Logic
     if params[:query].present?
-      # Searches by Crop Type OR Land Name (Joining the tables)
       search_term = "%#{params[:query]}%"
+      # Using 'harvests.crop_type' to prevent SQL ambiguity errors
       @harvests = @harvests.joins(:land)
                            .where("harvests.crop_type LIKE ? OR lands.name LIKE ?", search_term, search_term)
     end
 
+    # 3. Pagination & Order
     @harvests = @harvests.order(created_at: :desc).page(params[:page]).per(10)
-
   end
 
+  # GET /harvests/1
   def show
   end
 
+  # GET /harvests/new
   def new
     @harvest = Harvest.new
+    # Load data for dropdowns
     @lands = Land.all
-    # Load all crops to populate the dropdown
     @crop_types = CropType.all
   end
 
+  # GET /harvests/1/edit
   def edit
+    # Load data for dropdowns
     @lands = Land.all
     @crop_types = CropType.all
   end
 
+  # POST /harvests
   def create
     @harvest = Harvest.new(harvest_params)
 
-    respond_to do |format|
-      if @harvest.save
-        format.html { redirect_to @harvest, notice: "Harvest was successfully created." }
-        format.json { render :show, status: :created, location: @harvest }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @harvest.errors, status: :unprocessable_entity }
-      end
+    if @harvest.save
+      # Redirect to the main list (Index)
+      redirect_to harvests_path, notice: "✅ Harvest recorded successfully."
+    else
+      # CRITICAL: Reload these collections so the form dropdowns don't crash
+      @lands = Land.all
+      @crop_types = CropType.all
+      render :new, status: :unprocessable_entity
     end
   end
 
+  # PATCH/PUT /harvests/1
   def update
-    respond_to do |format|
-      if @harvest.update(harvest_params)
-        format.html { redirect_to @harvest, notice: "Harvest was successfully updated.", status: :see_other }
-        format.json { render :show, status: :ok, location: @harvest }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @harvest.errors, status: :unprocessable_entity }
-      end
+    if @harvest.update(harvest_params)
+      # Redirect to the main list (Index)
+      redirect_to harvests_path, notice: "✅ Harvest updated successfully."
+    else
+      # CRITICAL: Reload collections for the edit form
+      @lands = Land.all
+      @crop_types = CropType.all
+      render :edit, status: :unprocessable_entity
     end
   end
 
+  # DELETE /harvests/1
   def destroy
-    @harvest.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to harvests_path, notice: "Harvest was successfully destroyed.", status: :see_other }
-      format.json { head :no_content }
-    end
+    @harvest.destroy
+    redirect_to harvests_path, notice: "🗑️ Harvest record deleted."
   end
 
-  # ✅ Harvest Report Action (must be public)
+  # --- REPORTS SECTION ---
+
   def report
     @lands = Land.all
     @harvests = Harvest.all
@@ -87,7 +94,6 @@ class HarvestsController < ApplicationController
     @total_amount = @harvests.sum(:amount)
   end
 
-  #Generate Report PDF
   def report_pdf
     @lands = Land.all
     @harvests = Harvest.all
@@ -100,7 +106,7 @@ class HarvestsController < ApplicationController
     @total_amount = @harvests.sum(:amount)
 
     respond_to do |format|
-      format.html  # For debugging
+      format.html # For debugging
       format.pdf do
         render pdf: "harvest_report",
                template: "harvests/report_pdf",
@@ -109,8 +115,6 @@ class HarvestsController < ApplicationController
     end
   end
 
-
-
   private
 
   def set_harvest
@@ -118,6 +122,7 @@ class HarvestsController < ApplicationController
   end
 
   def harvest_params
-    params.expect(harvest: [ :land_id, :planned_date, :actual_date, :amount, :unit, :crop_type ])
+    # Standard Rails 7 strong parameters
+    params.require(:harvest).permit(:land_id, :planned_date, :actual_date, :amount, :unit, :crop_type)
   end
 end
