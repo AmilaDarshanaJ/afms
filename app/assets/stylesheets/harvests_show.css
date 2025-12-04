@@ -1,148 +1,175 @@
 /* --- VARIABLES --- */
 :root {
-    --primary: #10b981;      /* Emerald */
-    --bg-body: #f8fafc;      /* Light Slate */
+    --primary: #10b981;       /* Emerald */
+    --bg-body: #f8fafc;       /* Light Slate */
     --surface: #ffffff;
-    --text-main: #0f172a;    /* Dark Black */
-    --text-muted: #64748b;   /* Grey */
+    --text-main: #0f172a;     /* Dark Black */
+    --text-muted: #64748b;    /* Grey */
     --border: #e2e8f0;
-    --danger: #ef4444;
+    --radius: 12px;
 }
 
 body {
     background-color: var(--bg-body);
 }
 
+/* --- MAIN LAYOUT --- */
 .show-layout {
-    width: 100%;
-    max-width: 1000px; /* Limits width on huge screens for readability */
-    margin: 0 auto;
-    padding: 40px 20px;
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 0 20px;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
-/* --- 1. TOP HEADER (Navigation & Actions) --- */
+/* --- 1. HEADER SECTION --- */
 .page-header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: flex-end;
     margin-bottom: 30px;
-    flex-wrap: wrap;
-    gap: 20px;
+    border-bottom: 1px solid transparent;
 }
 
-/* Breadcrumbs & Title */
 .header-content {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
 }
 
+/* Back Link */
+/* --- IMPROVED BACK BUTTON --- */
 .back-link {
-    color: var(--text-muted);
-    text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: 500;
     display: inline-flex;
     align-items: center;
-    gap: 5px;
-    transition: color 0.2s;
-}
-.back-link:hover { color: var(--primary); }
+    gap: 8px; /* Space between arrow and text */
 
+    /* Dimensions to make it look like a button */
+    padding: 10px 20px;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0; /* Subtle gray border */
+    border-radius: 50px;       /* Pill Shape */
+
+    /* Typography */
+    color: #475569;            /* Readable Slate Gray */
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+
+    /* Physics */
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05); /* Tiny shadow for depth */
+}
+
+/* HOVER STATE */
+.back-link:hover {
+    border-color: #10b981;      /* Turn Border Green */
+    color: #065f46;             /* Turn Text Dark Green */
+    background-color: #ecfdf5;  /* Light Mint Background */
+    transform: translateX(-4px); /* Slide left slightly */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+/* ACTIVE STATE (Clicking) */
+.back-link:active {
+    transform: translateX(-2px);
+    background-color: #d1fae5;
+}
+
+/* Title & Badge */
 .page-title h1 {
     margin: 0;
-    font-size: 2rem;
+    font-size: 2.2rem;
     font-weight: 800;
     color: var(--text-main);
-    letter-spacing: -0.5px;
+    letter-spacing: -0.03em;
     display: flex;
     align-items: center;
     gap: 15px;
 }
 
 .status-badge {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     background: #d1fae5;
     color: #065f46;
-    padding: 6px 12px;
-    border-radius: 20px;
+    padding: 6px 14px;
+    border-radius: 50px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.05em;
+    vertical-align: middle;
 }
 
-/* Header Buttons */
+/* --- 2. NICE ACTION BUTTONS --- */
 .header-actions {
     display: flex;
     gap: 12px;
 }
 
 .btn-action {
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-weight: 600;
+    padding: 10px 24px;
+    border-radius: 50px; /* Pill Shape */
     text-decoration: none;
+    font-weight: 600;
     font-size: 0.95rem;
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    transition: all 0.2s;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     border: 1px solid transparent;
+    cursor: pointer;
+    background: transparent; /* Removes default gray button bg */
+    font-family: inherit;
 }
 
+/* Edit Button: Soft Orange */
 .btn-edit {
-    background: white;
-    color: var(--text-main);
-    border-color: var(--border);
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    background: #fff7ed;
+    color: #ea580c; /* Burnt Orange */
+    border-color: #ffedd5;
 }
-.btn-edit:hover { border-color: var(--text-muted); background: #f1f5f9; }
+.btn-edit:hover {
+    background: #f59e0b;
+    color: white;
+    border-color: #f59e0b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
+}
 
+/* Delete Button: Soft Red */
 .btn-delete {
-    background: #fee2e2;
-    color: var(--danger);
-    border-color: #fecaca;
+    background: #fef2f2;
+    color: #dc2626; /* Deep Red */
+    border-color: #fee2e2;
 }
-.btn-delete:hover { background: var(--danger); color: white; border-color: var(--danger); }
-
-
-/* --- 2. NOTIFICATION --- */
-.flash-notice {
-    background: #ecfdf5;
-    border-left: 4px solid var(--primary);
-    color: #064e3b;
-    padding: 16px;
-    border-radius: 4px;
-    margin-bottom: 30px;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+.btn-delete:hover {
+    background: #ef4444;
+    color: white;
+    border-color: #ef4444;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
 }
 
 
-/* --- 3. DATA LIST CONTAINER (The Render Part) --- */
+/* --- 3. THE DATA PAPER (Smart Grid) --- */
 .data-paper {
     background: var(--surface);
+    border-radius: var(--radius);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
     border: 1px solid var(--border);
-    border-radius: 12px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     overflow: hidden;
 }
 
-/* MAGIC CSS: Targets the <p> tags from Rails scaffold
-   and turns them into rows
-*/
+/* AUTOMATIC ROW STYLING FOR RAILS PARTIALS */
+/* This targets the <p> tags generated by <%= render %> */
 .data-paper p {
     margin: 0;
     padding: 20px 30px;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid #f1f5f9;
     display: flex;
     justify-content: space-between; /* Pushes Label Left, Value Right */
     align-items: center;
     font-size: 1rem;
+    transition: background 0.1s;
 }
 
 .data-paper p:last-child {
@@ -153,18 +180,32 @@ body {
     background-color: #f8fafc; /* Highlight row on hover */
 }
 
-/* The Label (<strong>) */
+/* Style the Label (<strong>) inside the p tag */
 .data-paper strong {
     color: var(--text-muted);
-    font-weight: 500;
-    font-size: 0.95rem;
-    min-width: 150px; /* Ensures alignment */
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
-/* The Value (The text after strong) */
+/* Style the Value (Text after strong) */
 .data-paper p {
     color: var(--text-main);
-    font-weight: 600;
+    font-weight: 500;
+}
+
+/* --- NOTIFICATION --- */
+.flash-notice {
+    background: #ecfdf5;
+    color: #064e3b;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #6ee7b7;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
 }
 
 /* --- MOBILE RESPONSIVE --- */
@@ -172,6 +213,7 @@ body {
     .page-header {
         flex-direction: column;
         align-items: flex-start;
+        gap: 20px;
     }
 
     .header-actions {
@@ -179,21 +221,14 @@ body {
     }
 
     .btn-action {
-        flex: 1;
+        flex: 1; /* Buttons take full width */
         justify-content: center;
     }
 
-    /* Stack the rows on mobile */
+    /* Stack rows vertically on small screens */
     .data-paper p {
         flex-direction: column;
         align-items: flex-start;
-        gap: 8px;
-        padding: 15px 20px;
-    }
-
-    .data-paper strong {
-        font-size: 0.85rem;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
+        gap: 5px;
     }
 }

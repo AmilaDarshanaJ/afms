@@ -1,57 +1,115 @@
-<p class="notice"><%= notice %></p>
+<div class="page-wrapper">
 
-<% content_for :title, "Activities" %>
+  <div class="header-section">
+    <div class="title-block">
+      <h1>Farm Activities</h1>
+      <p>Manage daily operations, labor, and tasks.</p>
+    </div>
 
-<h1 class="page-title">Activities</h1>
-
-<!-- Search Bar -->
-<div class="search-bar">
-  <form method="get" action="/activities" class="search-form">
-    <input
-      type="text"
-      name="q"
-      placeholder="Search by land, summary, or status..."
-      class="search-input"
-      value="<%= params[:q] %>"
-    >
-    <button type="submit" class="search-btn">Search</button>
-  </form>
-</div>
-
-<!-- Responsive Table -->
-<div class="table-container">
-  <table class="activities-table">
-    <thead>
-    <tr>
-      <th>Land</th>
-      <th>Start</th>
-      <th>End</th>
-      <th>Summary</th>
-      <th>Status</th>
-      <th>Action</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    <% @activities.each do |activity| %>
-      <tr>
-        <td><%= activity.land.name %></td>
-        <td><%= activity.start_date %></td>
-        <td><%= activity.end_date %></td>
-        <td><%= activity.summary %></td>
-        <td class="status <%= activity.status.downcase %>">
-          <%= activity.status %>
-        </td>
-        <td>
-          <%= link_to "View", activity, class: "table-btn" %>
-        </td>
-      </tr>
+    <%= link_to home_index_path, class: "btn-back" do %>
+      <span>← Back to Dashboard</span>
     <% end %>
-    </tbody>
-  </table>
-</div>
+  </div>
 
-<div class="footer-action">
-  <%= link_to "New Activity", new_activity_path, class: "new-activity-btn" %>
-  <%= link_to "← Back to home", home_index_path, class: "back-btn" %>
+  <div class="toolbar">
+
+    <%= form_with url: activities_path, method: :get, class: "search-form" do |form| %>
+      <div class="search-container">
+
+        <svg class="search-icon-overlay" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+
+        <%= form.text_field :q,
+                            placeholder: "Search activities...",
+                            value: params[:q],
+                            class: "search-input" %>
+
+        <button type="submit" class="search-btn">Search</button>
+      </div>
+    <% end %>
+
+    <%= link_to new_activity_path, class: "btn-primary" do %>
+      <span>＋ New Activity</span>
+    <% end %>
+
+  </div>
+
+  <% if notice %>
+    <div style="background: #ecfdf5; color: #065f46; padding: 15px; border-radius: 12px; margin-bottom: 25px; border: 1px solid #6ee7b7;">
+      ✅ <%= notice %>
+    </div>
+  <% end %>
+
+  <div class="table-card">
+    <table class="activities-table">
+      <thead>
+      <tr>
+        <th>Land Plot</th>
+        <th>Summary</th>
+        <th>Dates</th>
+        <th>Status</th>
+        <th style="text-align: right;">Actions</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <% @activities.each do |activity| %>
+        <tr>
+          <td data-label="Land">
+            <span class="text-strong"><%= activity.land&.name %></span>
+          </td>
+
+          <td data-label="Summary">
+            <%= activity.summary.truncate(40) %>
+          </td>
+
+          <td data-label="Dates">
+            <div class="text-sub">
+              <%= activity.start_date.strftime("%b %d") %> - <%= activity.end_date.strftime("%b %d") %>
+            </div>
+          </td>
+
+          <td data-label="Status">
+            <%
+              # Helper logic for badge colors
+              badge_class = case activity.status.to_s.downcase
+                            when 'completed', 'done' then 'status-completed'
+                            when 'in progress' then 'status-progress'
+                            when 'cancelled' then 'status-cancelled'
+                            else 'status-pending'
+                            end
+            %>
+            <span class="badge <%= badge_class %>">
+              <%= activity.status %>
+            </span>
+          </td>
+
+          <td data-label="Actions" style="text-align: right;">
+            <%= link_to "View Details", activity, class: "btn-view" %>
+          </td>
+        </tr>
+      <% end %>
+
+      <% if @activities.empty? %>
+        <tr>
+          <td colspan="5" style="text-align: center; padding: 40px; color: #94a3b8;">
+            No activities found matching your search.
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="footer-bar">
+    <div class="text-sub">
+      Showing <%= @activities.count %> records
+    </div>
+
+    <div class="pagination">
+      <%= paginate @activities, params: { q: params[:q] } %>
+    </div>
+  </div>
+
 </div>

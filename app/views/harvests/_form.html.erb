@@ -1,97 +1,87 @@
-<div class="form-card">
-  <%= form_with(model: @harvest, local: true) do |form| %>
+<div class="harvest-wrapper">
 
-    <% if @harvest.errors.any? %>
-      <div class="error-banner">
-        <strong>⚠️ <%= pluralize(@harvest.errors.count, "error") %> prevented saving:</strong>
-        <ul style="margin: 8px 0 0 20px; padding: 0;">
-          <% @harvest.errors.each do |error| %>
-            <li><%= error.full_message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
+  <div class="harvest-card">
 
-    <div class="form-group">
-      <%= form.label :land_id, "Select Land", class: "filter-label" %>
-      <%= form.collection_select :land_id, @lands, :id, :name,
-                                 { prompt: "Choose a Land..." },
-                                 { class: "modern-input" }
-      %>
+    <div class="form-header">
+      <div class="header-icon">📝</div>
+      <h1 class="harvest-title"><%= action_name == "new" ? "New Harvest" : "Edit Harvest" %></h1>
+      <p class="harvest-subtitle">Enter the details of your crop yield below.</p>
     </div>
 
-    <div class="form-group">
-      <%= form.label :crop_type, "Crop Type", class: "filter-label" %>
+    <%= form_with(model: @harvest, local: true) do |form| %>
 
-      <%= form.select :crop_type,
-                      # We pass the 'unit' as a data attribute so JS can read it
-                      options_for_select(
-                        @crop_types.map { |c| [c.name, c.name, { 'data-unit': c.unit }] },
-                        form.object.crop_type
-                      ),
-                      { prompt: "Select a Crop..." },
-                      { class: "modern-input", id: "crop_select", onchange: "updateUnit()" }
-      %>
-    </div>
-
-    <div class="row-group">
-      <div class="form-group">
-        <%= form.label :planned_date, "Planned Date", class: "filter-label" %>
-        <%= form.date_field :planned_date, class: "modern-input" %>
-      </div>
-      <div class="form-group">
-        <%= form.label :actual_date, "Actual Date", class: "filter-label" %>
-        <%= form.date_field :actual_date, class: "modern-input" %>
-      </div>
-    </div>
-
-    <div class="row-group">
-      <div class="form-group">
-        <%= form.label :amount, "Harvest Amount", class: "filter-label" %>
-        <%= form.number_field :amount, step: :any, class: "modern-input", placeholder: "0.00" %>
-      </div>
-
-      <div class="form-group">
-        <%= form.label :unit, "Unit (Auto)", class: "filter-label" %>
-        <%= form.text_field :unit,
-                            class: "modern-input readonly-input",
-                            id: "unit_display",
-                            readonly: true,
-                            placeholder: "-"
-        %>
-      </div>
-    </div>
-
-    <div class="form-actions">
-      <%= form.button class: "btn-submit" do %>
-        Save Harvest Record ➝
+      <% if @harvest.errors.any? %>
+        <div class="error-banner">
+          <strong>⚠️ Unable to save record:</strong>
+          <ul style="margin: 5px 0 0 20px; padding: 0;">
+            <% @harvest.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
       <% end %>
-    </div>
 
-  <% end %>
+      <div class="form-group">
+        <%= form.label :land_id, "Select Land Plot", class: "filter-label" %>
+        <%= form.collection_select :land_id, @lands || [], :id, :name, { prompt: "Choose..." }, { class: "modern-input" } %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :crop_type, "Crop Variety", class: "filter-label" %>
+        <%= form.select :crop_type,
+                        options_for_select((@crop_types || []).map { |c| [c.name, c.name, { 'data-unit': c.unit }] }, form.object.crop_type),
+                        { prompt: "Select..." },
+                        { class: "modern-input", id: "crop_select", onchange: "updateUnit()" } %>
+      </div>
+
+      <div class="row-group">
+        <div class="form-group">
+          <%= form.label :planned_date, class: "filter-label" %>
+          <%= form.date_field :planned_date, class: "modern-input" %>
+        </div>
+        <div class="form-group">
+          <%= form.label :actual_date, class: "filter-label" %>
+          <%= form.date_field :actual_date, class: "modern-input" %>
+        </div>
+      </div>
+
+      <div class="row-group">
+        <div class="form-group">
+          <%= form.label :amount, "Amount", class: "filter-label" %>
+          <%= form.number_field :amount, step: :any, class: "modern-input", placeholder: "0.00" %>
+        </div>
+        <div class="form-group">
+          <%= form.label :unit, "Unit", class: "filter-label" %>
+          <%= form.text_field :unit, class: "modern-input readonly-input", id: "unit_display", readonly: true %>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <%= form.button class: "btn-submit" do %>
+          <span>Save Record</span>
+          <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        <% end %>
+      </div>
+
+    <% end %>
+  </div>
+
+  <div class="back-wrapper">
+    <%= link_to "Cancel", harvests_path, class: "back-link" %>
+  </div>
+
 </div>
 
 <script>
     function updateUnit() {
         const select = document.getElementById('crop_select');
         const unitInput = document.getElementById('unit_display');
-
-        // Get the selected option
+        if(!select || !unitInput) return;
         const selectedOption = select.options[select.selectedIndex];
-
-        // Read the 'data-unit' attribute we created in Rails
         const unit = selectedOption.getAttribute('data-unit');
-
-        // Update the text box
-        if (unit) {
-            unitInput.value = unit;
-        } else {
-            unitInput.value = "";
-        }
+        unitInput.value = unit ? unit : "";
     }
-
-    // Run on load (in case user is Editing an existing record)
-    document.addEventListener("turbo:load", function() {
-        updateUnit();
-    });
+    document.addEventListener("turbo:load", updateUnit);
 </script>

@@ -1,198 +1,325 @@
-/* ===============================
-   GLOBAL
-================================ */
+/* --- VARIABLES --- */
+:root {
+    --primary: #10b981;       /* Agri Green */
+    --bg-body: #f1f5f9;       /* Light Slate Background */
+    --surface: #ffffff;       /* Pure White */
+    --text-main: #0f172a;     /* Dark Black */
+    --text-muted: #64748b;    /* Muted Gray */
+    --border: #e2e8f0;
+    --radius: 16px;
+    --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
 body {
-    font-family: system-ui, sans-serif;
-    background: #f1f7f1;
-    padding: 10px;
-    margin: 0;
+    background-color: var(--bg-body);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    color: var(--text-main);
 }
 
-/* Title */
-.page-title {
-    text-align: center;
-    font-size: 1.7rem;
-    color: #14532d;
-    margin-bottom: 15px;
+/* --- LAYOUT --- */
+.page-wrapper {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 20px;
 }
 
-/* Notice Message */
-.notice {
-    color: green;
-    margin-bottom: 8px;
-}
-
-
-/* ===============================
-   SEARCH BAR
-================================ */
-.search-bar {
-    background: white;
-    padding: 12px;
-    border-radius: 10px;
-    margin-bottom: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
-}
-
-.search-form {
+/* --- 1. HEADER SECTION --- */
+.header-section {
     display: flex;
-    gap: 8px;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.title-block h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-main);
+    margin: 0;
+    letter-spacing: -0.03em;
+}
+
+.title-block p {
+    margin: 5px 0 0;
+    color: var(--text-muted);
+    font-size: 1rem;
+}
+
+/* --- 2. TOOLBAR (Search & Create) --- */
+.toolbar {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* Modern Search Bar *//* --- SEARCH BAR (Integrated Style) --- */
+.search-form {
+    flex-grow: 1;
+    max-width: 450px; /* Slightly wider */
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    background: white;
+    border: 1px solid #cbd5e1; /* Light gray border */
+    border-radius: 50px;       /* Pill shape */
+    padding: 4px;              /* Padding creates space for the button */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Subtle shadow */
+    transition: all 0.2s ease;
+}
+
+/* Green Glow when typing */
+.search-container:focus-within {
+    border-color: #10b981;
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15);
+}
+
+.search-icon-overlay {
+    color: #94a3b8;
+    margin-left: 15px;
+    flex-shrink: 0;
 }
 
 .search-input {
-    flex: 1;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-}
-
-/* Buttons for search, table, footer */
-.search-btn,
-.table-btn,
-.new-activity-btn {
-    background: #0d7a4e;
-    color: white;
-    padding: 10px 16px;
     border: none;
-    border-radius: 8px;
-    cursor: pointer;
+    background: transparent;
+    flex-grow: 1;
+    padding: 10px 15px;
+    font-size: 0.95rem;
+    color: #0f172a;
+    outline: none; /* Remove default blue outline */
+}
+
+.search-btn {
+    background-color: #10b981; /* Agri Green */
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 8px 24px;
     font-weight: 600;
-    letter-spacing: 0.3px;
-    transition: background 0.2s ease, transform 0.15s ease;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s;
 }
 
-.search-btn:hover,
-.table-btn:hover,
-.new-activity-btn:hover {
-    background: #0b6a45;
-    transform: translateY(-1px);
+.search-btn:hover {
+    background-color: #059669; /* Darker Green */
 }
 
-.search-btn:active,
-.table-btn:active,
-.new-activity-btn:active {
-    transform: translateY(0);
+.search-input {
+    width: 100%;
+    padding: 12px 20px 12px 45px; /* Space for icon */
+    border-radius: 50px;
+    border: 1px solid white;
+    background: white;
+    box-shadow: var(--shadow-soft);
+    font-size: 0.95rem;
+    transition: all 0.2s;
+    color: var(--text-main);
 }
 
-/* Stronger color for "New Activity" */
-.new-activity-btn {
-    background: #1e8a56;
+.search-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15); /* Green Glow */
 }
 
-.new-activity-btn:hover {
-    background: #187548;
+/* Search Icon Positioning */
+.search-icon-overlay {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    pointer-events: none;
 }
 
+/* --- BUTTONS --- */
 
-/* ===============================
-   TABLE
-================================ */
-.table-container {
-    overflow-x: auto;
-    margin-bottom: 10px;
+/* "New Activity" Button (Midnight Style) */
+.btn-primary {
+    background-color: #0f172a; /* Dark Midnight */
+    color: white;
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 10px rgba(15, 23, 42, 0.2);
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: none;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(15, 23, 42, 0.3);
+    background-color: #1e293b;
+}
+
+/* "Back" Button (Ghost Style) */
+/* --- IMPROVED BACK BUTTON --- */
+.btn-back {
+    /* Layout */
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    /* Visuals */
+    padding: 10px 20px;
+    background-color: #ffffff;  /* White Background */
+    border: 1px solid #e2e8f0;  /* Subtle Gray Border */
+    border-radius: 50px;        /* Pill Shape */
+
+    /* Typography */
+    color: #64748b;             /* Slate Text */
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+
+    /* Physics */
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05); /* Tiny Shadow */
+}
+
+.btn-back:hover {
+    background-color: #f0fdf4;  /* Very Light Green tint */
+    color: #15803d;             /* Darker Green text */
+    border-color: #10b981;      /* Agri Green Border */
+    transform: translateX(-3px); /* Slides left slightly */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.btn-back:active {
+    transform: translateX(-1px);
+}
+
+/* "View" Button (In Table) */
+.btn-view {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: #f1f5f9;
+    padding: 6px 14px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+.btn-view:hover {
+    background: var(--primary);
+    color: white;
+}
+
+/* --- 3. THE MODERN TABLE --- */
+.table-card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-soft);
+    overflow: hidden; /* Clips corners */
+    border: 1px solid var(--border);
 }
 
 .activities-table {
     width: 100%;
     border-collapse: collapse;
-    background: white;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
-.activities-table thead {
-    background: #14532d;
-    color: white;
-}
-
-.activities-table th,
-.activities-table td {
-    padding: 10px;
-    text-align: left;
-    font-size: 0.9rem;
-    border-bottom: 1px solid #e5e5e5;
-}
-
-.activities-table tr:hover {
-    background: #f0fdf4;
-}
-
-
-/* ===============================
-   STATUS COLORS
-================================ */
-.status {
+.activities-table th {
+    background: #f8fafc;
+    color: #64748b;
+    font-size: 0.8rem;
     font-weight: 700;
-    text-transform: capitalize;
-    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 18px 24px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
 }
 
-.status.completed {
-    color: #0d7a4e; /* emerald */
+.activities-table td {
+    padding: 18px 24px;
+    border-bottom: 1px solid #f1f5f9;
+    color: var(--text-main);
+    vertical-align: middle;
+    font-size: 0.95rem;
 }
 
-.status.pending {
-    color: #d97706; /* amber */
+.activities-table tr:hover td {
+    background-color: #f8fafc;
 }
 
-.status.failed,
-.status.cancelled {
-    color: #dc2626; /* red */
-}
-
-.status.in_progress {
-    color: #2563eb; /* blue */
-}
-
-
-/* ===============================
-   FOOTER ACTION BUTTON
-================================ */
-.footer-action {
-    margin-top: 10px;
-    text-align: center;
-}
-
-
-/* ===============================
-   MOBILE RESPONSIVE
-================================ */
-@media (max-width: 600px) {
-    .search-form {
-        flex-direction: column;
-        gap: 6px;
-    }
-
-    .search-bar {
-        padding: 10px;
-        margin-bottom: 6px;
-    }
-
-    .activities-table th,
-    .activities-table td {
-        padding: 8px;
-    }
-}
-
-.back-btn {
-    display: inline-block;
-    background: #0d7a4e;
-    color: white;
-    padding: 8px 14px;
-    border-radius: 8px;
-    text-decoration: none;
+/* Strong Text for Main Columns */
+.text-strong {
     font-weight: 600;
-    letter-spacing: 0.3px;
-    margin-bottom: 10px; /* small gap under the button */
-    transition: background 0.2s ease, transform 0.15s ease;
+    color: var(--text-main);
+}
+.text-sub {
+    color: var(--text-muted);
+    font-size: 0.9rem;
 }
 
-.back-btn:hover {
-    background: #0b6a45;
-    transform: translateY(-1px);
+/* --- STATUS BADGES --- */
+.badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+.status-completed { background: #d1fae5; color: #047857; }
+.status-progress  { background: #dbeafe; color: #1d4ed8; }
+.status-pending   { background: #fff7ed; color: #c2410c; }
+.status-cancelled { background: #fee2e2; color: #b91c1c; }
+
+/* --- FOOTER & PAGINATION --- */
+.footer-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
 }
 
-.back-btn:active {
-    transform: translateY(0);
+/* Kaminari Styling */
+.pagination nav {
+    display: flex;
+    gap: 5px;
+}
+.pagination a, .pagination span {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: white;
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+.pagination a:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+.pagination .current {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+/* Mobile Fix */
+@media (max-width: 768px) {
+    .header-section { flex-direction: column; align-items: flex-start; }
+    .toolbar { width: 100%; flex-direction: column-reverse; align-items: stretch; }
+    .search-form { max-width: 100%; }
+
+    /* Table Cards for Mobile */
+    .activities-table thead { display: none; }
+    .activities-table tr { display: block; border-bottom: 8px solid var(--bg-body); }
+    .activities-table td { display: flex; justify-content: space-between; padding: 12px 20px; border: none; }
+    .activities-table td::before { content: attr(data-label); font-weight: 600; color: #94a3b8; font-size: 0.8rem; text-transform: uppercase; }
 }
