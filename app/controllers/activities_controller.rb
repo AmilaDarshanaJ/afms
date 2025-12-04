@@ -1,91 +1,52 @@
 class ActivitiesController < ApplicationController
-  # 1. Enable respond_to for CSV export
-  include ActionController::MimeResponds
   before_action :set_activity, only: %i[ show edit update destroy ]
 
-  # GET /activities/report
-  # FIX: Updated this method to include all filtering and pagination logic
-  def report
-    # 1. BASE SCOPE (Used for Metrics Cards)
-    # This list includes EVERYTHING matching the Date/Search, IGNORING the Status filter.
-    base_scope = Activity.includes(:land).order(start_date: :desc)
-
-    # Apply Search
-    if params[:q].present?
-      keyword = "%#{params[:q].downcase}%"
-      base_scope = base_scope.joins(:land).where(
-        "LOWER(lands.name) LIKE ? OR LOWER(activities.summary) LIKE ? OR LOWER(activities.status) LIKE ?",
-        keyword, keyword, keyword
-      )
-    end
-
-    # Apply Date Range
-    base_scope = base_scope.where('start_date >= ?', params[:date_start]) if params[:date_start].present?
-    base_scope = base_scope.where('start_date <= ?', params[:date_end]) if params[:date_end].present?
-
-    # Assign to variable for the View
-    @metrics_activities = base_scope
-
-    # 2. TABLE SCOPE (Used for the Data Table)
-    # Start with the base list, then filter down by Status
-    table_scope = base_scope
-
-    if params[:status].present? && params[:status] != 'all'
-      # ROBUST FILTER: Checks for "in_progress" AND "In Progress" to ensure matches
-      status_term = params[:status].to_s.downcase
-      table_scope = table_scope.where(
-        "LOWER(status) = ? OR LOWER(status) = ?",
-        status_term,
-        status_term.gsub('_', ' ') # Checks "in progress" vs "in_progress"
-      )
-    end
-
-    # Paginate the table data
-    @activities = table_scope.page(params[:page]).per(10)
-
-    respond_to do |format|
-      format.html
-      format.csv { send_data table_scope.to_csv, filename: "activities-report-#{Date.today}.csv" }
-    end
-  end
-
-  # GET /activities or /activities.json
+  # GET /activities
   def index
-    # 1. Base Scope
-    scope = Activity.includes(:land).order(start_date: :desc)
+    # 1. Apply Base Filters (Search & Date)
+    @base_scope = apply_filters(Activity.includes(:land).order(start_date: :desc))
 
-    # 2. Filter by Search (Keyword)
-    if params[:q].present?
-      keyword = "%#{params[:q].downcase}%"
-      scope = scope.joins(:land).where(
-        "LOWER(lands.name) LIKE ? OR LOWER(activities.summary) LIKE ? OR LOWER(activities.status) LIKE ?",
-        keyword, keyword, keyword
-      )
-    end
-
-    # 3. Filter by Status
+    # 2. Apply Status Filter (Specific to Index if needed, or general)
     if params[:status].present? && params[:status] != 'all'
-      scope = scope.where(status: params[:status])
+      # Handles both "In Progress" (DB) and "in_progress" (URL params)
+      status_term = params[:status].to_s.downcase.gsub('_', ' ')
+      @base_scope = @base_scope.where("LOWER(status) = ?", status_term)
     end
 
-    # 4. Filter by Date Range
-    scope = scope.where('start_date >= ?', params[:date_start]) if params[:date_start].present?
-    scope = scope.where('start_date <= ?', params[:date_end]) if params[:date_end].present?
+    # 3. Metrics Data (Unpaginated - for the counters at top of page)
+    @metrics_activities = @base_scope
 
-    # 5. DATA FOR METRICS (All matching records, NOT paginated)
-    @metrics_activities = scope
+    # 4. Table Data (Paginated)
+    @activities = @base_scope.page(params[:page]).per(10)
 
-    # 6. DATA FOR TABLE (Paginated - 10 per page)
-    @activities = scope.page(params[:page]).per(10)
-
+    # 5. CSV Export
     respond_to do |format|
       format.html
-      # Fix: Pass current params to CSV so filters apply to the download too
-      format.csv { send_data scope.to_csv, filename: "activities-report-#{Date.today}.csv" }
+      format.csv { send_data @base_scope.to_csv, filename: "activities-#{Date.today}.csv" }
     end
   end
 
-  # GET /activities/1 or /activities/1.json
+  # GET /activities/report
+  def report
+    # Reuses the exact same logic as Index for consistency
+    @base_scope = apply_filters(Activity.includes(:land).order(start_date: :desc))
+
+    # Apply Status Filter
+    if params[:status].present? && params[:status] != 'all'
+      status_term = params[:status].to_s.downcase.gsub('_', ' ')
+      @base_scope = @base_scope.where("LOWER(status) = ?", status_term)
+    end
+
+    @metrics_activities = @base_scope
+    @activities = @base_scope.page(params[:page]).per(10)
+
+    respond_to do |format|
+      format.html
+      format.csv { send_data @base_scope.to_csv, filename: "activity-report-#{Date.today}.csv" }
+    end
+  end
+
+  # GET /activities/1
   def show
   end
 
@@ -100,54 +61,63 @@ class ActivitiesController < ApplicationController
     @lands = Land.all
   end
 
-  # POST /activities or /activities.json
+  # POST /activities
   def create
     @activity = Activity.new(activity_params)
 
-    respond_to do |format|
-      if @activity.save
-        format.html { redirect_to @activity, notice: "Activity was successfully created." }
-        format.json { render :show, status: :created, location: @activity }
-      else
-        @lands = Land.all # Reload lands if validation fails
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @activity.errors, status: :unprocessable_entity }
-      end
+    if @activity.save
+      # Redirect to the main list (Index)
+      redirect_to activities_path, notice: "✅ Activity created successfully."
+    else
+      # RELOAD LANDS so dropdown doesn't crash
+      @lands = Land.all
+      render :new, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /activities/1 or /activities/1.json
+  # PATCH/PUT /activities/1
   def update
-    respond_to do |format|
-      if @activity.update(activity_params)
-        format.html { redirect_to @activity, notice: "Activity was successfully updated.", status: :see_other }
-        format.json { render :show, status: :ok, location: @activity }
-      else
-        @lands = Land.all # Reload lands if validation fails
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @activity.errors, status: :unprocessable_entity }
-      end
+    if @activity.update(activity_params)
+      # Redirect to the main list (Index)
+      redirect_to activities_path, notice: "✅ Activity updated successfully."
+    else
+      # RELOAD LANDS
+      @lands = Land.all
+      render :edit, status: :unprocessable_entity
     end
   end
 
-  # DELETE /activities/1 or /activities/1.json
+  # DELETE /activities/1
   def destroy
-    @activity.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to activities_path, notice: "Activity was successfully destroyed.", status: :see_other }
-      format.json { head :no_content }
-    end
+    @activity.destroy
+    redirect_to activities_path, notice: "🗑️ Activity deleted."
   end
 
   private
-  # Use callbacks to share common setup or constraints between actions.
+
   def set_activity
     @activity = Activity.find(params[:id])
   end
 
-  # Only allow a list of trusted parameters through.
   def activity_params
     params.require(:activity).permit(:land_id, :start_date, :end_date, :summary, :status)
+  end
+
+  # Shared Filtering Logic
+  def apply_filters(scope)
+    # 1. Keyword Search
+    if params[:q].present?
+      keyword = "%#{params[:q].downcase}%"
+      scope = scope.joins(:land).where(
+        "LOWER(lands.name) LIKE :key OR LOWER(activities.summary) LIKE :key OR LOWER(activities.status) LIKE :key",
+        key: keyword
+      )
+    end
+
+    # 2. Date Range
+    scope = scope.where('start_date >= ?', params[:date_start]) if params[:date_start].present?
+    scope = scope.where('start_date <= ?', params[:date_end]) if params[:date_end].present?
+
+    scope
   end
 end

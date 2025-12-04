@@ -186,3 +186,37 @@ textarea.modern-input {
     .form-row { grid-template-columns: 1fr; gap: 0; }
     .activity-card { padding: 25px; }
 }
+
+/* --- VALIDATION ERROR STYLES --- */
+
+/* 1. Turns the input border Red */
+.input-error {
+    border-color: #dc2626 !important; /* Red */
+    background-color: #fef2f2 !important; /* Light Pink */
+}
+
+/* 2. Red Glow on focus */
+.input-error:focus {
+    box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.15) !important;
+}
+
+/* 3. Tiny text message under the input */
+.inline-err-msg {
+    color: #dc2626;
+    font-size: 0.85rem;
+    margin-top: 6px;
+    display: block;
+    font-weight: 600;
+    animation: slideDown 0.2s ease-out;
+}
+
+/* Animation for the error text */
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 4. Fix for Rails wrapping inputs in div.field_with_errors */
+.field_with_errors {
+    display: contents; /* Prevents Rails div from breaking your grid layout */
+}
