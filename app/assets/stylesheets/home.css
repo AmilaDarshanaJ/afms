@@ -130,7 +130,11 @@
     font-weight: 800;
     color: #0f172a !important;
     line-height: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
 
 /* --- 3. SECTION TITLES (THE GAP FIX) --- */
 .section-title {

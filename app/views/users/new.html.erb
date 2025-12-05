@@ -1,43 +1,68 @@
-<div class="form-container">
-  <h1>Add New User</h1>
+<div class="auth-wrapper">
+  <div class="auth-card">
 
-  <%= form_with(model: @user, local: true, class: "styled-form") do |form| %>
-
-    <% if @user.errors.any? %>
-      <div class="error-box">
-        <h4><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h4>
-        <ul>
-          <% @user.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-          <% end %>
-        </ul>
+    <div class="auth-header">
+      <div class="icon-bg">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
       </div>
+      <h2>Add New Member</h2>
+      <p>Create a new account for a farmer or admin.</p>
+    </div>
+
+    <%= form_with(model: @user, local: true, class: "auth-form") do |form| %>
+
+      <% if @user.errors.any? %>
+        <div class="error-banner">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+          <span>Please fix the <%= pluralize(@user.errors.count, "error") %> below.</span>
+        </div>
+      <% end %>
+
+      <div class="input-group">
+        <%= form.label :email_address, "Email Address" %>
+        <div class="input-wrapper">
+          <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+          <%= form.email_field :email_address, placeholder: "name@farm.com", class: "form-input" %>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label>Assign Role</label>
+        <div class="role-grid">
+          <% User.roles.keys.each do |role| %>
+            <label class="role-option">
+              <%= form.radio_button :role, role, class: "role-radio" %>
+              <div class="role-card">
+                <span class="role-name"><%= role.capitalize %></span>
+              </div>
+            </label>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="input-group">
+          <%= form.label :password %>
+          <div class="input-wrapper">
+            <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <%= form.password_field :password, placeholder: "******", class: "form-input" %>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <%= form.label :password_confirmation, "Confirm" %>
+          <div class="input-wrapper">
+            <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            <%= form.password_field :password_confirmation, placeholder: "******", class: "form-input" %>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <%= form.submit "Create User", class: "btn-submit" %>
+        <%= link_to "Cancel", users_path, class: "btn-cancel" %>
+      </div>
+
     <% end %>
-
-    <div class="form-group">
-      <%= form.label :email_address %>
-      <%= form.email_field :email_address, placeholder: "farmer@example.com", required: true %>
-    </div>
-
-    <div class="form-group">
-      <%= form.label :role, "Select Role" %>
-      <%= form.select :role, User.roles.keys.map { |r| [r.capitalize, r] }, {}, class: "role-select" %>
-    </div>
-
-    <div class="form-group">
-      <%= form.label :password %>
-      <%= form.password_field :password, placeholder: "Min 6 characters", required: true %>
-    </div>
-
-    <div class="form-group">
-      <%= form.label :password_confirmation %>
-      <%= form.password_field :password_confirmation, placeholder: "Retype password", required: true %>
-    </div>
-
-    <div class="form-actions">
-      <%= link_to "Cancel", users_path, class: "btn-secondary" %>
-      <%= form.submit "Create User", class: "btn-primary" %>
-    </div>
-
-  <% end %>
+  </div>
 </div>
