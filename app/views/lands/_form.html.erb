@@ -107,16 +107,14 @@
       </div>
     </div>
 
-    <div class="form-actions">
-      <%= link_to "Cancel", lands_path, class: "btn-cancel" %>
-
       <%= form.button class: "btn-submit" do %>
         <span>Save Land Details</span>
         <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
         </svg>
       <% end %>
+    <div class="form-actions">
+      <%= link_to "Cancel", lands_path, class: "btn-cancel" %>
     </div>
-
   <% end %>
 </div>
