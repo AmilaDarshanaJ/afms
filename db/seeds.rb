@@ -1,58 +1,86 @@
-puts "🌱 Starting deployment seeding..."
+# 🌱 Starting deployment seeding...
 
-# 1. Create/Find the Demo User
+puts "--- 👤 SEEDING USERS ---"
 default_user = User.find_or_create_by!(email_address: "afms.demo@frmcore.com") do |u|
   u.password = "Omed@123!"
   u.role = 1
 end
+puts "✅ Admin user ensured: afms.demo@frmcore.com"
 
-puts "✅ User: afms.demo@frmcore.com"
-puts "✅ Password:Omed@123!"
+puts "\n--- 🌾 SEEDING CROP TYPES ---"
+crop_data = [
+  { name: "Coconut", unit: "Nuts", desc: "Hardy tropical tree used for food, oil, and drink." },
+  { name: "Paddy", unit: "Kg", desc: "Water-loving cereal crop grown in flooded fields." },
+  { name: "Ginger", unit: "Kg", desc: "Aromatic root crop valued for its spicy flavor." },
+  { name: "Banana", unit: "Kg", desc: "Tropical fruit crop producing high yields year-round." },
+  { name: "Pineapple", unit: "Kg", desc: "Tangy tropical fruit grown in well-drained soil." }
+]
 
-# 2. Create Crop Type
-coconut = CropType.find_or_create_by!(name: "Coconut") do |c|
-  c.description = "Versatile tropical fruit used for food and oil."
-  c.unit = "Nuts"
+crop_data.each do |data|
+  CropType.find_or_create_by!(name: data[:name]) do |c|
+    c.description = data[:desc]
+    c.unit = data[:unit]
+  end
+  puts "✅ Crop Type ensured: #{data[:name]} (#{data[:unit]})"
 end
 
-puts "✅ Crop Type: Coconut"
+puts "\n--- 🗺️ SEEDING LANDS ---"
+land_names = ["Silver Palm", "Golden Field", "Ginger Valley", "Banana Grove", "Pineapple Hill"]
+land_extents = [7.0, 2.0, 3.5, 1.5, 4.5]
 
-# 3. Create Land
-_land = Land.find_or_create_by!(name: "Silver Palm Plantation") do |l|
-  l.crop_type = "Coconut"
-  l.address = "Kadirapola,Narangoda"
-  l.latitude = 7.33177
-  l.longitude = 80.12332
-  l.extent = 10.5
-  l.boundary_north = "Main Road"
-  l.boundary_south = "Padddy Field"
-  l.boundary_east = "Anura's Land"
-  l.boundary_west = "Play Ground"
-  l.owner_manager_name = "Amila Darshana"
+lands = land_names.map.with_index do |name, i|
+  land_obj = Land.find_or_create_by!(name: "#{name} Plantation") do |l|
+    l.crop_type = crop_data[i % crop_data.size][:name]
+    l.address = "Kadirapola, Narangoda"
+    l.latitude = 7.33177
+    l.longitude = 80.12332
+    l.extent = land_extents[i]
+    l.owner_manager_name = "Amila Darshana"
+  end
+  puts "✅ Land ensured: #{land_obj.name} (#{land_obj.extent} acres)"
+  land_obj
 end
 
-puts "✅ Land: Silver Palm Plantation"
+puts "\n--- 📦 SEEDING HARVESTS ---"
+lands.each do |land|
+  crop_info = crop_data.find { |c| c[:name] == land.crop_type }
+  unit_to_use = crop_info ? crop_info[:unit] : "Units"
 
-# 4. Create Harvest
-Harvest.find_or_create_by!(land_id: _land.id) do |h|
-  h.actual_date = Date.today - 2.days
-  h.planned_date = Date.today - 3.days
-  h.unit = "Nuts"
-  h.crop_type = "Coconut"
-  h.amount = 2500
+  2.times do |i|
+    harvest = Harvest.find_or_create_by!(
+      land_id: land.id,
+      actual_date: Date.today - i.months
+    ) do |h|
+      h.amount = rand(2000..3000)
+      h.unit = unit_to_use
+      h.crop_type = land.crop_type
+      h.planned_date = Date.today - i.months - 2.days
+    end
+    puts "✅ Harvest added for #{land.name}: #{harvest.amount} #{harvest.unit}"
+  end
 end
 
-puts "✅ Harvest: Silver Palm Plantation - 2500 Nuts"
+puts "\n--- 📝 SEEDING ACTIVITIES ---"
+activity_summaries = [
+  "Initial Fertilizer Application", "Manual Weeding", "Irrigation System Check",
+  "Pest Control Spray", "Soil pH Testing", "Boundary Fence Repair",
+  "Organic Manure Distribution", "Drainage Cleaning", "Pruning Trees",
+  "Seedling Preparation", "Harvest Equipment Maintenance", "Foliar Fertilizer Spray"
+]
 
-# 5. Create Activity
+activity_summaries.each_with_index do |summary, i|
+  target_land = lands[i % lands.size]
 
-Activity.find_or_create_by!(land_id: _land.id) do |a|
-  a.start_date = Date.today - 7.days
-  a.end_date = Date.today - 6.days
-  a.summary =  "Initial Fertilizer Application"
-  a.status = "Completed"
+  activity = Activity.find_or_create_by!(
+    land_id: target_land.id,
+    summary: summary
+  ) do |a|
+    a[:land] = target_land.name
+    a.status = ["Completed", "In Progress", "Pending", "On Hold", "Cancelled"].sample
+    a.start_date = Date.today - (i * 2).days
+    a.end_date = Date.today - (i * 2).days + 1.day
+  end
+  puts "✅ Activity [#{activity.status}] ensured for #{target_land.name}: #{summary}"
 end
 
-puts "✅ Activity: Fertilizer Application"
-
-puts "🚀 Seeding Complete: 100% OK"
+puts "\n🚀 SEEDING COMPLETE: 100% OK"
