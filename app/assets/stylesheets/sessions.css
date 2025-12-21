@@ -159,3 +159,27 @@
         background-attachment: fixed; /* Keeps image still when scrolling */
     }
 }
+
+/* Note */
+
+.demo-credentials {
+    margin-top: 14px;
+    padding: 10px 12px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    background-color: #f8fafc;
+    border-left: 4px solid #22c55e;
+    color: #334155;
+    border-radius: 6px;
+}
+
+.demo-credentials strong {
+    color: #0f172a;
+}
+
+.demo-credentials code {
+    background: #e2e8f0;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+}
