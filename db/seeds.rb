@@ -1,13 +1,12 @@
 # 🌱 Starting deployment seeding...
 
-puts "--- 👤 SEEDING USERS ---"
 default_user = User.find_or_create_by!(email_address: "afms.demo@frmcore.com") do |u|
   u.password = "Omed@123!"
   u.role = 1
 end
-puts "✅ Admin user ensured: afms.demo@frmcore.com"
+puts "✅ User: afms.demo@frmcore.com [OK]"
+puts "✅ Password: Omed@123! [OK]"
 
-puts "\n--- 🌾 SEEDING CROP TYPES ---"
 crop_data = [
   { name: "Coconut", unit: "Nuts", desc: "Hardy tropical tree used for food, oil, and drink." },
   { name: "Paddy", unit: "Kg", desc: "Water-loving cereal crop grown in flooded fields." },
@@ -21,33 +20,34 @@ crop_data.each do |data|
     c.description = data[:desc]
     c.unit = data[:unit]
   end
-  puts "✅ Crop Type ensured: #{data[:name]} (#{data[:unit]})"
 end
+puts "✅ 5 crop types ensured [OK]"
 
-puts "\n--- 🗺️ SEEDING LANDS ---"
 land_names = ["Silver Palm", "Golden Field", "Ginger Valley", "Banana Grove", "Pineapple Hill"]
 land_extents = [7.0, 2.0, 3.5, 1.5, 4.5]
 
 lands = land_names.map.with_index do |name, i|
-  land_obj = Land.find_or_create_by!(name: "#{name} Plantation") do |l|
+  Land.find_or_create_by!(name: "#{name} Plantation") do |l|
     l.crop_type = crop_data[i % crop_data.size][:name]
     l.address = "Kadirapola, Narangoda"
     l.latitude = 7.33177
     l.longitude = 80.12332
+    l.boundary_north = "Main Road"
+    l.boundary_south = "Canal"
+    l.boundary_west = "Middle Road"
+    l.boundary_east = "Sanasa Bank Land"
     l.extent = land_extents[i]
     l.owner_manager_name = "Amila Darshana"
   end
-  puts "✅ Land ensured: #{land_obj.name} (#{land_obj.extent} acres)"
-  land_obj
 end
+puts "✅ 5 lands ensured [OK]"
 
-puts "\n--- 📦 SEEDING HARVESTS ---"
 lands.each do |land|
   crop_info = crop_data.find { |c| c[:name] == land.crop_type }
   unit_to_use = crop_info ? crop_info[:unit] : "Units"
 
   2.times do |i|
-    harvest = Harvest.find_or_create_by!(
+    Harvest.find_or_create_by!(
       land_id: land.id,
       actual_date: Date.today - i.months
     ) do |h|
@@ -56,11 +56,10 @@ lands.each do |land|
       h.crop_type = land.crop_type
       h.planned_date = Date.today - i.months - 2.days
     end
-    puts "✅ Harvest added for #{land.name}: #{harvest.amount} #{harvest.unit}"
   end
 end
+puts "✅ 10 harvest records ensured [OK]"
 
-puts "\n--- 📝 SEEDING ACTIVITIES ---"
 activity_summaries = [
   "Initial Fertilizer Application", "Manual Weeding", "Irrigation System Check",
   "Pest Control Spray", "Soil pH Testing", "Boundary Fence Repair",
@@ -71,7 +70,7 @@ activity_summaries = [
 activity_summaries.each_with_index do |summary, i|
   target_land = lands[i % lands.size]
 
-  activity = Activity.find_or_create_by!(
+  Activity.find_or_create_by!(
     land_id: target_land.id,
     summary: summary
   ) do |a|
@@ -80,7 +79,7 @@ activity_summaries.each_with_index do |summary, i|
     a.start_date = Date.today - (i * 2).days
     a.end_date = Date.today - (i * 2).days + 1.day
   end
-  puts "✅ Activity [#{activity.status}] ensured for #{target_land.name}: #{summary}"
 end
+puts "✅ 12 activities ensured [OK]"
 
-puts "\n🚀 SEEDING COMPLETE: 100% OK"
+puts "🚀 SEEDING COMPLETE: 100% OK"
