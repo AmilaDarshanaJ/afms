@@ -37,7 +37,7 @@
 /public/assets
 
 # Ignore CI service files.
-/.github
+/_github
 
 # Ignore Kamal files.
 /config/deploy*.yml
