@@ -43,6 +43,7 @@
     font-weight: 700;
     color: var(--login-text-dark);
     margin-bottom: 0.5rem;
+    justify-content: center;
 }
 
 .login-subtitle {
