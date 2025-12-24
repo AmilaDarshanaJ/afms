@@ -1,4 +1,5 @@
 <div class="container">
+  <%= link_to "← Back to Dashboard", root_path, class:"btn-back" %><br><br>
   <div class="header-flex">
     <h1>👥 User Management</h1>
     <%= link_to "+ Add New User", new_user_path, class: "btn-primary" %>
@@ -42,7 +43,5 @@
     <% end %>
     </tbody>
   </table>
-
   <br>
-  <%= link_to "← Back to Dashboard", root_path, style: "color: var(--header-bg); text-decoration: none; font-weight: bold;" %>
 </div>

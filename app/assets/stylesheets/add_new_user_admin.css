@@ -11,7 +11,7 @@
 }
 
 body {
-    background-color: var(--bg-light);
+    background-color: red;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     color: var(--text-dark);
 }
@@ -19,8 +19,8 @@ body {
 /* --- MAIN CONTAINER --- */
 .container {
     max-width: 1000px;
-    margin: 40px auto;
-    padding: 0 20px;
+    margin: 200px;              /q* top/bottom spacing + centered */
+    padding: 10px 10px 200px 130px;  /* balanced inner spacing */
 }
 
 .header-flex {

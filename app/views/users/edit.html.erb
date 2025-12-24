@@ -3,7 +3,7 @@
     <h2 style="margin-top:0; color: var(--header-bg);">
       <%= action_name == 'new' ? "Create User" : "Update User" %>
     </h2>
-
+ <br>
     <%= form_with(model: @user, local: true) do |form| %>
 
       <div style="margin-bottom: 15px;">
@@ -31,7 +31,7 @@
 
       <div style="display: flex; gap: 10px;">
         <%= form.submit "Save User", class: "btn-primary", style: "width: 100%;" %>
-        <%= link_to "Cancel", users_path, style: "padding: 10px; color: #7f8c8d; text-decoration: none;" %>
+        <%= link_to "Cancel", users_path, style: "btn-cancel" %>
       </div>
 
     <% end %>

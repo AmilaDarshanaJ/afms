@@ -9,28 +9,12 @@
 
       <div class="page-title">
         <h1>
-          Harvest #<%= @harvest.id %>
+          Harvest Details
           <span class="status-badge">Recorded</span>
         </h1>
       </div>
     </div>
 
-    <div class="header-actions">
-      <%= link_to edit_harvest_path(@harvest), class: "btn-action btn-edit" do %>
-        <span>✏️ Edit</span>
-      <% end %>
-
-      <%= button_to harvest_path(@harvest),
-                    method: :delete,
-                    class: "btn-action btn-delete",
-                    # Move the data attribute inside the 'form' hash
-                    form: {
-                      style: "display:inline-block;",
-                      data: { turbo_confirm: "Are you sure you want to delete this permanently?" }
-                    } do %>
-        <span>🗑 Delete</span>
-      <% end %>
-    </div>
 
   </div>
 
@@ -44,4 +28,21 @@
     <%= render @harvest %>
   </div>
 
+</div>
+
+<div class="header-actions">
+  <%= link_to edit_harvest_path(@harvest), class: "btn-action btn-edit" do %>
+    <span>✏️ Edit</span>
+  <% end %>
+
+  <%= button_to harvest_path(@harvest),
+                method: :delete,
+                class: "btn-action btn-delete",
+                # Move the data attribute inside the 'form' hash
+                form: {
+                  style: "display:inline-block;",
+                  data: { turbo_confirm: "Are you sure you want to delete this permanently?" }
+                } do %>
+    <span>🗑 Delete</span>
+  <% end %>
 </div>

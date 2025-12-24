@@ -12,16 +12,18 @@
 
 body {
     background-color: var(--bg-app);
+
 }
 
 /* --- Layout --- */
 .auth-wrapper {
-    min-height: 80vh;
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 20px;
+    padding: 0;
 }
+
 
 .auth-card {
     background: var(--bg-surface);
