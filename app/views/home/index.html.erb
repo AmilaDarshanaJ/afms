@@ -24,26 +24,32 @@
   <div class="stats-container">
     <div class="stat-card">
       <div class="icon-box green">🌱</div>
-      <div class="stat-info">
+
+      <div class="stat-content">
         <h4>Active Lands</h4>
-        <div class="value"><%= defined?(Land) ? Land.count : 0 %></div>
+        <span class="stat-value"><%= defined?(Land) ? Land.count : 0 %></span>
       </div>
     </div>
+
     <div class="stat-card">
       <div class="icon-box orange">🌾</div>
-      <div class="stat-info">
-        <h4>Total harvest recodes</h4>
-        <div class="value"><%= defined?(Harvest) ? Harvest.count : 0 %></div>
+
+      <div class="stat-content">
+        <h4>Total Harvest Records</h4>
+        <span class="stat-value"><%= defined?(Harvest) ? Harvest.count : 0 %></span>
       </div>
     </div>
+
     <div class="stat-card">
       <div class="icon-box blue">🚜</div>
-      <div class="stat-info">
+
+      <div class="stat-content">
         <h4>Activities</h4>
-        <div class="value"><%= defined?(Activity) ? Activity.count : 0 %></div>
+        <span class="stat-value"><%= defined?(Activity) ? Activity.count : 0 %></span>
       </div>
     </div>
   </div>
+
 
   <div class="section-title first">Farm Management</div>
 
