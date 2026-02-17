@@ -64,8 +64,6 @@ end
 
 gem "prawn", "~> 2.5"
 
-gem 'wkhtmltopdf-binary'
-
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
 

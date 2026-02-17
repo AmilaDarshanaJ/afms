@@ -55,8 +55,7 @@
           <%= button_to crop_type_path(crop),
                         method: :delete,
                         class: "action-btn btn-delete",
-                        form: { style: "flex: 1;" },
-                        data: { turbo_confirm: "Are you sure you want to delete #{crop.name}?" } do %>
+                        onclick: "return confirm('Are you sure you want to delete this crop type ?')" do %>
             <span>🗑️ Delete</span>
           <% end %>
         </div>

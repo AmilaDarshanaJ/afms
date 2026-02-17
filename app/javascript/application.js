@@ -1,6 +1,9 @@
 // Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
-import "@hotwired/turbo-rails"
+import * as Turbo from "@hotwired/turbo-rails"
+window.Turbo = Turbo
+
 import "controllers"
+
 
 document.addEventListener("DOMContentLoaded", () => {
     const menu = document.querySelector(".nav-menu");
@@ -30,3 +33,4 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+import "@hotwired/turbo-rails"

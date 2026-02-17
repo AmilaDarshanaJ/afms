@@ -90,7 +90,7 @@
                   method: :delete,
                   class: "btn-danger",
                   form: { style: "display:inline-block;" }, # Keeps it next to the Edit button
-                  data: { turbo_confirm: "Are you sure you want to delete this land permanently?" } do %>
+                  onclick: "return confirm('Are you sure you want to delete this land permanently?')" do %>
       <span>🗑️ Delete Land</span>
     <% end %>
   </div>

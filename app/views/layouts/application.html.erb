@@ -92,27 +92,30 @@
     </div>
   </nav>
   <%= yield %>
+
+  <script>
+      function toggleSettings(event) {
+          event.preventDefault(); // Stop the link from jumping to top of page
+          const menu = document.getElementById("settings-dropdown");
+          menu.classList.toggle("show");
+      }
+
+      // Close the dropdown if the user clicks outside of it
+      window.onclick = function(event) {
+          if (!event.target.closest('.nav-item-dropdown')) {
+              const dropdowns = document.getElementsByClassName("dropdown-menu");
+              for (let i = 0; i < dropdowns.length; i++) {
+                  let openDropdown = dropdowns[i];
+                  if (openDropdown.classList.contains('show')) {
+                      openDropdown.classList.remove('show');
+                  }
+              }
+          }
+      }
+  </script>
+
   </body>
 </html>
 
 
-<script>
-    function toggleSettings(event) {
-        event.preventDefault(); // Stop the link from jumping to top of page
-        const menu = document.getElementById("settings-dropdown");
-        menu.classList.toggle("show");
-    }
 
-    // Close the dropdown if the user clicks outside of it
-    window.onclick = function(event) {
-        if (!event.target.closest('.nav-item-dropdown')) {
-            const dropdowns = document.getElementsByClassName("dropdown-menu");
-            for (let i = 0; i < dropdowns.length; i++) {
-                let openDropdown = dropdowns[i];
-                if (openDropdown.classList.contains('show')) {
-                    openDropdown.classList.remove('show');
-                }
-            }
-        }
-    }
-</script>
