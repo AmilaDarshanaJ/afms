@@ -1,30 +1,37 @@
 <%
   hour = Time.now.hour
-  greeting = if hour < 12
-               "Good Morning"
-             elsif hour < 18
-               "Good Afternoon"
-             else
-               "Good Evening"
-             end
+  greeting =
+    if hour < 12
+      "Good Morning"
+    elsif hour < 18
+      "Good Afternoon"
+    else
+      "Good Evening"
+    end
 %>
 
 <div class="agri-dashboard">
 
+  <!-- HERO -->
   <div class="hero-banner">
     <div class="hero-text">
-      <h1><%= greeting %>, <%= Current.user&.email_address&.split('@')&.first&.capitalize || "Farmer" %>! ☀️</h1>
+      <h1>
+        <%= greeting %>,
+        <%= Current.user&.email_address&.split('@')&.first&.capitalize || "Farmer" %> 🌿
+      </h1>
       <p>System is running smoothly. Here is your daily overview.</p>
     </div>
+
     <div class="time-badge">
       <%= Time.now.strftime("%l:%M %p") %>
     </div>
   </div>
 
+  <!-- STATS -->
   <div class="stats-container">
+
     <div class="stat-card">
       <div class="icon-box green">🌱</div>
-
       <div class="stat-content">
         <h4>Active Lands</h4>
         <span class="stat-value"><%= defined?(Land) ? Land.count : 0 %></span>
@@ -33,36 +40,36 @@
 
     <div class="stat-card">
       <div class="icon-box orange">🌾</div>
-
       <div class="stat-content">
-        <h4>Total Harvest Records</h4>
+        <h4>Total Harvests</h4>
         <span class="stat-value"><%= defined?(Harvest) ? Harvest.count : 0 %></span>
       </div>
     </div>
 
     <div class="stat-card">
       <div class="icon-box blue">🚜</div>
-
       <div class="stat-content">
         <h4>Activities</h4>
         <span class="stat-value"><%= defined?(Activity) ? Activity.count : 0 %></span>
       </div>
     </div>
+
   </div>
 
-
-  <div class="section-title first">Farm Management</div>
+  <!-- FARM MANAGEMENT -->
+  <div class="section-title">Farm Management</div>
 
   <div class="bento-grid">
+
     <%= link_to lands_path, class: "dash-item green" do %>
       <div>
         <div class="item-icon">🌱</div>
         <div class="item-content">
           <h3>Manage Lands</h3>
-          <p>View land details, add new land, and update, edit, or delete land records.</p>
+          <p>Add, update, view and delete farm lands.</p>
         </div>
       </div>
-      <div class="action-arrow">Open Lands →</div>
+      <div class="action-arrow">Open →</div>
     <% end %>
 
     <%= link_to harvests_path, class: "dash-item orange" do %>
@@ -70,10 +77,10 @@
         <div class="item-icon">🌾</div>
         <div class="item-content">
           <h3>Harvest Records</h3>
-          <p>Manage all harvest activities, including viewing, updating, deleting, and adding new harvest records.</p>
+          <p>Track and manage harvest cycles.</p>
         </div>
       </div>
-      <div class="action-arrow">Manage Harvests →</div>
+      <div class="action-arrow">Manage →</div>
     <% end %>
 
     <%= link_to activities_path, class: "dash-item blue" do %>
@@ -81,10 +88,10 @@
         <div class="item-icon">🚜</div>
         <div class="item-content">
           <h3>Daily Activities</h3>
-          <p>Track labor, fertilization, and machinery usage.</p>
+          <p>Log labor, fertilizer and machinery usage.</p>
         </div>
       </div>
-      <div class="action-arrow">Log Activity →</div>
+      <div class="action-arrow">Log →</div>
     <% end %>
 
     <%= link_to crop_types_path, class: "dash-item green" do %>
@@ -92,25 +99,39 @@
         <div class="item-icon">🌽</div>
         <div class="item-content">
           <h3>Crop Catalog</h3>
-          <p>Add new crops, change crop types, and edit or delete existing records.</p>
+          <p>Manage crops and crop types.</p>
         </div>
       </div>
-      <div class="action-arrow">View Catalog →</div>
+      <div class="action-arrow">View →</div>
     <% end %>
+
+    <%= link_to financial_records_path, class: "dash-item green" do %>
+      <div>
+        <div class="item-icon">💰</div>
+        <div class="item-content">
+          <h3>Financial Management</h3>
+          <p>Manage incomes and expenses.</p>
+        </div>
+      </div>
+      <div class="action-arrow">View →</div>
+    <% end %>
+
   </div>
- <br><br>
+
+  <!-- ANALYTICS -->
   <div class="section-title">Analytics & Settings</div>
 
   <div class="bento-grid">
+
     <%= link_to report_harvests_path, class: "dash-item blue" do %>
       <div>
         <div class="item-icon">📊</div>
         <div class="item-content">
           <h3>Harvest Reports</h3>
-          <p>Filter land harvest data by date, download as PDF or CSV, and view analysis charts.</p>
+          <p>View reports, charts and export data.</p>
         </div>
       </div>
-      <div class="action-arrow">View Analytics →</div>
+      <div class="action-arrow">Analyze →</div>
     <% end %>
 
     <%= link_to report_activities_path, class: "dash-item blue" do %>
@@ -118,10 +139,10 @@
         <div class="item-icon">📉</div>
         <div class="item-content">
           <h3>Activity Reports</h3>
-          <p>Filter activities by date, search, and status, download as PDF or CSV, and view analysis charts.</p>
+          <p>Track expenses and operational data.</p>
         </div>
       </div>
-      <div class="action-arrow">View Expenses →</div>
+      <div class="action-arrow">View →</div>
     <% end %>
 
     <% if Current.user&.admin? %>
@@ -130,16 +151,17 @@
           <div class="item-icon">🔐</div>
           <div class="item-content">
             <h3>Admin Panel</h3>
-            <p>Manage users, security, and system configuration.</p>
+            <p>User management and system settings.</p>
           </div>
         </div>
-        <div class="action-arrow">System Settings →</div>
+        <div class="action-arrow">Admin →</div>
       <% end %>
     <% end %>
+
   </div>
 
   <footer class="dashboard-footer">
-    <p>&copy; <%= Time.now.year %> AgriFarm. Final Year Project.</p>
+    <p>&copy; <%= Time.current.year %> AgriFarm | Final Year Project</p>
   </footer>
 
 </div>

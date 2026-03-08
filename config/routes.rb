@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :financial_records
   # --- Static Pages ---
   get "pages/about"
   get 'about', to: 'pages#about'

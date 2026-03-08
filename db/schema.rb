@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_12_20_171918) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_02_082102) do
   create_table "activities", force: :cascade do |t|
     t.string "land"
     t.date "start_date"
@@ -38,6 +38,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_20_171918) do
     t.string "unit"
   end
 
+  create_table "financial_records", force: :cascade do |t|
+    t.integer "land_id", null: false
+    t.string "category"
+    t.decimal "amount", precision: 10, scale: 2
+    t.date "transaction_date"
+    t.text "description"
+    t.integer "transaction_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["land_id"], name: "index_financial_records_on_land_id"
+  end
+
   create_table "harvests", force: :cascade do |t|
     t.integer "land_id", null: false
     t.date "planned_date"
@@ -48,6 +60,21 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_20_171918) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["land_id"], name: "index_harvests_on_land_id"
+  end
+
+  create_table "incomes", force: :cascade do |t|
+    t.integer "land_id", null: false
+    t.integer "harvest_id", null: false
+    t.date "date"
+    t.integer "quantity"
+    t.decimal "price_per_unit"
+    t.decimal "total_amount"
+    t.string "buyer"
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["harvest_id"], name: "index_incomes_on_harvest_id"
+    t.index ["land_id"], name: "index_incomes_on_land_id"
   end
 
   create_table "lands", force: :cascade do |t|
@@ -86,6 +113,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_20_171918) do
   end
 
   add_foreign_key "activities", "lands"
+  add_foreign_key "financial_records", "lands"
   add_foreign_key "harvests", "lands"
+  add_foreign_key "incomes", "harvests"
+  add_foreign_key "incomes", "lands"
   add_foreign_key "sessions", "users"
 end
