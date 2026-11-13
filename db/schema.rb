@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_02_082102) do
+ActiveRecord::Schema[8.0].define(version: 2026_11_13_090000) do
   create_table "activities", force: :cascade do |t|
     t.string "land"
     t.date "start_date"
@@ -36,6 +36,21 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_02_082102) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "unit"
+  end
+
+  create_table "daily_pickings", force: :cascade do |t|
+    t.integer "land_id", null: false
+    t.string "crop_type", null: false
+    t.date "picked_on", null: false
+    t.decimal "quantity", precision: 12, scale: 2, null: false
+    t.string "unit"
+    t.integer "workers_count"
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["land_id", "picked_on"], name: "index_daily_pickings_on_land_id_and_picked_on"
+    t.index ["land_id"], name: "index_daily_pickings_on_land_id"
+    t.index ["picked_on"], name: "index_daily_pickings_on_picked_on"
   end
 
   create_table "financial_records", force: :cascade do |t|
@@ -113,6 +128,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_02_082102) do
   end
 
   add_foreign_key "activities", "lands"
+  add_foreign_key "daily_pickings", "lands"
   add_foreign_key "financial_records", "lands"
   add_foreign_key "harvests", "lands"
   add_foreign_key "incomes", "harvests"
