@@ -1,0 +1,113 @@
+<% editing = picking.persisted? %>
+
+<div class="dp">
+  <header class="dp-header">
+    <div>
+      <p class="dp-eyebrow">Daily Picking</p>
+      <h1><%= editing ? "Edit picking" : "Log a picking" %></h1>
+      <p class="dp-sub">Choose the land, confirm the crop, then enter how much was picked.</p>
+    </div>
+    <div class="dp-actions">
+      <%= link_to "← All pickings", daily_pickings_path, class: "dp-btn dp-btn--ghost" %>
+    </div>
+  </header>
+
+  <% if notice %><div class="dp-flash" role="status">✅ <%= notice %></div><% end %>
+
+  <div class="dp-formgrid">
+    <section class="dp-card">
+      <%= form_with model: picking, data: { dp_form: true } do |f| %>
+
+        <% if picking.errors.any? %>
+          <div class="dp-flash dp-flash--alert" role="alert">
+            <strong>Please fix <%= pluralize(picking.errors.count, "problem") %>:</strong>
+            <ul>
+              <% picking.errors.full_messages.each do |m| %><li><%= m %></li><% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <div class="dp-fields">
+          <div class="dp-field">
+            <%= f.label :picked_on, "Date", class: "dp-label" %>
+            <%= f.date_field :picked_on, max: Date.current, required: true, class: "dp-input",
+                             aria: { invalid: picking.errors[:picked_on].any? } %>
+            <div class="dp-quick">
+              <button type="button" class="dp-pill" data-dp-days="0">Today</button>
+              <button type="button" class="dp-pill" data-dp-days="1">Yesterday</button>
+            </div>
+            <%= dp_field_error(picking, :picked_on) %>
+          </div>
+
+          <div class="dp-field">
+            <%= f.label :land_id, "Land", class: "dp-label" %>
+            <%= f.select :land_id,
+                         options_for_select(@lands.map { |l| [l.name, l.id, { data: { crop: l.crop_type } }] }, picking.land_id),
+                         { prompt: "Choose land…" },
+                         { class: "dp-input", required: true, aria: { invalid: picking.errors[:land].any? } } %>
+            <%= dp_field_error(picking, :land) %>
+          </div>
+
+          <div class="dp-field dp-span">
+            <%= f.label :crop_type, "Crop", class: "dp-label" %>
+            <%= f.select :crop_type,
+                         options_for_select(@crop_types.map { |c| [c.name, c.name, { data: { unit: c.unit } }] }, picking.crop_type),
+                         { prompt: "Select crop…" },
+                         { class: "dp-input", required: true, aria: { invalid: picking.errors[:crop_type].any? } } %>
+            <small class="dp-hint">Auto-selected from the land. The unit comes from the Crop Catalog.</small>
+            <%= dp_field_error(picking, :crop_type) %>
+          </div>
+
+          <div class="dp-field dp-span">
+            <%= f.label :quantity, "Quantity picked", class: "dp-label" %>
+            <div class="dp-qtybox">
+              <%= f.number_field :quantity, step: "any", min: 0, inputmode: "decimal", placeholder: "0", required: true,
+                                 value: (picking.quantity && number_with_precision(picking.quantity, precision: 2, strip_insignificant_zeros: true)),
+                                 class: "dp-input", aria: { invalid: picking.errors[:quantity].any? } %>
+              <span data-dp-unit><%= picking.unit.presence || "units" %></span>
+            </div>
+            <%= dp_field_error(picking, :quantity) %>
+          </div>
+
+          <div class="dp-field">
+            <%= f.label :workers_count, "Workers (optional)", class: "dp-label" %>
+            <%= f.number_field :workers_count, min: 0, step: 1, inputmode: "numeric", placeholder: "e.g. 4", class: "dp-input" %>
+            <%= dp_field_error(picking, :workers_count) %>
+          </div>
+
+          <div class="dp-field dp-span">
+            <%= f.label :notes, "Notes (optional)", class: "dp-label" %>
+            <%= f.text_area :notes, rows: 3, maxlength: 500, class: "dp-input", placeholder: "Weather, tree condition, anything worth remembering…" %>
+          </div>
+        </div>
+
+        <div class="dp-formactions">
+          <%= f.button type: :submit, class: "dp-btn dp-btn--primary" do %>Save picking<% end %>
+          <% unless editing %>
+            <%= f.button type: :submit, name: "add_another", value: "1", class: "dp-btn dp-btn--ghost" do %>Save &amp; add another<% end %>
+          <% end %>
+          <%= link_to "Cancel", daily_pickings_path, class: "dp-btn dp-btn--ghost" %>
+        </div>
+      <% end %>
+    </section>
+
+    <aside class="dp-card dp-recent">
+      <h2>Recently logged</h2>
+      <% if @recent.present? %>
+        <ul>
+          <% @recent.each do |r| %>
+            <li>
+              <div>
+                <strong><%= r.land&.name %></strong>
+                <small><%= r.crop_type %> · <%= r.picked_on.strftime("%d %b") %></small>
+              </div>
+              <b><%= dp_qty(r.quantity) %> <small><%= r.unit.presence || "units" %></small></b>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="dp-hint">Your latest entries will show up here.</p>
+      <% end %>
+    </aside>
+  </div>
+</div>

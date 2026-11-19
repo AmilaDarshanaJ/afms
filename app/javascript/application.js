@@ -3,6 +3,7 @@ import * as Turbo from "@hotwired/turbo-rails"
 window.Turbo = Turbo
 
 import "controllers"
+import "daily_picking_form"
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -34,3 +35,4 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 import "@hotwired/turbo-rails"
+

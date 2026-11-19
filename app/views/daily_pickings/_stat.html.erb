@@ -1,0 +1,18 @@
+<article class="dp-stat">
+  <div class="dp-stat__head">
+    <span class="dp-stat__icon" aria-hidden="true"><%= icon %></span>
+    <h2><%= title %></h2>
+  </div>
+  <% if totals.any? %>
+    <ul class="dp-stat__list">
+      <% totals.sort_by { |(crop, _unit), _qty| crop.to_s }.each do |(crop, unit), qty| %>
+        <li>
+          <span><%= crop %></span>
+          <strong><%= dp_qty(qty) %> <small><%= unit.presence || "units" %></small></strong>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="dp-stat__empty"><%= empty %></p>
+  <% end %>
+</article>

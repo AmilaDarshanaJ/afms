@@ -48,7 +48,7 @@ class LandsController < ApplicationController
     @land = Land.find(params[:id])
 
     # Check if ANY child records exist (Harvests OR Activities)
-    if @land.harvests.exists? || @land.activities.exists?
+    if @land.harvests.exists? || @land.activities.exists? || @land.daily_pickings.exists?
       redirect_to lands_path, alert: "⚠️ Cannot delete Land! It has related Harvests or Activities. Please delete them first."
     else
       @land.destroy

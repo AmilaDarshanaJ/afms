@@ -1,0 +1,110 @@
+<% content_for :title, "Daily Picking" %>
+<% content_for :own_flash, "1" %>
+<% filters_active = %i[land_id crop_type from to].any? { |k| params[k].present? } %>
+
+<div class="dp">
+  <header class="dp-header">
+    <div>
+      <p class="dp-eyebrow">Farm operations</p>
+      <h1>Daily Picking</h1>
+      <p class="dp-sub">Log what was picked each day (nuts, kilos, bunches) per land and crop.</p>
+    </div>
+    <div class="dp-actions">
+      <%= link_to "← Dashboard", root_path, class: "dp-btn dp-btn--ghost" %>
+      <%= link_to "＋ Log picking", new_daily_picking_path, class: "dp-btn dp-btn--primary dp-hide-sm" %>
+    </div>
+  </header>
+
+  <% if notice %><div class="dp-flash" role="status">✅ <%= notice %></div><% end %>
+  <% if alert %><div class="dp-flash dp-flash--alert" role="alert">⚠️ <%= alert %></div><% end %>
+
+  <section class="dp-stats" aria-label="Summary">
+    <%= render "stat", title: "Today", icon: "☀️", totals: @totals_today, empty: "Nothing logged today yet." %>
+    <%= render "stat", title: "This month", icon: "📅", totals: @totals_month, empty: "No pickings this month." %>
+  </section>
+
+  <%= form_with url: daily_pickings_path, method: :get, class: "dp-filters" do |f| %>
+    <div class="dp-field">
+      <%= f.label :land_id, "Land", class: "dp-label" %>
+      <%= f.select :land_id, options_for_select(@lands.map { |l| [l.name, l.id] }, params[:land_id]),
+                   { include_blank: "All lands" }, { class: "dp-input", onchange: "this.form.requestSubmit()" } %>
+    </div>
+    <div class="dp-field">
+      <%= f.label :crop_type, "Crop", class: "dp-label" %>
+      <%= f.select :crop_type, options_for_select(@crop_names, params[:crop_type]),
+                   { include_blank: "All crops" }, { class: "dp-input", onchange: "this.form.requestSubmit()" } %>
+    </div>
+    <div class="dp-field">
+      <%= f.label :from, "From", class: "dp-label" %>
+      <%= f.date_field :from, value: params[:from], class: "dp-input", onchange: "this.form.requestSubmit()" %>
+    </div>
+    <div class="dp-field">
+      <%= f.label :to, "To", class: "dp-label" %>
+      <%= f.date_field :to, value: params[:to], class: "dp-input", onchange: "this.form.requestSubmit()" %>
+    </div>
+    <% if filters_active %>
+      <%= link_to "↺ Reset", daily_pickings_path, class: "dp-btn dp-btn--ghost" %>
+    <% end %>
+  <% end %>
+
+  <div class="dp-summary">
+    <span><%= pluralize(@pickings.total_count, "record") %><%= " (filtered)" if filters_active %></span>
+    <% if @totals_filtered.any? %>
+      <div class="dp-chips" aria-label="Total in view">
+        <% @totals_filtered.each do |unit, qty| %>
+          <span class="dp-chip">Σ <%= dp_qty(qty) %> <%= unit.presence || "units" %></span>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <section class="dp-listwrap">
+    <% if @pickings.any? %>
+      <div class="dp-head" aria-hidden="true">
+        <span class="dp-c-date">Date</span>
+        <span class="dp-c-land">Land</span>
+        <span class="dp-c-crop">Crop</span>
+        <span class="dp-c-qty">Picked</span>
+        <span class="dp-c-workers">Workers</span>
+        <span class="dp-c-notes">Notes</span>
+        <span class="dp-c-act"></span>
+      </div>
+
+      <ul class="dp-list">
+        <% @pickings.each do |pick| %>
+          <li class="dp-row">
+            <div class="dp-c-date">
+              <strong><%= pick.picked_on.strftime("%d %b") %></strong>
+              <small><%= pick.picked_on.strftime("%a, %Y") %></small>
+            </div>
+            <div class="dp-c-land"><strong><%= pick.land&.name %></strong></div>
+            <div class="dp-c-crop"><span class="dp-chip"><%= pick.crop_type %></span></div>
+            <div class="dp-c-qty">
+              <strong><%= dp_qty(pick.quantity) %></strong>
+              <small><%= pick.unit.presence || "units" %></small>
+            </div>
+            <div class="dp-c-workers"><%= pick.workers_count ? "👥 #{pick.workers_count}" : "—" %></div>
+            <div class="dp-c-notes"><%= pick.notes %></div>
+            <div class="dp-c-act">
+              <%= link_to "Edit", edit_daily_picking_path(pick), class: "dp-btn dp-btn--ghost dp-btn--sm" %>
+              <%= button_to "Delete", daily_picking_path(pick), method: :delete,
+                            class: "dp-btn dp-btn--danger dp-btn--sm", form_class: "dp-inline",
+                            data: { turbo_confirm: "Delete this picking record?" } %>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+
+      <div class="dp-pager"><%= paginate @pickings %></div>
+    <% else %>
+      <div class="dp-empty">
+        <div class="dp-empty__icon" aria-hidden="true">🥥</div>
+        <h2><%= filters_active ? "No records match these filters" : "No pickings logged yet" %></h2>
+        <p><%= filters_active ? "Try a wider date range or reset the filters." : "Start by logging today's picking, it takes about 10 seconds." %></p>
+        <%= link_to "＋ Log picking", new_daily_picking_path, class: "dp-btn dp-btn--primary" %>
+      </div>
+    <% end %>
+  </section>
+
+  <%= link_to "＋", new_daily_picking_path, class: "dp-fab", aria: { label: "Log picking" } %>
+</div>

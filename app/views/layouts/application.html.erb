@@ -1,27 +1,91 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= content_for(:title) || "Afms" %></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<head>
+  <title><%= content_for(:title) || "Afms" %></title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
 
-    <%= yield :head %>
+  <%= yield :head %>
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+  <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
+  <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
 
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
+  <link rel="icon" href="/icon.png" type="image/png">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icon.png">
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
-    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
-  </head>
+  <%# Includes all stylesheet files in app/assets/stylesheets %>
+  <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+  <%= javascript_importmap_tags %>
+</head>
 
+<body>
+<nav class="navbar">
+  <div class="nav-container">
+
+    <div class="nav-logo">
+      <span class="logo-icon">🌱</span>
+
+      <h2 class="brand">Agri<span>Farm</span></h2>
+    </div>
+
+    <div class="nav-toggle" id="mobile-menu">
+      <span></span><span></span><span></span>
+    </div>
+
+    <ul class="nav-menu">
+      <li><%= link_to "Home", root_path, class: "nav-link" %></li>
+      <!--<li><%#= link_to "About", about_path, class: "nav-link" %></li>-->
+      <!--<li><%#= link_to "Contact", "#", class: "nav-link" %></li>-->
+
+      <li class="nav-item-dropdown" style="position: relative;">
+
+        <a href="#" class="nav-link settings-trigger" onclick="toggleSettings(event)">
+          <span>⚙️ Settings</span>
+        </a>
+
+        <div id="settings-dropdown" class="dropdown-menu">
+
+          <div class="dropdown-header">
+            <div class="user-avatar-circle">
+              <%= Current.user&.email_address&.first&.upcase || "U" %>
+            </div>
+            <div class="user-details">
+              <span class="u-name"><%= Current.user&.email_address&.split('@')&.first&.capitalize %></span>
+              <span class="u-role"><%= Current.user&.role&.capitalize %></span>
+            </div>
+          </div>
+
+          <div class="dropdown-divider"></div>
+
+          <%= link_to profile_path, class: "dropdown-item" do %>
+            <span class="icon">👤</span> My Profile
+          <% end %>
+
+          <% if Current.user&.admin? %>
+            <%= link_to users_path, class: "dropdown-item" do %>
+              <span class="icon">🛡</span> Admin Panel
+            <% end %>
+          <% end %>
+
+          <div class="dropdown-divider"></div>
+
+          <%= button_to logout_path, method: :delete, class: "dropdown-item text-red" do %>
+            <span class="icon">🚪</span> Logout
+          <% end %>
+
+        </div>
+      </li>
+    </ul>
+
+  </div>
+</nav>
+
+<%# Global flash. Pages that render their own flash (e.g. Daily Picking) set content_for :own_flash %>
+<% unless content_for?(:own_flash) %>
   <% if notice %>
     <div style="color: green; font-weight: bold;"><%= notice %></div>
   <% end %>
@@ -29,93 +93,30 @@
   <% if alert %>
     <div style="color: red; font-weight: bold;"><%= alert %></div>
   <% end %>
+<% end %>
 
-  <body>
-  <nav class="navbar">
-    <div class="nav-container">
+<%= yield %>
 
-      <div class="nav-logo">
-        <span class="logo-icon">🌱</span>
+<script>
+    function toggleSettings(event) {
+        event.preventDefault(); // Stop the link from jumping to top of page
+        const menu = document.getElementById("settings-dropdown");
+        menu.classList.toggle("show");
+    }
 
-        <h2 class="brand">Agri<span>Farm</span></h2>
-      </div>
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function(event) {
+        if (!event.target.closest('.nav-item-dropdown')) {
+            const dropdowns = document.getElementsByClassName("dropdown-menu");
+            for (let i = 0; i < dropdowns.length; i++) {
+                let openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    }
+</script>
 
-      <div class="nav-toggle" id="mobile-menu">
-        <span></span><span></span><span></span>
-      </div>
-
-      <ul class="nav-menu">
-        <li><%= link_to "Home", root_path, class: "nav-link" %></li>
-        <!--<li><%#= link_to "About", about_path, class: "nav-link" %></li>-->
-        <!--<li><%#= link_to "Contact", "#", class: "nav-link" %></li>-->
-
-        <li class="nav-item-dropdown" style="position: relative;">
-
-          <a href="#" class="nav-link settings-trigger" onclick="toggleSettings(event)">
-            <span>⚙️ Settings</span>
-          </a>
-
-          <div id="settings-dropdown" class="dropdown-menu">
-
-            <div class="dropdown-header">
-              <div class="user-avatar-circle">
-                <%= Current.user&.email_address&.first&.upcase || "U" %>
-              </div>
-              <div class="user-details">
-                <span class="u-name"><%= Current.user&.email_address&.split('@')&.first&.capitalize %></span>
-                <span class="u-role"><%= Current.user&.role&.capitalize %></span>
-              </div>
-            </div>
-
-            <div class="dropdown-divider"></div>
-
-            <%= link_to profile_path, class: "dropdown-item" do %>
-              <span class="icon">👤</span> My Profile
-            <% end %>
-
-            <% if Current.user&.admin? %>
-              <%= link_to users_path, class: "dropdown-item" do %>
-                <span class="icon">🛡</span> Admin Panel
-              <% end %>
-            <% end %>
-
-            <div class="dropdown-divider"></div>
-
-            <%= button_to logout_path, method: :delete, class: "dropdown-item text-red" do %>
-              <span class="icon">🚪</span> Logout
-            <% end %>
-
-          </div>
-        </li>
-      </ul>
-
-    </div>
-  </nav>
-  <%= yield %>
-
-  <script>
-      function toggleSettings(event) {
-          event.preventDefault(); // Stop the link from jumping to top of page
-          const menu = document.getElementById("settings-dropdown");
-          menu.classList.toggle("show");
-      }
-
-      // Close the dropdown if the user clicks outside of it
-      window.onclick = function(event) {
-          if (!event.target.closest('.nav-item-dropdown')) {
-              const dropdowns = document.getElementsByClassName("dropdown-menu");
-              for (let i = 0; i < dropdowns.length; i++) {
-                  let openDropdown = dropdowns[i];
-                  if (openDropdown.classList.contains('show')) {
-                      openDropdown.classList.remove('show');
-                  }
-              }
-          }
-      }
-  </script>
-
-  </body>
+</body>
 </html>
-
-
-

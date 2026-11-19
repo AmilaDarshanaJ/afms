@@ -1,6 +1,7 @@
 class Land < ApplicationRecord
   has_many :harvests
   has_many :activities
+  has_many :daily_pickings
 
 
   # 1. Required Fields (Cannot be blank)

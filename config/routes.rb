@@ -21,10 +21,12 @@ Rails.application.routes.draw do
   resources :users, only: [:index, :new, :create, :edit, :update, :destroy]
   resource :profile, only: [:show, :edit, :update]
 
+
   # --- Farm Resources ---
   resources :lands
 
   resources :crop_types
+  resources :daily_pickings, except: :show
 
   resources :activities do
     collection do
