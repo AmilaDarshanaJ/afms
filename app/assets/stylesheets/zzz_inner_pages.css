@@ -1,0 +1,180 @@
+/* ==========================================================
+   Inner pages: one consistent mobile layout for every page
+   (lists, forms, show pages, reports, profile, users, crops)
+   Loads last. Desktop is untouched (all rules are in media queries).
+   ========================================================== */
+
+/* ---------- Small fixes for all sizes ---------- */
+.show-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+.show-actions form.button_to { display: contents; }
+.card-actions form.button_to { flex: 1; display: flex; }
+.card-actions form .action-btn { width: 100%; }
+
+@media (max-width: 768px) {
+
+    /* ---------- Page shells ---------- */
+    .page-container, .page-wrapper, .show-container, .agri-container, .report-container,
+    .fullscreen-container, .show-layout, .land-profile-container, .profile-page-wrapper,
+    .container, .activity-screen, .harvest-wrapper, .form-container {
+        max-width: 100%;
+        margin-top: 14px; margin-bottom: 14px;
+        padding-left: 14px; padding-right: 14px;
+    }
+    .page-container { text-align: left; background: transparent; min-height: 0; }
+
+    /* ---------- Page headers (title + back button) ---------- */
+    .header-section, .page-header, .report-header, .top-bar, .header-flex, .profile-header {
+        display: flex; flex-direction: column; align-items: stretch;
+        gap: 12px; margin-bottom: 16px;
+    }
+    .header-section h1, .page-header h1, .report-header h1, .header-flex h1,
+    .page-title, .title-group h1, .header-title h1, .land-title {
+        font-size: 1.45rem; line-height: 1.2; letter-spacing: -0.02em;
+    }
+    .subtitle { font-size: 0.9rem; }
+    .btn-back { align-self: flex-start; padding: 8px 14px; font-size: 0.85rem; }
+
+    /* header buttons: neat grid, full width */
+    .header-actions, .actions-group {
+        display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+        gap: 10px; width: 100%;
+    }
+    .header-actions > *, .actions-group > * {
+        width: 100%; margin: 0; justify-content: center; text-align: center;
+    }
+
+    /* ---------- Search + "New" toolbar ---------- */
+    .toolbar {
+        display: flex; flex-direction: column; align-items: stretch;
+        gap: 12px; margin-bottom: 16px;
+    }
+    .search-form { max-width: none; width: 100%; }
+    .toolbar .btn-primary { width: 100%; justify-content: center; }
+    .search-btn { padding: 8px 18px; }
+
+    /* ---------- Every table becomes a list of cards ---------- */
+    .table-card, .table-wrapper, .table-scroll-wrapper, .data-card, .table-responsive {
+        background: transparent; border: 0; box-shadow: none; overflow: visible;
+    }
+    .styled-table, .activities-table, .modern-table, .responsive-table, .agri-table, .custom-table,
+    .styled-table tbody, .activities-table tbody, .modern-table tbody, .responsive-table tbody,
+    .agri-table tbody, .custom-table tbody,
+    .styled-table tr, .activities-table tr, .modern-table tr, .responsive-table tr,
+    .agri-table tr, .custom-table tr,
+    .styled-table td, .activities-table td, .modern-table td, .responsive-table td,
+    .agri-table td, .custom-table td {
+        display: block; width: 100%; min-width: 0;
+    }
+    .styled-table thead, .activities-table thead, .modern-table thead, .responsive-table thead,
+    .agri-table thead, .custom-table thead { display: none; }
+
+    .styled-table tr, .activities-table tr, .modern-table tr, .responsive-table tr,
+    .agri-table tr, .custom-table tr {
+        margin: 0 0 12px; padding: 12px 16px;
+        background: #fff; border: 1px solid #e2e8f0; border-radius: 16px;
+        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    }
+    .styled-table td, .activities-table td, .modern-table td, .responsive-table td,
+    .agri-table td, .custom-table td {
+        display: flex; justify-content: space-between; align-items: center; gap: 12px;
+        padding: 8px 0; border: 0; text-align: right; font-size: 0.95rem;
+    }
+    .styled-table td::before, .activities-table td::before, .modern-table td::before,
+    .responsive-table td::before, .agri-table td::before, .custom-table td::before {
+        content: attr(data-label);
+        font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+        color: #64748b; text-align: left; flex-shrink: 0;
+    }
+    td:not([data-label])::before { display: none; }
+    td[colspan] { display: block; text-align: center; }
+    td[colspan]::before { display: none; }
+
+    /* action cell: separated, buttons easy to tap */
+    td[data-label="Actions"], td[data-label="Action"] {
+        margin-top: 6px; padding-top: 12px; border-top: 1px solid #f1f5f9;
+        justify-content: flex-end;
+    }
+    td[data-label="Actions"]::before, td[data-label="Action"]::before { display: none; }
+    .btn-view, .details-btn, .btn-sm, .btn-sm-edit, .btn-sm-delete {
+        min-height: 42px; padding: 10px 18px; display: inline-flex;
+        align-items: center; justify-content: center;
+    }
+    td[data-label="Actions"] > div { width: 100%; justify-content: stretch !important; }
+    td[data-label="Actions"] > div > *, td[data-label="Actions"] form { flex: 1; }
+    td[data-label="Actions"] .btn-sm-edit, td[data-label="Actions"] .btn-sm-delete { width: 100%; text-align: center; }
+    .land-info { text-align: left; }
+
+    /* ---------- Pagination ---------- */
+    .footer-bar, .footer-actions, .pagination-footer, .pagination-wrapper {
+        flex-direction: column; align-items: center; gap: 12px; text-align: center;
+    }
+    .pagination nav, .pagination-links nav, .pagination-wrapper nav, .page-links nav {
+        flex-wrap: wrap; justify-content: center;
+    }
+
+    /* ---------- Forms (land, harvest, activity, crop, user) ---------- */
+    .harvest-card, .activity-card, .form-card, .auth-card, .form-section-card {
+        padding: 20px; border-radius: 20px;
+    }
+    .form-header, .activity-header, .auth-header { margin-bottom: 22px; }
+    .form-header h2, .activity-title h2, .harvest-title, .auth-header h2 { font-size: 1.35rem; }
+    .form-group, .input-group { margin-bottom: 18px; }
+    .input-grid, .row-group, .form-row, .form-fields { grid-template-columns: 1fr !important; gap: 14px; }
+    .form-actions { flex-direction: column-reverse; align-items: stretch; gap: 10px; }
+    .form-actions > *, .form-submit .btn-submit { width: 100%; justify-content: center; text-align: center; }
+    .btn-cancel { padding: 12px; }
+    .role-grid { flex-wrap: wrap; }
+    .role-option { flex: 1 1 40%; }
+    .form-container .btn-submit { margin-top: 4px; }
+
+    /* ---------- Show pages (harvest, activity, land) ---------- */
+    .data-paper p, .details-grid p {
+        padding: 14px 18px; flex-direction: column; align-items: flex-start; gap: 4px;
+    }
+    .card-footer, .action-footer, .show-actions, .header-actions-stack {
+        flex-direction: column; align-items: stretch; gap: 10px;
+    }
+    .card-footer { padding: 16px; }
+    .card-footer form, .action-footer form, .show-actions form { display: contents !important; }
+    .card-footer .btn-action, .show-actions .btn-action, .action-footer a, .action-footer button {
+        width: 100%; justify-content: center; text-align: center;
+    }
+    .land-title { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .dashboard-grid { gap: 14px; }
+    .info-card .card-body { padding: 16px; }
+
+    /* ---------- Reports ---------- */
+    .metrics-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .metric-card { padding: 12px; gap: 10px; }
+    .metric-icon { width: 34px; height: 34px; font-size: 16px; }
+    .metric-value { font-size: 1.15rem; }
+    .filters-bar, .filter-container { padding: 16px; border-radius: 16px; }
+    .filter-group { min-width: 0; }
+    .charts-container { gap: 14px; }
+    .chart-card { min-width: 0; }
+    .chart-body { height: 220px; padding: 12px; }
+    .land-info { gap: 10px; }
+
+    /* ---------- Crop catalog ---------- */
+    .crop-grid { gap: 14px !important; }
+    .crop-card { padding: 20px; }
+    .add-card { min-height: 140px; }
+    .crop-name { font-size: 18px; }
+
+    /* ---------- Profile ---------- */
+    .bento-container { gap: 14px; }
+    .tile { padding: 20px; border-radius: 18px; }
+    .profile-avatar { width: 84px; height: 84px; font-size: 2.1rem; margin-bottom: 14px; }
+
+    /* ---------- Daily Picking fixes ---------- */
+    /* sticky save bar must sit ABOVE the bottom navigation */
+    .dp .dp-formactions { bottom: calc(76px + env(safe-area-inset-bottom, 0px) + 8px); }
+    .dp { padding-left: 14px; padding-right: 14px; }
+}
+
+@media (max-width: 380px) {
+    .metrics-grid { grid-template-columns: 1fr; }
+    .page-container, .page-wrapper, .show-container, .agri-container, .report-container,
+    .fullscreen-container, .show-layout, .land-profile-container, .profile-page-wrapper,
+    .container, .activity-screen, .harvest-wrapper, .form-container { padding-left: 10px; padding-right: 10px; }
+}

@@ -1,7 +1,6 @@
 <div class="show-layout">
 
   <div class="page-header">
-
     <div class="header-content">
       <%= link_to harvests_path, class: "back-link" do %>
         <span>← All Harvests</span>
@@ -14,8 +13,6 @@
         </h1>
       </div>
     </div>
-
-
   </div>
 
   <% if notice %>
@@ -28,19 +25,17 @@
     <%= render @harvest %>
   </div>
 
-</div>
+  <div class="show-actions">
+    <%= link_to edit_harvest_path(@harvest), class: "btn-action btn-edit" do %>
+      <span>✏️ Edit</span>
+    <% end %>
 
-<div class="header-actions">
-  <%= link_to edit_harvest_path(@harvest), class: "btn-action btn-edit" do %>
-    <span>✏️ Edit</span>
-  <% end %>
-
-  <%= button_to harvest_path(@harvest),
-                method: :delete,
-                class: "btn-action btn-delete",
-                onclick: "return confirm('Are you sure you want to delete this harvest?')" do %>
-    🗑 Delete
-  <% end %>
-
+    <%= button_to harvest_path(@harvest),
+                  method: :delete,
+                  class: "btn-action btn-delete",
+                  onclick: "return confirm('Are you sure you want to delete this harvest?')" do %>
+      🗑 Delete
+    <% end %>
+  </div>
 
 </div>
