@@ -5,34 +5,19 @@ window.Turbo = Turbo
 import "controllers"
 import "daily_picking_form"
 
+// Mobile menu: one delegated listener, works after every Turbo navigation
+document.addEventListener("click", (e) => {
+    const menu = document.querySelector(".nav-menu")
+    if (!menu) return
+    if (e.target.closest("#mobile-menu")) {
+        menu.classList.toggle("active")
+    } else if (!e.target.closest(".nav-menu")) {
+        menu.classList.remove("active")
+    }
+})
 
-document.addEventListener("DOMContentLoaded", () => {
-    const menu = document.querySelector(".nav-menu");
-    const toggle = document.querySelector("#mobile-menu");
-
-    toggle.addEventListener("click", () => {
-        menu.classList.toggle("active");
-    });
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    const settingsBtn = document.getElementById('settings-btn');
-    const popup = document.getElementById('settings-popup');
-
-    // Toggle popup on button click
-    settingsBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation(); // Prevent click from bubbling to document
-        popup.classList.toggle('active');
-    });
-
-    // Close popup when clicking outside
-    document.addEventListener('click', function(e) {
-        if (!popup.contains(e.target) && e.target !== settingsBtn) {
-            popup.classList.remove('active');
-        }
-    });
-});
-
-import "@hotwired/turbo-rails"
-
+// Don't cache the page with the menu open
+document.addEventListener("turbo:before-cache", () => {
+    document.querySelector(".nav-menu")?.classList.remove("active")
+    document.querySelector(".dropdown-menu")?.classList.remove("show")
+})

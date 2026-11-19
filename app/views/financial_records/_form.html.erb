@@ -1,0 +1,62 @@
+<div class="form-container">
+  <%= form_with(model: financial_record, class: "styled-form") do |form| %>
+
+    <% if financial_record.errors.any? %>
+      <div class="error-summary">
+        <h2><%= pluralize(financial_record.errors.count, "error") %> prohibited this record from saving:</h2>
+        <ul>
+          <% financial_record.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="form-header">
+      <h3>Financial Transaction Details</h3>
+      <p>Please fill out the fields below to record the transaction.</p>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :land_id, "Select Land" %>
+      <%= form.collection_select :land_id, Land.all, :id, :name,
+                                 { prompt: "Select a Land" },
+                                 { class: "custom-select" } %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :transaction_type, "Transaction Type" %>
+      <%= form.select :transaction_type,
+                      [['Expense'], ['Income']],
+                      { prompt: "Select Transaction Type" },
+                      { class: "custom-select" } %>
+    </div>
+
+    <div class="form-row">
+
+      <div class="form-group">
+        <%= form.label :amount %>
+        <div class="input-prefix">
+          <%= form.text_field :amount, placeholder: "0.00" %>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <%= form.label :transaction_date %>
+        <%= form.date_field :transaction_date %>
+      </div>
+
+    </div>
+
+    <div class="form-group">
+      <%= form.label :description %>
+      <%= form.text_area :description, rows: 4, placeholder: "Enter transaction notes..." %>
+    </div>
+
+    <div class="form-actions">
+      <%= form.submit "Save Financial Record", class: "btn-submit" %>
+    </div>
+  <% end %>
+</div>

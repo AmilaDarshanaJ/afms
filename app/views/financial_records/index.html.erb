@@ -1,0 +1,37 @@
+<% if notice %>
+  <p class="banner banner-success"><%= notice %></p>
+<% end %>
+
+<header class="page-header">
+  <h1>Financial Records</h1>
+  <%= link_to "New Record", new_financial_record_path, class: "btn btn-primary" %>
+</header>
+
+<div class="card">
+  <table class="data-table">
+    <thead>
+    <tr>
+      <th>Date</th>
+      <th>Description</th>
+      <th>Category</th>
+      <th class="text-right">Amount</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody id="financial_records">
+    <% @financial_records.each do |financial_record| %>
+      <tr>
+        <td><%= financial_record.created_at.strftime("%b %d, %Y") %></td>
+        <td><strong><%= financial_record.description %></strong></td>
+        <td><span class="badge"><%= financial_record.category %></span></td>
+        <td class="text-right font-mono">
+          <%= number_to_currency(financial_record.amount) %>
+        </td>
+        <td>
+          <%= link_to "Details", financial_record, class: "link-action" %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>

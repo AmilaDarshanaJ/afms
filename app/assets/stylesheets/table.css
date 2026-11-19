@@ -1,46 +1,11 @@
-table {
-    width: 80%;
-    margin: 20px auto;
-    border-collapse: collapse;
-    font-family: Arial, sans-serif;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
-
-th, td {
-    border: 1px solid #ddd;
-    padding: 10px 15px;
-    text-align: left;
-}
-
-th {
-    background-color: #2e8b57;
-    color: white;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-tr:hover {
-    background-color: #e6ffe6;
-    transition: 0.2s;
-}
-
-
 .btn-green {
-    background-color: #1b5e20; /* green color */
-    color: white;              /* white text */
-    padding: 10px 20px;        /* button padding */
-    border: none;              /* remove border */
-    border-radius: 5px;        /* rounded corners */
-    cursor: pointer;           /* pointer on hover */
-    font-size: 16px;           /* text size */
-    transition: background 0.3s; /* smooth hover */
+    background-color: #1b5e20;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
 }
-
-.btn-green:hover {
-    background-color: #218838; /* darker green on hover */
-}
-
+.btn-green:hover { background-color: #218838; }

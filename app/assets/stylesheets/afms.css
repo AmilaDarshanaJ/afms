@@ -1,65 +1,12 @@
-/* 🌾 AFMS Home Page Styles */
-
+/* Base only. No global layout, no global a/h1/button rules. */
 body {
-    font-family: "Poppins", sans-serif;
-    background: linear-gradient(135deg, #e8f6f3, #ffffff);
+    font-family: "Inter", "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
     margin: 0;
     padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
     color: #333;
 }
 
-h1 {
-    color: #1b5e20;
-    font-size: 2rem;
-    margin-bottom: 30px;
-    text-align: center;
-    letter-spacing: 1px;
-}
-
-a {
-    text-decoration: none;
-    background-color: #1b5e20;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 6px;
-    font-weight: 600;
-    transition: background-color 0.3s ease;
-}
-
-a:hover {
-    background-color: #1b5e20;
-}
-
-.btn-danger {
-    background-color: #d32f2f;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    padding: 10px 20px;
-    font-size: 15px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.btn-danger:hover {
-    background-color: #b71c1c;
-    transform: scale(1.05);
-}
-
-button {
-    font-family: inherit;
-}
-
-br {
-    line-height: 2;
-}
-
-/* Optional container to center all content */
+/* Optional container */
 .main-container {
     text-align: center;
     background: #ffffff;

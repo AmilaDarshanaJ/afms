@@ -1,0 +1,115 @@
+/* ==========================================================
+   Mobile-first layer (phones <= 768px)
+   Bottom nav, thumb-friendly targets, compact spacing
+   ========================================================== */
+.bottom-nav { display: none; }
+
+@media (max-width: 768px) {
+    /* room for the bottom bar */
+    body { padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
+
+    /* Bottom navigation */
+    .bottom-nav {
+        position: fixed; left: 0; right: 0; bottom: 0; z-index: 1000;
+        display: grid; grid-template-columns: repeat(5, 1fr); align-items: end;
+        padding: 6px 6px calc(6px + env(safe-area-inset-bottom, 0px));
+        background: rgba(255, 255, 255, 0.92);
+        -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+        border-top: 1px solid #e2e8f0;
+        box-shadow: 0 -8px 24px -12px rgba(15, 23, 42, 0.2);
+    }
+    .bn-item {
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        gap: 2px; min-height: 52px; padding: 4px 2px;
+        font-size: 0.7rem; font-weight: 600; color: #64748b;
+        text-decoration: none; background: transparent; border-radius: 12px;
+        -webkit-tap-highlight-color: transparent;
+    }
+    .bn-item .bn-ico { font-size: 1.35rem; line-height: 1; }
+    .bn-item.is-active { color: #059669; background: #ecfdf5; }
+    .bn-item:active { transform: scale(0.94); }
+    .bn-main {
+        background: #10b981; color: #fff; border-radius: 50%;
+        width: 56px; height: 56px; min-height: 56px; justify-self: center;
+        margin-top: -22px;
+        box-shadow: 0 10px 22px -6px rgba(16, 185, 129, 0.7);
+    }
+    .bn-main .bn-ico { font-size: 1.9rem; font-weight: 300; }
+
+    /* The old hamburger menu is redundant now; keep only Settings reachable */
+    .navbar .nav-container { padding: 8px 14px; }
+    .navbar .brand { font-size: 1.3rem; }
+    .logo-icon { width: 34px; height: 34px; font-size: 1.1rem; }
+
+    /* Hide the floating + on Daily Picking, the bottom bar has it */
+    .dp .dp-fab { display: none; }
+    .dp { padding-bottom: 2rem; }
+
+    /* Dashboard: compact horizontal cards instead of tall ones */
+    .agri-dashboard { padding: 14px; }
+    .hero-banner { padding: 20px; border-radius: 20px; }
+    .hero-text h1 { font-size: 1.4rem; }
+    .time-badge { display: none; }
+    .stats-container { grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 16px; }
+    .stat-card { grid-template-columns: 1fr; padding: 12px; gap: 6px; text-align: center; justify-items: center; }
+    .stat-card .icon-box { width: 38px; height: 38px; min-width: 38px; font-size: 18px; border-radius: 12px; }
+    .stat-content { flex-direction: column; gap: 2px; }
+    .stat-content h4 { font-size: 0.7rem; white-space: normal; }
+    .stat-value { font-size: 1.4rem; min-width: 0; text-align: center; }
+    .section-title { margin: 28px 0 12px; font-size: 1.15rem; }
+    .bento-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .dash-item { min-height: 0; padding: 14px; border-radius: 16px; gap: 8px; }
+    .item-icon { font-size: 28px; }
+    .item-content h3 { font-size: 1rem; margin-top: 8px; }
+    .item-content p { font-size: 0.78rem; margin-top: 4px; }
+    .action-arrow { margin-top: 8px; font-size: 0.85rem; }
+    .dashboard-footer { margin-top: 32px; }
+
+    /* Page headers: title first, back button small */
+    .header-section, .page-header, .report-header, .top-bar { gap: 12px; }
+    .btn-back { padding: 8px 14px; font-size: 0.85rem; align-self: flex-start; }
+
+    /* Make primary actions full width and easy to hit */
+    .btn-primary, .btn-submit, .btn-pdf, .btn-csv { width: 100%; justify-content: center; }
+    .action-footer, .card-footer, .form-actions { gap: 10px; }
+
+    /* Tables to cards: harvests, activities, users */
+    .styled-table, .styled-table tbody, .styled-table tr, .styled-table td,
+    .responsive-table, .responsive-table tbody, .responsive-table tr, .responsive-table td { display: block; width: 100%; }
+    .styled-table thead { display: none; }
+    .styled-table tr, .activities-table tr {
+        margin-bottom: 12px; padding: 12px 16px; background: #fff;
+        border: 1px solid #e2e8f0; border-radius: 16px;
+    }
+    .styled-table td { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 8px 0; border: 0; text-align: right; }
+
+    /* Forms: bigger fields, stacked */
+    .form-input, .modern-input, .search-input, .filter-select, .date-input { min-height: 48px; }
+    .input-grid, .row-group, .form-row, .info-grid { grid-template-columns: 1fr !important; }
+    .form-section-card { padding: 20px; }
+    .harvest-card, .activity-card { padding: 20px; }
+
+    /* Search bars: full width */
+    .search-form { max-width: 100%; width: 100%; }
+
+    /* Charts shorter on phones */
+    .chart-body { height: 220px; }
+}
+
+/* Small phones */
+@media (max-width: 380px) {
+    .bento-grid { grid-template-columns: 1fr; }
+    .bn-item { font-size: 0.65rem; }
+}
+
+@media (max-width: 768px) {
+    .nav-menu { display: flex !important; position: static; flex-direction: row; width: auto;
+        padding: 0; box-shadow: none; background: transparent; gap: 4px; }
+    .nav-menu li:first-child { display: none; }          /* Home is in bottom nav */
+    .nav-menu li { width: auto; }
+    .nav-menu li a { padding: 8px 10px; }
+    .nav-item-dropdown .dropdown-menu {
+        position: absolute; right: 0; top: 100%; width: min(280px, 90vw);
+        box-shadow: 0 10px 40px -10px rgba(0,0,0,.25);
+    }
+}

@@ -2,7 +2,7 @@
 <html>
 <head>
   <title><%= content_for(:title) || "Afms" %></title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <%= csrf_meta_tags %>
@@ -32,9 +32,9 @@
       <h2 class="brand">Agri<span>Farm</span></h2>
     </div>
 
-    <div class="nav-toggle" id="mobile-menu">
-      <span></span><span></span><span></span>
-    </div>
+<!--    <div class="nav-toggle" id="mobile-menu">-->
+<!--      <span></span><span></span><span></span>-->
+<!--    </div>-->
 
     <ul class="nav-menu">
       <li><%= link_to "Home", root_path, class: "nav-link" %></li>
@@ -96,6 +96,26 @@
 <% end %>
 
 <%= yield %>
+
+<% if Current.user %>
+  <nav class="bottom-nav" aria-label="Main">
+    <%= link_to root_path, class: "bn-item #{'is-active' if current_page?(root_path)}" do %>
+      <span class="bn-ico">🏠</span><span>Home</span>
+    <% end %>
+    <%= link_to lands_path, class: "bn-item #{'is-active' if controller_name == 'lands'}" do %>
+      <span class="bn-ico">🌱</span><span>Lands</span>
+    <% end %>
+    <%= link_to new_daily_picking_path, class: "bn-item bn-main", aria: { label: "Log picking" } do %>
+      <span class="bn-ico">＋</span>
+    <% end %>
+    <%= link_to harvests_path, class: "bn-item #{'is-active' if controller_name == 'harvests'}" do %>
+      <span class="bn-ico">🌾</span><span>Harvest</span>
+    <% end %>
+    <%= link_to daily_pickings_path, class: "bn-item #{'is-active' if controller_name == 'daily_pickings'}" do %>
+      <span class="bn-ico">🥥</span><span>Picking</span>
+    <% end %>
+  </nav>
+<% end %>
 
 <script>
     function toggleSettings(event) {
